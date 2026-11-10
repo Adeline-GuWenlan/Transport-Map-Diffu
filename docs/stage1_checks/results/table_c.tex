@@ -1,0 +1,15 @@
+\begin{tabular}{lrrrr}
+\toprule
+loss & held-out $\widehat D_1$ & sample std (x, y) & mean radius & outside $[-4,4]^2$\\
+\midrule
+corrected loss, $\beta=1$ & $0.00983\pm5.4\times10^{-4}$ & 1.43, 1.39 & 1.98 & 0\%\\
+corrected loss, $\beta=1.5$ & $0.0159\pm0.0011$ & 1.42, 1.41 & 1.97 & 0\%\\
+literal: $-\tfrac12\,\texttt{(F(x)-F(x')).mean()}$ & $1.46\pm0.0014$ & 0.00128, 0.00166 & 0.00285 & 0\%\\
+$x,x'$ from the data: $-\tfrac12\E\norm{y-y'}$ & $1.46\pm6.4\times10^{-4}$ & 0.000512, 0.00016 & 0.002 & 0\%\\
+squared norms in both terms ($\beta=2$) & $1.46\pm0.0029$ & 0.0009, 0.00268 & 0.00247 & 0\%\\
+coefficient $1$ instead of $\tfrac12$ & $2.41\times10^{8}\pm7.0\times10^{7}$ & 3.32e+08, 3.38e+08 & 4.09e+08 & 100\%\\
+$\norm{\cdot}$, then $-\tfrac12\norm{\cdot}^2$ & $9.65\times10^{8}\pm1.2\times10^{7}$ & 1.06e+09, 1.06e+09 & 1.34e+09 & 100\%\\
+\midrule
+target (8 Gaussians) & $5.6\times10^{-4}$ & 1.39, 1.44 & 2.00 & 0\%\\
+\bottomrule
+\end{tabular}

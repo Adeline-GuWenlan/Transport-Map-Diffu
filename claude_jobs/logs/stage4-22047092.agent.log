@@ -1,0 +1,50 @@
+--- attempt 1 2026-11-06T16:15:02-05:00 --session-id be0b0166-e263-4cef-ac31-9fec374f0bd5 effort=xhigh timeout=17100s ---
+Warning: this sign-in ends between 2026-11-11 and 2026-11-14 (in 5 days at the earliest). Renewing it does not move those dates. Run claude auth login before then, or use claude setup-token for unattended jobs.
+You've hit your 5-hour limit · resets 5:20pm (America/New_York)
+usage limit; resets 2026-11-06 17:23 EST; sleeping until then and resuming
+--- attempt 2 2026-11-06T17:23:00-05:00 --resume be0b0166-e263-4cef-ac31-9fec374f0bd5 effort=xhigh timeout=13022s ---
+Warning: this sign-in ends between 2026-11-11 and 2026-11-14 (in 5 days at the earliest). Renewing it does not move those dates. Run claude auth login before then, or use claude setup-token for unattended jobs.
+Stage 4 is done: the pipeline runs end to end on the CPU node. The loss trains well on Fashion-MNIST but captures almost no image structure on CIFAR-10. The standup (`claude_jobs/standups/stage4.md`, `Status: DONE`) went in at 19:50, before the 20:35 deadline.
+
+**Code and tests**
+- `src/tmap/` installs with `pip install -e .` and contains the stage 1 loss (it matches stage 1's reference code to 1e-14), the DiT map, data loading, training with checkpoint and resume, sampling and evaluation.
+- `pytest`: 24 of 24 pass. They cover the closed-form 1-D Gaussian energy distance, unbiasedness, gradients reaching every parameter, exact resume, and the 2-D toy (energy distance 0.0077 in 17 s).
+
+**Fashion-MNIST smoke run** (68 min, 16,624 steps, `runs/2026-11-06_smoke_fmnist_dit-t4/`). Held-out energy distance (lower is better):
+
+| | held-out energy distance |
+|---|---|
+| model at step 0 | 38.0 |
+| class-mean image | 7.31 |
+| **trained model** | **0.082** (still falling) |
+| real images of the same class (floor) | 0.0006 |
+
+- **Classes:** a pixel nearest-neighbour classifier gives the requested class for 73% of samples (81% for real test images).
+- **No collapse or mode dropping:** the spread within each class matches the data's (ratio 0.97–1.02), and samples are not copies of training images.
+- **Main problem:** samples have the right silhouettes, but their interiors are a mosaic of 4×4 blocks, matching DiT's patch size. Pixel jumps across patch boundaries are 2.2× those inside patches; real images are about 1.0.
+
+**Overfit check** (one class, 256 images, 12 min): the energy distance against those images fell from 44.7 to 0.079 and the samples look like sneakers. They do not reproduce the 256 images, so this check only partly passes.
+
+**What the loss can't see.** No model was involved in this check. On CIFAR-10, images built from blocks taken from different random images of the same class score 0.21–0.43, which is better than real images of the wrong class (2.06). A 30-min CIFAR-10 run on the small model reached 0.18, yet its samples are colour mosaics with no objects (CPU FID 419 from 2,000 samples, indicative only). In Inception features the ranking reverses:
+
+| set | pixel distance | Inception distance |
+|---|---|---|
+| wrong-class real images | 1.99 | 3.27 |
+| pixel-shuffled images | 0.47 | 15.8 |
+| CIFAR model | 0.18 | 18.2 |
+
+**Known issues**
+- 33% of generated pixels fall outside [−1, 1], because nothing bounds the output.
+- Training only gets 4.3 steps/s, against stage 2's 7.2 measured on another node with 8 threads. Running anything else in the 8-CPU job slows training up to 6×, so long runs use 7 threads.
+- `scripts/train_gpu.slurm` has not been run on a GPU. Its checkpoint-and-requeue path works on CPU, but the GPU resume code is untested.
+
+**Suggested next step on GPU:** run a 30k-step pilot rather than the full 200k:
+`TRAIN_SET="train.max_steps=30000" RUN=runs/gpu_pilot_cifar10_dit-b2 sbatch scripts/train_gpu.slurm`
+Judge it by the samples and FID, not the pixel energy distance. If the samples are still mosaics, add an energy-score term on frozen image features. It should use a different feature network from the FID one, so that FID still measures something independent.
+
+Stage 3's `data/README.md` still has two unfilled placeholders; nothing in stage 4 depends on them.
+
+Start with `README.md` (setup, test, train, sample and evaluate commands, as run), then the figures:
+- `runs/2026-11-06_smoke_fmnist_dit-t4/fig_curves.png`
+- `runs/2026-11-06_smoke_fmnist_dit-t4/fig_final_vs_real_ema.png`
+- `runs/2026-11-06_smoke_cifar10_dit-t4/fig_final_vs_real_ema.png`

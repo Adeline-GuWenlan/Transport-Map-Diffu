@@ -1,0 +1,84 @@
+name: overfit_cpu_fmnist_sneaker256_dit-t4
+seed: 0
+device: cpu
+num_threads: 7
+data:
+  dataset: fashion_mnist
+  root: data/fashion_mnist
+  image_size: 32
+  channels: 1
+  num_classes: 10
+  normalize: minus_one_one
+  hflip: false
+  train_split: train
+  heldout_split: train
+  num_workers: 2
+  subset:
+    classes:
+    - 7
+    n_per_class: 256
+    seed: 0
+    apply_to_heldout: true
+model:
+  backbone: dit
+  input_size: 32
+  patch_size: 4
+  in_channels: 1
+  out_channels: 1
+  depth: 6
+  hidden_size: 256
+  num_heads: 4
+  mlp_ratio: 4.0
+  learn_sigma: false
+  class_dropout_prob: 0.0
+  timestep_mode: constant
+  timestep_value: 999
+  output: direct
+loss:
+  beta: 1.0
+  interaction_weight: 0.5
+  grouping: per_class
+  samples_per_datapoint: 1
+  statistic: u
+  norm: double_where
+  distance_dtype: float32
+batch:
+  sampler: class_stratified
+  classes_per_batch: 1
+  n_per_class: 64
+optim:
+  name: adamw
+  lr: 0.0002
+  betas:
+  - 0.9
+  - 0.95
+  eps: 1.0e-08
+  weight_decay: 0.0
+  warmup_steps: 100
+  schedule: constant
+  grad_clip_norm: 2.0
+  ema_decay: 0.999
+train:
+  max_steps: 4000
+  time_limit_min: 12
+  precision: fp32
+  log_every: 25
+  ckpt_every: 500
+  sample_every: 500
+eval:
+  every: 500
+  energy_distance:
+    space: pixel
+    beta: 1.0
+    n_per_class: 256
+    n_per_class_final: 256
+    baselines:
+    - noise
+    - zero
+    - class_mean
+    - train
+  nearest_neighbour:
+    n_generated: 1000
+    space: pixel
+  fid:
+    enabled: false

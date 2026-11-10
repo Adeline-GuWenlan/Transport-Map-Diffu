@@ -1,0 +1,16 @@
+# Datasets, FID stats and Inception weights: rebuilt by scripts/prepare_data.py (see data/README.md)
+data/*
+!data/README.md
+
+# Model checkpoints (~118 MB each, over GitHub's 100 MB file limit)
+runs/**/ckpt/
+*.pt
+
+# Python build / cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Agent session ids (local to this machine)
+claude_jobs/state/

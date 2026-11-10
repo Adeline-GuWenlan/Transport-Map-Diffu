@@ -1,0 +1,2 @@
+{"dataset": "MNIST", "dim": 1024, "rms_pixel": 0.9710098810836175, "pixel_std": 0.5504346923827379, "mean_over_classes": {"noise": 26.0336, "zero": 44.2237, "mean": 7.5738, "train": 0.0356, "other": 6.0868, "EYY_within": 17.9158, "EYY_all": 20.3277}}
+{"dataset": "Fashion-MNIST", "dim": 1024, "rms_pixel": 0.86962033469569, "pixel_std": 0.6636227459999179, "mean_over_classes": {"noise": 22.0154, "zero": 38.0114, "mean": 7.3102, "train": 0.0004, "other": 12.6849, "EYY_within": 17.4291, "EYY_all": 22.6972}}

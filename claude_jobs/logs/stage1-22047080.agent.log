@@ -1,0 +1,48 @@
+--- attempt 1 2026-11-06T01:30:51-05:00 --session-id 3f52c4c2-4502-4486-a2cc-083e65a7db43 effort=xhigh timeout=17100s ---
+Warning: this sign-in ends between 2026-11-11 and 2026-11-14 (in 5 days at the earliest). Renewing it does not move those dates. Run claude auth login before then, or use claude setup-token for unattended jobs.
+You've hit your 5-hour limit · resets 2:20am (America/New_York)
+usage limit; resets 2026-11-06 02:23 EST; sleeping until then and resuming
+--- attempt 2 2026-11-06T02:23:00-05:00 --resume 3f52c4c2-4502-4486-a2cc-083e65a7db43 effort=xhigh timeout=13971s ---
+Warning: this sign-in ends between 2026-11-11 and 2026-11-14 (in 5 days at the earliest). Renewing it does not move those dates. Run claude auth login before then, or use claude setup-token for unattended jobs.
+Stage 1 is done (03:09, well before the 05:50 deadline). The standup is `claude_jobs/standups/stage1.md`, with first line `Status: DONE`.
+
+**Verdict on the formula in CLAUDE.md:** it is wrong as typed, but only in the second term. The first term, the minus sign and the ½ are all correct. The second term, `E[F(x) − F(x')]`, is a plain difference of vectors, so its expectation is 0 and the loss reduces to `E‖F(x) − y‖`. That loss is minimised by sending every noise vector to the same output, a single "median" image of the data (total mode collapse). The fix is to take the norm, ½·E‖F(z) − F(z')‖, with:
+- z and z' drawn independently from the Gaussian (not from the data) and independently of y;
+- in the class-conditional case, both samples using y's label.
+
+The final loss, which is the spec for stage 4:
+
+`L(θ) = E_{(Y,C)} E_{Z,Z'~N(0,I) iid} [ ‖F(Z,C) − Y‖ − ½‖F(Z,C) − F(Z',C)‖ ]`
+
+It equals half the energy distance between model and data (per class) plus a constant, so its only minimiser is the data distribution. The note proves this from the definitions; it doesn't just cite it.
+
+**Numerical checks** (CPU, 17 min; one `run_all.sh` run reproduces every number exactly):
+- **2-D toy** (8 Gaussians on a circle; a score of 0 means a perfect match):
+  - The corrected loss scores 0.0098, against 0.24 for untrained noise and 1.46 for a single point.
+  - Every reading of your formula either collapses to one point (scores ≈ 1.46) or diverges. That includes the literal one, x and x' taken from the data, and squared norms in both terms.
+  - Using a coefficient of 1 instead of ½ also diverges.
+- **Slow on fine detail:** after 3000 steps the corrected loss learns the ring but only partly separates the eight modes. After 20,000 steps it does (score 6×10⁻⁵, 84% of samples near a mode). Coarse structure comes fast and fine structure slowly, which may matter for images.
+- **Same-class pairing matters:** if the second term pairs samples across classes, each class comes out too narrow and the classes get pushed apart (1-D test: std 0.60–0.65 instead of 1). Grouping by class gives std 0.94–1.06.
+- **Crash at the first training step:** DiT initialises its output layer to zero, so at step 0 every generated sample is identical. A naive square-root distance then gives NaN gradients from the first step on and training never recovers. The safe implementation in `es_core.py` trains normally.
+
+**Batch structure for stage 4:** the note spells out the batch estimator (eq. 9). The key requirements:
+- β = 1;
+- group each batch by class, with at least two generated samples per class;
+- leave out the self-pairs in the second term (divide by m(m−1), not m²);
+- use the safe distance;
+- log the per-class held-out energy distance.
+
+**Open questions:**
+- Pixel vs latent space, given the slow learning of fine detail.
+- β = 1 vs β in (1, 2), untested.
+- Batch sizes, which stage 2 sets.
+
+Lesser-cited papers (Bellemare, the moment-matching networks paper, Gritsenko, Reverse Markov Learning) were checked at abstract level only; the core sources were checked against their full text.
+
+Files are in `docs/`:
+- energy_score_loss.tex
+- energy_score_loss.pdf (19 pages)
+- stage1_checks/ (includes a README)
+- figures/
+
+The helper environment for the checks is at `/scratch/wg2381/.conda/envs/tmap-tex`.

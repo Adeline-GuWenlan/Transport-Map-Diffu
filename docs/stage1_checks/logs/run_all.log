@@ -1,0 +1,16 @@
+== check_e_grad_at_zero Fri Nov  6 02:50:34 EST 2026
+   exit 0 Fri Nov  6 02:50:43 EST 2026
+== check_b_beta2 Fri Nov  6 02:50:43 EST 2026
+   exit 0 Fri Nov  6 02:50:51 EST 2026
+== check_a_estimator Fri Nov  6 02:50:51 EST 2026
+   exit 0 Fri Nov  6 02:56:33 EST 2026
+== check_c_toy2d Fri Nov  6 02:56:33 EST 2026
+   exit 0 Fri Nov  6 03:02:56 EST 2026
+== check_c2_long Fri Nov  6 03:02:56 EST 2026
+   exit 0 Fri Nov  6 03:04:36 EST 2026
+== check_d_conditional Fri Nov  6 03:04:36 EST 2026
+   exit 0 Fri Nov  6 03:06:01 EST 2026
+== check_d2_conditional_2d Fri Nov  6 03:06:01 EST 2026
+   exit 0 Fri Nov  6 03:07:18 EST 2026
+== check_f_zero_init Fri Nov  6 03:07:18 EST 2026
+   exit 0 Fri Nov  6 03:07:51 EST 2026

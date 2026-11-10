@@ -1,0 +1,13 @@
+step 16624  n/class 1000  held-out D1 (mean over classes):
+  model[ema] 0.0824  diversity ratio 0.986  NN gen->train p50 10.562 (test->train p50 7.044)
+    blockiness 2.198 (reference 1.053); power ratio gen/ref by band {'1-4': 0.97, '4-8': 1.22, '8-12': 1.11, '12-17': 0.84}
+    1-NN classifier agrees with the conditioning class: 0.729 (real test images: 0.810); D1-confusion row-argmin accuracy 1.00
+  model[raw] 0.1603  diversity ratio 0.996  NN gen->train p50 10.584 (test->train p50 7.044)
+    blockiness 2.260 (reference 1.053); power ratio gen/ref by band {'1-4': 0.91, '4-8': 1.17, '8-12': 1.09, '12-17': 0.83}
+    1-NN classifier agrees with the conditioning class: 0.719 (real test images: 0.810); D1-confusion row-argmin accuracy 1.00
+  baseline noise        22.0332
+  baseline zero         38.0114
+  baseline class_mean   7.3102
+  baseline train        0.0006
+  baseline other_class  12.6084
+wrote runs/2026-11-06_smoke_fmnist_dit-t4/eval_final.json (203 s)

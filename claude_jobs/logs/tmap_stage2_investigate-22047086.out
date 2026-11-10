@@ -1,0 +1,52 @@
+=== stage 2 start 2026-11-06T06:15:01-05:00 host=cs637.hpc.nyu.edu job=22047086 ===
+session d0e385e6-73cd-40a0-8eac-ecceb01b6d7b  (inspect later: cd /scratch/wg2381/transport_map && claude --resume d0e385e6-73cd-40a0-8eac-ecceb01b6d7b)
+agent log /scratch/wg2381/transport_map/claude_jobs/logs/stage2-22047086.agent.log
+stop 2026-11-06 11:00 EST, standup due 2026-11-06 10:35 EST
+--- attempt 1 2026-11-06T06:15:01-05:00 --session-id d0e385e6-73cd-40a0-8eac-ecceb01b6d7b effort=xhigh timeout=17100s ---
+Warning: this sign-in ends between 2026-11-11 and 2026-11-14 (in 5 days at the earliest). Renewing it does not move those dates. Run claude auth login before then, or use claude setup-token for unattended jobs.
+You've hit your 5-hour limit · resets 7:20am (America/New_York)
+usage limit; resets 2026-11-06 07:23 EST; sleeping until then and resuming
+--- attempt 2 2026-11-06T07:23:00-05:00 --resume d0e385e6-73cd-40a0-8eac-ecceb01b6d7b effort=xhigh timeout=13021s ---
+Warning: this sign-in ends between 2026-11-11 and 2026-11-14 (in 5 days at the earliest). Renewing it does not move those dates. Run claude auth login before then, or use claude setup-token for unattended jobs.
+Stage 2 is done; the standup at `claude_jobs/standups/stage2.md` starts with `Status: DONE`. The first attempt hit the usage limit at 06:15 before doing anything, so all of this is from the restart (07:23–08:06), well before the 10:35 deadline. The full reasoning, tables and source links are in `docs/stage2_choices.md`.
+
+**Decisions**
+- **Backbone:** DiT's `models.py`, cloned unmodified into `third_party/DiT` at commit `ed81ce2`. Its licence is CC-BY-NC 4.0, so anything built on it is research-only.
+  - It is used as F(z, c) with no learned variance output and no classifier-free guidance.
+  - The timestep input is kept but fixed at t = 999, which keeps it available for the later multi-noise-level version without editing DiT.
+  - The input z is Gaussian noise with the image's shape, so no extra noise channels are needed.
+- **Pixel space, not VAE latents, for the first test.** The Stable Diffusion VAE would shrink a 32 px image to a 4×4×4 latent, which is useless at this size. The alternatives I compared (SiT, fast-DiT, U-ViT, LightningDiT, JiT) don't suit us better. SiT's MIT-licensed `models.py` turns out to be DiT's file with three lines changed, so it doesn't avoid the licence issue.
+- **Model sizes (all measured):** my FLOP counts match the DiT paper's table to within 0.02 GFLOPs.
+
+  | Use | Model | Params | Forward cost / sample | CPU step (batch 64, 8 cores) |
+  |---|---|---|---|---|
+  | CPU smoke test | small custom DiT (6 layers, width 256, patch 4) | 7.39 M | 0.32 GMACs | 0.138 s |
+  | Real GPU test | DiT-B/2 | 129.7 M | 23.0 GMACs | not measured (no GPU) |
+
+  DiT-S/4, the smallest size in DiT's own table, takes 0.61 s per step on CPU, which is too close to the 1 s limit.
+- **Optimizer:** AdamW, β = (0.9, 0.95), no weight decay, warmup then a constant learning rate, gradient clipping at 2.0, plus a weight average (EMA).
+  - GPU: lr 1e-4 and EMA 0.9999. CPU smoke: lr 2e-4 and EMA 0.999.
+  - DiT's recipe (AdamW, lr 1e-4, no weight decay, batch 256, EMA 0.9999) is confirmed in both the paper and the code. The β2, clipping and warmup values come from Drifting, the most similar published setup.
+- **Batches:** each batch takes a few classes and several images per class, with one generated sample per data point. GPU: 8 classes × 64 = 512. CPU: 8 × 8 = 64.
+- **Data:** Fashion-MNIST for the smoke test (MIT licence, padded to 32×32), with MNIST as a fallback. CIFAR-10 for the real test.
+- **FID:** clean-fid's precomputed CIFAR-10 training-set statistics, so nothing needs computing on CPU.
+
+**Findings that shaped these choices** (scripts and results in `docs/stage2_checks/`)
+- **Gradient noise:** more generated samples per data point cut that part of the noise as expected (roughly 1/r). But that part is only about 30% of the total; data sampling is the rest. Pairing samples with individual data points (as in engression) is 2.5× noisier than pooling them per class at the same cost. So extra compute should go to more data points, not more samples.
+- **Clipping always binds:** the gradient norm on the smoke model is 3–67, so a clip at 2.0 acts on every step. Training with and without it gave the same loss curve. Stage 4 should expect clipping on 100% of steps; it is not a bug.
+- **Main risk:** in CIFAR-10 pixel space, images of the wrong class are only 2.1 (in energy-distance units) from the right class, against 9.2 for pure Gaussian noise. So the loss may learn overall image statistics long before it learns classes. The two published one-step methods closest to ours (Drifting, TBSM) both needed a frozen feature space on ImageNet. A feature-space energy distance is the fallback in the doc.
+- **Baselines for stage 4:** I measured held-out energy-distance reference values (noise, an untrained model, collapse to the class average, wrong class, train set) for all three datasets. They are in the doc and in the config comments.
+
+**Handed to stage 3**
+- The exact install list: Python 3.11; torch 2.14.1 and torchvision 0.29.1 (CUDA 12.6 build); timm 1.0.31; clean-fid 0.1.35 installed with `--no-deps`.
+- Dataset download commands with checksums.
+- Download CIFAR-10 from Hugging Face: 143 MB took 2 s there, while the official Toronto server ran at about 140 kB/s (roughly 20 minutes).
+
+**Still open**
+- **GPU speed is an estimate:** about 0.5–0.7 s per step for DiT-B/2, so roughly 28–39 h for 200k steps. The GPU job must survive being requeued.
+- **Driver support is assumed:** I assumed the GPU nodes' NVIDIA driver supports CUDA 12.6, but couldn't check from a CPU node.
+- **One paper is unverified:** I couldn't retrieve De Bortoli et al.'s image hyperparameters.
+
+Beyond the required two configs, I added an optional `configs/smoke_cpu_cifar10.yaml` as a CPU bridge to the GPU run. I also wrote `third_party/README.md` recording the DiT clone, and added torchvision to the stage-1 helper environment for the timing runs. Throwaway files are under `/scratch/wg2381/.cache-home/stage2_tmp/`.
+=== stage 2 exit rc=0  2026-11-06T08:06:22-05:00 ===
+Status: DONE

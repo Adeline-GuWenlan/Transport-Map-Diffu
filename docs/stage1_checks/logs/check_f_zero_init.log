@@ -1,0 +1,18 @@
+{
+ "safe_dist": {
+  "first_step_grad_has_nan": false,
+  "steps_with_nan_grad": 0,
+  "generated_std_at_step0": 0.0,
+  "final_D1": 0.012618969102949684
+ },
+ "naive_sqrt": {
+  "first_step_grad_has_nan": true,
+  "steps_with_nan_grad": 3000,
+  "generated_std_at_step0": 0.0,
+  "final_D1": NaN
+ }
+}
+
+real	0m33.251s
+user	2m33.360s
+sys	0m4.749s

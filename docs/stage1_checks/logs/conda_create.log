@@ -1,0 +1,2145 @@
+2 channel Terms of Service accepted
+Retrieving notices: - done
+Channels:
+ - conda-forge
+ - nodefaults
+ - defaults
+Platform: linux-64
+Collecting package metadata (repodata.json): | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - done
+Solving environment: | / - done
+
+
+==> WARNING: A newer version of conda exists. <==
+    current version: 25.5.1
+    latest version: 26.9.4
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+
+
+## Package Plan ##
+
+  environment location: /scratch/wg2381/.conda/envs/tmap-tex
+
+  added / updated specs:
+    - matplotlib
+    - numpy
+    - python=3.11
+    - pytorch[build=cpu*]
+    - scipy
+    - tectonic
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    alsa-lib-1.2.16.1          |       h7cc23a3_1         581 KB  conda-forge
+    cairo-1.18.6               |       h3c89d7e_0         984 KB  conda-forge
+    cpython-3.11.18            |  py311hd8ed1ab_0          48 KB  conda-forge
+    cyrus-sasl-2.1.28          |       hac629b4_1         205 KB  conda-forge
+    dbus-1.16.2                |       he8c428d_2         439 KB  conda-forge
+    filelock-4.2.9             |     pyh5ded981_0         130 KB  conda-forge
+    fmt-12.1.0                 |       h76c4fd7_1         194 KB  conda-forge
+    fonttools-4.68.0           |  py311h92159aa_0         3.1 MB  conda-forge
+    fsspec-2026.9.0            |     pyhd8ed1ab_0         160 KB  conda-forge
+    gmp-6.3.0                  |       hfd2156b_3         482 KB  conda-forge
+    gmpy2-2.3.2                |  py311hbc40be8_0         305 KB  conda-forge
+    harfbuzz-15.0.0            |       ha770c72_0          11 KB  conda-forge
+    keyutils-1.6.3             |       h7cc23a3_1         132 KB  conda-forge
+    kiwisolver-1.5.1           |  py311h4c6fd42_3          75 KB  conda-forge
+    krb5-1.22.2                |       hbc21106_2         1.3 MB  conda-forge
+    lcms2-2.20                 |       h9073bf1_0         249 KB  conda-forge
+    lerc-4.3.0                 |       he78707d_0         264 KB  conda-forge
+    libabseil-20260817.0       | cxx17_hbb87c76_2         1.4 MB  conda-forge
+    libblas-3.11.0             |  12_h5875eb1_mkl          18 KB  conda-forge
+    libcblas-3.11.0            |  12_hfef963f_mkl          18 KB  conda-forge
+    libclang-cpp23.1-23.1.4    |default_h0acdd01_1        24.2 MB  conda-forge
+    libclang13-23.1.4          |default_h6e6c352_1        14.7 MB  conda-forge
+    libcups-2.3.3              |       h7a8fb5f_6         4.3 MB  conda-forge
+    libdrm-2.4.129             |       h7cc23a3_0         306 KB  conda-forge
+    libedit-3.1.20260512       | pl5321h373387f_0         133 KB  conda-forge
+    libegl-1.7.0               |       ha4b6fd6_5          46 KB  conda-forge
+    libegl-devel-1.7.0         |       ha4b6fd6_5          31 KB  conda-forge
+    libgl-1.7.0                |       ha4b6fd6_5         129 KB  conda-forge
+    libgl-devel-1.7.0          |       ha4b6fd6_5         113 KB  conda-forge
+    libglvnd-1.7.0             |       ha4b6fd6_5         131 KB  conda-forge
+    libglx-1.7.0               |       ha4b6fd6_5          78 KB  conda-forge
+    libglx-devel-1.7.0         |       ha4b6fd6_5          27 KB  conda-forge
+    libharfbuzz-15.0.0         |       h23af247_0         1.6 MB  conda-forge
+    libharfbuzz-devel-15.0.0   |       h23af247_0         2.4 MB  conda-forge
+    libhwloc-2.15.0            |default_hd7c4d0c_1001         2.3 MB  conda-forge
+    liblapack-3.11.0           |  12_h5e43f62_mkl          18 KB  conda-forge
+    libllvm23-23.1.5           |       h474f4eb_0        43.0 MB  conda-forge
+    libopengl-1.7.0            |       ha4b6fd6_5          49 KB  conda-forge
+    libpciaccess-0.19          |       hb03c661_1          29 KB  conda-forge
+    libpq-18.6                 |       h3883810_3         2.6 MB  conda-forge
+    libprotobuf-7.35.1         |       h8a00109_4         3.6 MB  conda-forge
+    libsqlite-3.54.1           |       h13e7031_0         961 KB  conda-forge
+    libtorch-2.14.1            |cpu_mkl_h726c6bf_102        59.1 MB  conda-forge
+    libuuid-2.42.4             |       hcfc3c73_1          35 KB  conda-forge
+    libuv-1.52.1               |       h280c20c_1         410 KB  conda-forge
+    libvulkan-loader-1.4.357.0 |       h0e34353_2         202 KB  conda-forge
+    libxkbcommon-1.13.2        |       h59c2f34_2         923 KB  conda-forge
+    libxml2-2.15.4             |       h7df9aa5_1          45 KB  conda-forge
+    libxml2-16-2.15.4          |       hf3af7cc_1         556 KB  conda-forge
+    libxslt-1.1.45             |       h8e12856_1         244 KB  conda-forge
+    llvm-openmp-23.1.5         |       h7148c6a_0         5.8 MB  conda-forge
+    markupsafe-3.0.4           |  py311h364832d_4          28 KB  conda-forge
+    matplotlib-3.11.2          |  py311h968eb38_1          15 KB  conda-forge
+    matplotlib-base-3.11.2     |  py311hfea5af0_1         8.6 MB  conda-forge
+    mkl-2026.1.0               |     hd2095e1_246       135.8 MB  conda-forge
+    mpc-1.4.0                  |       ha2cb11d_1          99 KB  conda-forge
+    mpfr-4.2.2                 |       ha2cb11d_1         713 KB  conda-forge
+    mpmath-1.4.1               |     pyhd8ed1ab_0         454 KB  conda-forge
+    numpy-2.4.6                |  py311h2e04523_0         9.0 MB  conda-forge
+    onednn-3.14.2              |   omp_h64ed1e9_0        10.9 MB  conda-forge
+    openldap-2.6.13            |       hbde042b_0         768 KB  conda-forge
+    optree-0.20.0              |  py311h5f908af_1         560 KB  conda-forge
+    pathspec-1.1.1             |     pyhd8ed1ab_0          55 KB  conda-forge
+    pillow-13.0.0              |  py311hf303fd3_0         1.0 MB  conda-forge
+    pybind11-3.0.4             |     pyh293190f_0         245 KB  conda-forge
+    pybind11-abi-11            |       hc364b38_1          14 KB  conda-forge
+    pybind11-global-3.0.4      |     pyh648e204_0         239 KB  conda-forge
+    pyside6-6.11.3             |  py311h242c0d0_0        13.3 MB  conda-forge
+    python-dateutil-4.0.0      |     pyh5ded981_0          88 KB  conda-forge
+    python_abi-3.11            |          9_cp311           7 KB  conda-forge
+    pytorch-2.14.1             |cpu_mkl_py311_hcf5878c_102        27.7 MB  conda-forge
+    qhull-2020.2               |       haf43d43_6         546 KB  conda-forge
+    qt6-main-6.11.3            | pl5321hcf69127_0        58.1 MB  conda-forge
+    scikit-build-core-1.1.2    |     pyhcb39dcd_0         358 KB  conda-forge
+    scipy-1.17.1               |  py311hbe70eeb_1        16.5 MB  conda-forge
+    sleef-3.9.0                |       ha0421bc_0         1.9 MB  conda-forge
+    sympy-1.14.0               |   pyh2585a3b_106         4.4 MB  conda-forge
+    tbb-2023.1.0               |       haa8c3ee_2         182 KB  conda-forge
+    tectonic-0.17.0            |       ha3b08ff_1         6.2 MB  conda-forge
+    tomli-2.5.0                |     pyh5ded981_0          21 KB  conda-forge
+    tornado-6.6                |  py311h194be0f_0         1.0 MB  conda-forge
+    typing-extensions-4.16.0   |       h69aa097_0          92 KB  conda-forge
+    typing_extensions-4.16.0   |     pyhcf101f3_0          51 KB  conda-forge
+    unicodedata2-18.0.0        |  py311h0d48ccd_0         411 KB  conda-forge
+    wayland-1.26.0             |       hc1c935e_2         332 KB  conda-forge
+    xkeyboard-config-2.48      |       hebe6cf0_1         431 KB  conda-forge
+    xorg-libxcursor-1.2.3      |       h7cc23a3_1          34 KB  conda-forge
+    xorg-libxfixes-6.0.2       |       h7cc23a3_1          21 KB  conda-forge
+    xorg-libxi-1.8.4           |       h7cc23a3_0          48 KB  conda-forge
+    xorg-libxrandr-1.5.5       |       h7cc23a3_1          30 KB  conda-forge
+    xorg-libxtst-1.2.6         |       h7cc23a3_0          34 KB  conda-forge
+    xorg-xorgproto-2025.1      |       hebe6cf0_3         582 KB  conda-forge
+    zlib-1.3.2                 |       h25fd6f3_3          94 KB  conda-forge
+    ------------------------------------------------------------
+                                           Total:       478.8 MB
+
+The following NEW packages will be INSTALLED:
+
+  _openmp_mutex      conda-forge/linux-64::_openmp_mutex-4.5-8_kmp_llvm 
+  alsa-lib           conda-forge/linux-64::alsa-lib-1.2.16.1-h7cc23a3_1 
+  brotli             conda-forge/linux-64::brotli-1.2.1-h505cf86_0 
+  brotli-bin         conda-forge/linux-64::brotli-bin-1.2.1-h9908984_0 
+  bzip2              conda-forge/linux-64::bzip2-1.0.8-hda65f42_10 
+  ca-certificates    conda-forge/noarch::ca-certificates-2026.10.23-hbd8a1cb_0 
+  cairo              conda-forge/linux-64::cairo-1.18.6-h3c89d7e_0 
+  contourpy          conda-forge/linux-64::contourpy-1.3.3-py311h724c32c_4 
+  cpython            conda-forge/noarch::cpython-3.11.18-py311hd8ed1ab_0 
+  cycler             conda-forge/noarch::cycler-0.12.1-pyhcf101f3_2 
+  cyrus-sasl         conda-forge/linux-64::cyrus-sasl-2.1.28-hac629b4_1 
+  dbus               conda-forge/linux-64::dbus-1.16.2-he8c428d_2 
+  double-conversion  conda-forge/linux-64::double-conversion-3.4.0-hecca717_0 
+  exceptiongroup     conda-forge/noarch::exceptiongroup-1.3.1-pyhd8ed1ab_0 
+  filelock           conda-forge/noarch::filelock-4.2.9-pyh5ded981_0 
+  fmt                conda-forge/linux-64::fmt-12.1.0-h76c4fd7_1 
+  font-ttf-dejavu-s~ conda-forge/noarch::font-ttf-dejavu-sans-mono-2.37-hab24e00_0 
+  font-ttf-inconsol~ conda-forge/noarch::font-ttf-inconsolata-3.000-h77eed37_0 
+  font-ttf-source-c~ conda-forge/noarch::font-ttf-source-code-pro-2.038-h77eed37_0 
+  font-ttf-ubuntu    conda-forge/noarch::font-ttf-ubuntu-0.83-h77eed37_3 
+  fontconfig         conda-forge/linux-64::fontconfig-2.18.3-h4db4eae_1 
+  fonts-conda-ecosy~ conda-forge/noarch::fonts-conda-ecosystem-1-0 
+  fonts-conda-forge  conda-forge/noarch::fonts-conda-forge-1-hc364b38_1 
+  fonttools          conda-forge/linux-64::fonttools-4.68.0-py311h92159aa_0 
+  freetype           conda-forge/linux-64::freetype-2.14.3-ha770c72_2 
+  fribidi            conda-forge/linux-64::fribidi-1.0.18-h7cc23a3_0 
+  fsspec             conda-forge/noarch::fsspec-2026.9.0-pyhd8ed1ab_0 
+  gmp                conda-forge/linux-64::gmp-6.3.0-hfd2156b_3 
+  gmpy2              conda-forge/linux-64::gmpy2-2.3.2-py311hbc40be8_0 
+  graphite2          conda-forge/linux-64::graphite2-1.3.15-h54a6638_1 
+  harfbuzz           conda-forge/linux-64::harfbuzz-15.0.0-ha770c72_0 
+  icu                conda-forge/linux-64::icu-78.3-py310h44b86e0_2 
+  jinja2             conda-forge/noarch::jinja2-3.1.6-pyhcf101f3_1 
+  keyutils           conda-forge/linux-64::keyutils-1.6.3-h7cc23a3_1 
+  kiwisolver         conda-forge/linux-64::kiwisolver-1.5.1-py311h4c6fd42_3 
+  krb5               conda-forge/linux-64::krb5-1.22.2-hbc21106_2 
+  lcms2              conda-forge/linux-64::lcms2-2.20-h9073bf1_0 
+  ld_impl_linux-64   conda-forge/linux-64::ld_impl_linux-64-2.46.1-default_hbd61a6d_103 
+  lerc               conda-forge/linux-64::lerc-4.3.0-he78707d_0 
+  libabseil          conda-forge/linux-64::libabseil-20260817.0-cxx17_hbb87c76_2 
+  libblas            conda-forge/linux-64::libblas-3.11.0-12_h5875eb1_mkl 
+  libbrotlicommon    conda-forge/linux-64::libbrotlicommon-1.2.1-h39a168f_0 
+  libbrotlidec       conda-forge/linux-64::libbrotlidec-1.2.1-ha411449_0 
+  libbrotlienc       conda-forge/linux-64::libbrotlienc-1.2.1-h018ffa1_0 
+  libcblas           conda-forge/linux-64::libcblas-3.11.0-12_hfef963f_mkl 
+  libclang-cpp23.1   conda-forge/linux-64::libclang-cpp23.1-23.1.4-default_h0acdd01_1 
+  libclang13         conda-forge/linux-64::libclang13-23.1.4-default_h6e6c352_1 
+  libcups            conda-forge/linux-64::libcups-2.3.3-h7a8fb5f_6 
+  libdeflate         conda-forge/linux-64::libdeflate-1.25-hd45a770_1 
+  libdrm             conda-forge/linux-64::libdrm-2.4.129-h7cc23a3_0 
+  libedit            conda-forge/linux-64::libedit-3.1.20260512-pl5321h373387f_0 
+  libegl             conda-forge/linux-64::libegl-1.7.0-ha4b6fd6_5 
+  libegl-devel       conda-forge/linux-64::libegl-devel-1.7.0-ha4b6fd6_5 
+  libexpat           conda-forge/linux-64::libexpat-2.9.0-hd2095e1_0 
+  libffi             conda-forge/linux-64::libffi-3.7.0-h81df57d_1 
+  libfreetype        conda-forge/linux-64::libfreetype-2.14.3-ha770c72_2 
+  libfreetype6       conda-forge/linux-64::libfreetype6-2.14.3-h5e6c136_2 
+  libgcc             conda-forge/linux-64::libgcc-16.2.0-ha9f2e26_7 
+  libgcc-ng          conda-forge/linux-64::libgcc-ng-16.2.0-h69a702a_7 
+  libgfortran        conda-forge/linux-64::libgfortran-16.2.0-h69a702a_7 
+  libgfortran5       conda-forge/linux-64::libgfortran5-16.2.0-h6b99dfc_7 
+  libgl              conda-forge/linux-64::libgl-1.7.0-ha4b6fd6_5 
+  libgl-devel        conda-forge/linux-64::libgl-devel-1.7.0-ha4b6fd6_5 
+  libglib            conda-forge/linux-64::libglib-2.90.0-h569388d_0 
+  libglvnd           conda-forge/linux-64::libglvnd-1.7.0-ha4b6fd6_5 
+  libglx             conda-forge/linux-64::libglx-1.7.0-ha4b6fd6_5 
+  libglx-devel       conda-forge/linux-64::libglx-devel-1.7.0-ha4b6fd6_5 
+  libharfbuzz        conda-forge/linux-64::libharfbuzz-15.0.0-h23af247_0 
+  libharfbuzz-devel  conda-forge/linux-64::libharfbuzz-devel-15.0.0-h23af247_0 
+  libhwloc           conda-forge/linux-64::libhwloc-2.15.0-default_hd7c4d0c_1001 
+  libiconv           conda-forge/linux-64::libiconv-1.18-h0cb94f2_3 
+  libjpeg-turbo      conda-forge/linux-64::libjpeg-turbo-3.2.1-h7cc23a3_0 
+  liblapack          conda-forge/linux-64::liblapack-3.11.0-12_h5e43f62_mkl 
+  libllvm23          conda-forge/linux-64::libllvm23-23.1.5-h474f4eb_0 
+  liblzma            conda-forge/linux-64::liblzma-5.8.3-hb03c661_1 
+  libnsl             conda-forge/linux-64::libnsl-2.0.1-hb9d3cd8_1 
+  libntlm            conda-forge/linux-64::libntlm-1.8-hb9d3cd8_0 
+  libopengl          conda-forge/linux-64::libopengl-1.7.0-ha4b6fd6_5 
+  libpciaccess       conda-forge/linux-64::libpciaccess-0.19-hb03c661_1 
+  libpng             conda-forge/linux-64::libpng-1.6.59-h922cc85_0 
+  libpq              conda-forge/linux-64::libpq-18.6-h3883810_3 
+  libprotobuf        conda-forge/linux-64::libprotobuf-7.35.1-h8a00109_4 
+  libpython          conda-forge/linux-64::libpython-3.11.18-ha57cdbe_0_cpython 
+  libraqm            conda-forge/linux-64::libraqm-0.11.0-h6406941_0 
+  libsqlite          conda-forge/linux-64::libsqlite-3.54.1-h13e7031_0 
+  libstdcxx          conda-forge/linux-64::libstdcxx-16.2.0-h934c35e_7 
+  libtiff            conda-forge/linux-64::libtiff-4.7.2-hcc2c06a_1 
+  libtorch           conda-forge/linux-64::libtorch-2.14.1-cpu_mkl_h726c6bf_102 
+  libuuid            conda-forge/linux-64::libuuid-2.42.4-hcfc3c73_1 
+  libuv              conda-forge/linux-64::libuv-1.52.1-h280c20c_1 
+  libvulkan-loader   conda-forge/linux-64::libvulkan-loader-1.4.357.0-h0e34353_2 
+  libwebp-base       conda-forge/linux-64::libwebp-base-1.6.0-hd42ef1d_1 
+  libxcb             conda-forge/linux-64::libxcb-1.17.0-hb83e432_2 
+  libxcrypt          conda-forge/linux-64::libxcrypt-4.4.38-h280c20c_0 
+  libxkbcommon       conda-forge/linux-64::libxkbcommon-1.13.2-h59c2f34_2 
+  libxml2            conda-forge/linux-64::libxml2-2.15.4-h7df9aa5_1 
+  libxml2-16         conda-forge/linux-64::libxml2-16-2.15.4-hf3af7cc_1 
+  libxslt            conda-forge/linux-64::libxslt-1.1.45-h8e12856_1 
+  libzlib            conda-forge/linux-64::libzlib-1.3.2-h25fd6f3_3 
+  llvm-openmp        conda-forge/linux-64::llvm-openmp-23.1.5-h7148c6a_0 
+  markupsafe         conda-forge/linux-64::markupsafe-3.0.4-py311h364832d_4 
+  matplotlib         conda-forge/linux-64::matplotlib-3.11.2-py311h968eb38_1 
+  matplotlib-base    conda-forge/linux-64::matplotlib-base-3.11.2-py311hfea5af0_1 
+  mkl                conda-forge/linux-64::mkl-2026.1.0-hd2095e1_246 
+  mpc                conda-forge/linux-64::mpc-1.4.0-ha2cb11d_1 
+  mpfr               conda-forge/linux-64::mpfr-4.2.2-ha2cb11d_1 
+  mpmath             conda-forge/noarch::mpmath-1.4.1-pyhd8ed1ab_0 
+  munkres            conda-forge/noarch::munkres-1.1.4-pyhd8ed1ab_1 
+  ncurses            conda-forge/linux-64::ncurses-6.6-hdb14827_1 
+  networkx           conda-forge/noarch::networkx-3.6.1-pyhcf101f3_0 
+  numpy              conda-forge/linux-64::numpy-2.4.6-py311h2e04523_0 
+  onednn             conda-forge/linux-64::onednn-3.14.2-omp_h64ed1e9_0 
+  openjpeg           conda-forge/linux-64::openjpeg-2.5.4-heb1ab33_2 
+  openldap           conda-forge/linux-64::openldap-2.6.13-hbde042b_0 
+  openssl            conda-forge/linux-64::openssl-3.6.5-h781a0a9_0 
+  optree             conda-forge/linux-64::optree-0.20.0-py311h5f908af_1 
+  packaging          conda-forge/noarch::packaging-26.3-pyhc364b38_0 
+  pathspec           conda-forge/noarch::pathspec-1.1.1-pyhd8ed1ab_0 
+  pcre2              conda-forge/linux-64::pcre2-10.47-h8b3dc9c_1 
+  pillow             conda-forge/linux-64::pillow-13.0.0-py311hf303fd3_0 
+  pip                conda-forge/noarch::pip-26.2.2-pyh8b19718_2 
+  pixman             conda-forge/linux-64::pixman-0.46.4-h54a6638_3 
+  pthread-stubs      conda-forge/linux-64::pthread-stubs-0.4-h7cc23a3_1004 
+  pybind11           conda-forge/noarch::pybind11-3.0.4-pyh293190f_0 
+  pybind11-abi       conda-forge/noarch::pybind11-abi-11-hc364b38_1 
+  pybind11-global    conda-forge/noarch::pybind11-global-3.0.4-pyh648e204_0 
+  pyparsing          conda-forge/noarch::pyparsing-3.3.3-pyh5ded981_0 
+  pyside6            conda-forge/linux-64::pyside6-6.11.3-py311h242c0d0_0 
+  python             conda-forge/linux-64::python-3.11.18-h5f976f7_0_cpython 
+  python-dateutil    conda-forge/noarch::python-dateutil-4.0.0-pyh5ded981_0 
+  python-tzdata      conda-forge/noarch::python-tzdata-2026.6-pyh5ded981_0 
+  python_abi         conda-forge/noarch::python_abi-3.11-9_cp311 
+  pytorch            conda-forge/linux-64::pytorch-2.14.1-cpu_mkl_py311_hcf5878c_102 
+  qhull              conda-forge/linux-64::qhull-2020.2-haf43d43_6 
+  qt6-main           conda-forge/linux-64::qt6-main-6.11.3-pl5321hcf69127_0 
+  readline           conda-forge/linux-64::readline-8.3-hd6e31c0_1 
+  scikit-build-core  conda-forge/noarch::scikit-build-core-1.1.2-pyhcb39dcd_0 
+  scipy              conda-forge/linux-64::scipy-1.17.1-py311hbe70eeb_1 
+  setuptools         conda-forge/noarch::setuptools-84.2.1-pyhe730653_0 
+  sleef              conda-forge/linux-64::sleef-3.9.0-ha0421bc_0 
+  sympy              conda-forge/noarch::sympy-1.14.0-pyh2585a3b_106 
+  tbb                conda-forge/linux-64::tbb-2023.1.0-haa8c3ee_2 
+  tectonic           conda-forge/linux-64::tectonic-0.17.0-ha3b08ff_1 
+  tk                 conda-forge/linux-64::tk-8.6.13-noxft_h1df4ec4_4 
+  tomli              conda-forge/noarch::tomli-2.5.0-pyh5ded981_0 
+  tornado            conda-forge/linux-64::tornado-6.6-py311h194be0f_0 
+  typing-extensions  conda-forge/noarch::typing-extensions-4.16.0-h69aa097_0 
+  typing_extensions  conda-forge/noarch::typing_extensions-4.16.0-pyhcf101f3_0 
+  tzdata             conda-forge/noarch::tzdata-2026e-h5d301ff_0 
+  unicodedata2       conda-forge/linux-64::unicodedata2-18.0.0-py311h0d48ccd_0 
+  wayland            conda-forge/linux-64::wayland-1.26.0-hc1c935e_2 
+  wheel              conda-forge/noarch::wheel-0.48.0-pyhd8ed1ab_0 
+  xcb-util           conda-forge/linux-64::xcb-util-0.4.1-h4f16b4b_2 
+  xcb-util-cursor    conda-forge/linux-64::xcb-util-cursor-0.1.6-hb03c661_0 
+  xcb-util-image     conda-forge/linux-64::xcb-util-image-0.4.0-hb711507_2 
+  xcb-util-keysyms   conda-forge/linux-64::xcb-util-keysyms-0.4.1-hb711507_0 
+  xcb-util-renderut~ conda-forge/linux-64::xcb-util-renderutil-0.3.10-hb711507_0 
+  xcb-util-wm        conda-forge/linux-64::xcb-util-wm-0.4.2-hb711507_0 
+  xkeyboard-config   conda-forge/linux-64::xkeyboard-config-2.48-hebe6cf0_1 
+  xorg-libice        conda-forge/linux-64::xorg-libice-1.1.2-h280c20c_0 
+  xorg-libsm         conda-forge/linux-64::xorg-libsm-1.2.6-h0d788c3_1 
+  xorg-libx11        conda-forge/linux-64::xorg-libx11-1.8.14-hb83e432_0 
+  xorg-libxau        conda-forge/linux-64::xorg-libxau-1.0.12-h7cc23a3_2 
+  xorg-libxcomposite conda-forge/linux-64::xorg-libxcomposite-0.4.7-hb03c661_0 
+  xorg-libxcursor    conda-forge/linux-64::xorg-libxcursor-1.2.3-h7cc23a3_1 
+  xorg-libxdamage    conda-forge/linux-64::xorg-libxdamage-1.1.6-hb9d3cd8_0 
+  xorg-libxdmcp      conda-forge/linux-64::xorg-libxdmcp-1.1.5-h7cc23a3_2 
+  xorg-libxext       conda-forge/linux-64::xorg-libxext-1.3.7-h7cc23a3_1 
+  xorg-libxfixes     conda-forge/linux-64::xorg-libxfixes-6.0.2-h7cc23a3_1 
+  xorg-libxi         conda-forge/linux-64::xorg-libxi-1.8.4-h7cc23a3_0 
+  xorg-libxrandr     conda-forge/linux-64::xorg-libxrandr-1.5.5-h7cc23a3_1 
+  xorg-libxrender    conda-forge/linux-64::xorg-libxrender-0.9.13-h7cc23a3_0 
+  xorg-libxtst       conda-forge/linux-64::xorg-libxtst-1.2.6-h7cc23a3_0 
+  xorg-libxxf86vm    conda-forge/linux-64::xorg-libxxf86vm-1.1.7-hb03c661_0 
+  xorg-xorgproto     conda-forge/linux-64::xorg-xorgproto-2025.1-hebe6cf0_3 
+  zlib               conda-forge/linux-64::zlib-1.3.2-h25fd6f3_3 
+  zlib-ng            conda-forge/linux-64::zlib-ng-2.3.3-hce19668_1 
+  zstd               conda-forge/linux-64::zstd-1.5.7-hb78ec9c_7 
+
+
+
+Downloading and Extracting Packages: ...working...mkl-2026.1.0         | 135.8 MB  |            |   0% 
+libtorch-2.14.1      | 59.1 MB   |            |   0% [A
+
+qt6-main-6.11.3      | 58.1 MB   |            |   0% [A[A
+
+
+libllvm23-23.1.5     | 43.0 MB   |            |   0% [A[A[A
+
+
+
+pytorch-2.14.1       | 27.7 MB   |            |   0% [A[A[A[A
+
+
+
+
+libclang-cpp23.1-23. | 24.2 MB   |            |   0% [A[A[A[A[A
+
+
+
+
+
+scipy-1.17.1         | 16.5 MB   |            |   0% [A[A[A[A[A[A
+
+
+
+
+
+
+libclang13-23.1.4    | 14.7 MB   |            |   0% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+pyside6-6.11.3       | 13.3 MB   |            |   0% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+onednn-3.14.2        | 10.9 MB   |            |   0% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+numpy-2.4.6          | 9.0 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+matplotlib-base-3.11 | 8.6 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+tectonic-0.17.0      | 6.2 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+llvm-openmp-23.1.5   | 5.8 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+sympy-1.14.0         | 4.4 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libcups-2.3.3        | 4.3 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libprotobuf-7.35.1   | 3.6 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fonttools-4.68.0     | 3.1 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libpq-18.6           | 2.6 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[Amkl-2026.1.0         | 135.8 MB  | 5          |   6% 
+libtorch-2.14.1      | 59.1 MB   | 7          |   7% [A
+
+qt6-main-6.11.3      | 58.1 MB   | 8          |   8% [A[A
+
+
+libllvm23-23.1.5     | 43.0 MB   | #2         |  12% [A[A[A
+
+
+
+pytorch-2.14.1       | 27.7 MB   | #3         |  14% [A[A[A[Amkl-2026.1.0         | 135.8 MB  | #4         |  15% 
+libtorch-2.14.1      | 59.1 MB   | ##8        |  29% [A
+
+qt6-main-6.11.3      | 58.1 MB   | ###        |  30% [A[A
+
+
+libllvm23-23.1.5     | 43.0 MB   | ####1      |  42% [A[A[A
+
+
+
+pytorch-2.14.1       | 27.7 MB   | #####9     |  60% [A[A[A[Amkl-2026.1.0         | 135.8 MB  | ##3        |  24% 
+libtorch-2.14.1      | 59.1 MB   | ####9      |  50% [A
+
+qt6-main-6.11.3      | 58.1 MB   | #####1     |  52% [A[A
+
+
+libllvm23-23.1.5     | 43.0 MB   | #######2   |  72% [A[A[Amkl-2026.1.0         | 135.8 MB  | ###5       |  36% 
+
+qt6-main-6.11.3      | 58.1 MB   | ########5  |  85% [A[A
+libtorch-2.14.1      | 59.1 MB   | ######7    |  68% [A
+
+
+
+pytorch-2.14.1       | 27.7 MB   | ########## | 100% [A[A[A[A
+
+
+
+pytorch-2.14.1       | 27.7 MB   | ########## | 100% [A[A[A[Amkl-2026.1.0         | 135.8 MB  | ######5    |  66% 
+
+
+
+
+libclang-cpp23.1-23. | 24.2 MB   |            |   0% [A[A[A[A[A
+
+
+libllvm23-23.1.5     | 43.0 MB   | ########## | 100% [A[A[A
+
+
+libllvm23-23.1.5     | 43.0 MB   | ########## | 100% [A[A[A
+
+
+
+
+
+scipy-1.17.1         | 16.5 MB   |            |   0% [A[A[A[A[A[A
+libtorch-2.14.1      | 59.1 MB   | ########5  |  85% [A
+
+qt6-main-6.11.3      | 58.1 MB   | ########## | 100% [A[Amkl-2026.1.0         | 135.8 MB  | ########2  |  82% 
+
+
+
+
+libclang-cpp23.1-23. | 24.2 MB   | #######6   |  77% [A[A[A[A[A
+
+
+
+
+
+
+libclang13-23.1.4    | 14.7 MB   |            |   0% [A[A[A[A[A[A[A
+
+
+
+
+
+scipy-1.17.1         | 16.5 MB   | ########7  |  87% [A[A[A[A[A[Amkl-2026.1.0         | 135.8 MB  | #########9 |  99% 
+
+
+
+
+
+scipy-1.17.1         | 16.5 MB   | ########## | 100% [A[A[A[A[A[A
+
+
+
+
+libclang-cpp23.1-23. | 24.2 MB   | ########## | 100% [A[A[A[A[A
+
+
+
+
+
+
+libclang13-23.1.4    | 14.7 MB   | ########## | 100% [A[A[A[A[A[A[A
+
+
+
+
+
+
+libclang13-23.1.4    | 14.7 MB   | ########## | 100% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+pyside6-6.11.3       | 13.3 MB   |            |   0% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+onednn-3.14.2        | 10.9 MB   |            |   0% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+numpy-2.4.6          | 9.0 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A
+libtorch-2.14.1      | 59.1 MB   | ########## | 100% [A
+
+
+
+
+
+
+
+
+
+
+matplotlib-base-3.11 | 8.6 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+onednn-3.14.2        | 10.9 MB   | ########## | 100% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+onednn-3.14.2        | 10.9 MB   | ########## | 100% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+numpy-2.4.6          | 9.0 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+numpy-2.4.6          | 9.0 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+pyside6-6.11.3       | 13.3 MB   | ########## | 100% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+pyside6-6.11.3       | 13.3 MB   | ########## | 100% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+matplotlib-base-3.11 | 8.6 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[Amkl-2026.1.0         | 135.8 MB  | ########## | 100% 
+
+
+
+
+
+
+
+
+
+
+
+
+llvm-openmp-23.1.5   | 5.8 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+sympy-1.14.0         | 4.4 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libcups-2.3.3        | 4.3 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+tectonic-0.17.0      | 6.2 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libprotobuf-7.35.1   | 3.6 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+sympy-1.14.0         | 4.4 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libprotobuf-7.35.1   | 3.6 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+llvm-openmp-23.1.5   | 5.8 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libcups-2.3.3        | 4.3 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+tectonic-0.17.0      | 6.2 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+tectonic-0.17.0      | 6.2 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fonttools-4.68.0     | 3.1 MB    |            |   0% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libpq-18.6           | 2.6 MB    |            |   1% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libpq-18.6           | 2.6 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fonttools-4.68.0     | 3.1 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+libllvm23-23.1.5     | 43.0 MB   | ########## | 100% [A[A[A
+
+
+
+
+
+scipy-1.17.1         | 16.5 MB   | ########## | 100% [A[A[A[A[A[A
+
+
+
+
+libclang-cpp23.1-23. | 24.2 MB   | ########## | 100% [A[A[A[A[A
+
+
+
+
+
+
+libclang13-23.1.4    | 14.7 MB   | ########## | 100% [A[A[A[A[A[A[A
+
+
+
+pytorch-2.14.1       | 27.7 MB   | ########## | 100% [A[A[A[A
+
+
+
+
+
+
+
+
+onednn-3.14.2        | 10.9 MB   | ########## | 100% [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+numpy-2.4.6          | 9.0 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+pyside6-6.11.3       | 13.3 MB   | ########## | 100% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+matplotlib-base-3.11 | 8.6 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+matplotlib-base-3.11 | 8.6 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[Amkl-2026.1.0         | 135.8 MB  | ########## | 100% 
+
+
+
+
+
+
+
+
+
+
+
+
+
+sympy-1.14.0         | 4.4 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+sympy-1.14.0         | 4.4 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+libtorch-2.14.1      | 59.1 MB   | ########## | 100% [A
+
+
+
+
+
+
+
+
+
+
+
+
+llvm-openmp-23.1.5   | 5.8 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+llvm-openmp-23.1.5   | 5.8 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libprotobuf-7.35.1   | 3.6 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libprotobuf-7.35.1   | 3.6 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+tectonic-0.17.0      | 6.2 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libcups-2.3.3        | 4.3 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libcups-2.3.3        | 4.3 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ ... (more hidden) ...[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+qt6-main-6.11.3      | 58.1 MB   | ########## | 100% [A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fonttools-4.68.0     | 3.1 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fonttools-4.68.0     | 3.1 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libpq-18.6           | 2.6 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+libpq-18.6           | 2.6 MB    | ########## | 100% [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A                                                     
+                                                     [A
+
+                                                     [A[A
+
+
+                                                     [A[A[A
+
+
+
+                                                     [A[A[A[A
+
+
+
+
+                                                     [A[A[A[A[A
+
+
+
+
+
+                                                     [A[A[A[A[A[A
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+[A
+
+[A[A
+
+
+[A[A[A
+
+
+
+[A[A[A[A
+
+
+
+
+[A[A[A[A[A
+
+
+
+
+
+[A[A[A[A[A[A
+
+
+
+
+
+
+[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A done
+Preparing transaction: | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / done
+Verifying transaction: \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | done
+Executing transaction: - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - done
+#
+# To activate this environment, use
+#
+#     $ conda activate /scratch/wg2381/.conda/envs/tmap-tex
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+
+Channel "defaults" has the following notices:
+  [warning] -- Wed Sep 30 00:00:00 2026
+  Anaconda will stop building new Python 3.10 packages on the main channel after October 31, 2026. Existing Python 3.10 packages will stay available but will no longer get new builds or security fixes. We recommend upgrading to Python 3.11 or later. Details: https://www.anaconda.com/docs/reference/policies-practices/python-version-support?utm_source=channel_notices
+
+  [info] -- Thu Aug  6 00:00:00 2026
+  main-x (Anaconda's new authenticated channel) is now generally available, with thousands of additional packages from our secure supply chain. Get started at: https://anaconda.com/docs/getting-started/main-x?utm_source=channel_notices
+
+exit 0

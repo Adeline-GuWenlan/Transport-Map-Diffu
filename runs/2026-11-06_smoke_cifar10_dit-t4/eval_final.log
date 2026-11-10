@@ -1,0 +1,15 @@
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+step 6921  n/class 1000  held-out D1 (mean over classes):
+  model[ema] 0.1813  diversity ratio 0.947  NN gen->train p50 22.513 (test->train p50 19.446)
+    blockiness 7.317 (reference 1.023); power ratio gen/ref by band {'1-4': 0.71, '4-8': 1.98, '8-12': 1.1, '12-17': 3.32}
+    1-NN classifier agrees with the conditioning class: 0.200 (real test images: 0.288); D1-confusion row-argmin accuracy 0.90
+  model[raw] 0.2015  diversity ratio 0.971  NN gen->train p50 22.175 (test->train p50 19.446)
+    blockiness 5.719 (reference 1.023); power ratio gen/ref by band {'1-4': 0.71, '4-8': 1.92, '8-12': 1.19, '12-17': 3.22}
+    1-NN classifier agrees with the conditioning class: 0.195 (real test images: 0.288); D1-confusion row-argmin accuracy 1.00
+  baseline noise        9.2208
+  baseline zero         17.8513
+  baseline class_mean   14.7843
+  baseline train        0.0106
+  baseline other_class  2.0586
+wrote runs/2026-11-06_smoke_cifar10_dit-t4/eval_final.json (358 s)

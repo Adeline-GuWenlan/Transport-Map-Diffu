@@ -1,0 +1,64 @@
+{
+ "warm_steps": 400,
+ "warm_seconds": 57.2,
+ "K": 24,
+ "batch": "8 classes x 8 data points",
+ "loss_first10": 27.65791606903076,
+ "loss_last10": 10.106038665771484,
+ "rows": [
+  {
+   "kind": "z-noise, pooled per class",
+   "r": 1,
+   "trcov": 11.56771183013916,
+   "mean_sq": 232.09030151367188,
+   "mean_grad_norm": 15.488361358642578,
+   "noise_to_signal": 0.04984142704238649,
+   "s_per_grad": 0.144
+  },
+  {
+   "kind": "z-noise, pooled per class",
+   "r": 2,
+   "trcov": 6.363178253173828,
+   "mean_sq": 231.705078125,
+   "mean_grad_norm": 15.349140167236328,
+   "noise_to_signal": 0.02746240308872742,
+   "s_per_grad": 0.331
+  },
+  {
+   "kind": "z-noise, pooled per class",
+   "r": 4,
+   "trcov": 2.9410417079925537,
+   "mean_sq": 220.38502502441406,
+   "mean_grad_norm": 14.899336814880371,
+   "noise_to_signal": 0.01334501610382442,
+   "s_per_grad": 0.716
+  },
+  {
+   "kind": "z-noise, pooled per class",
+   "r": 8,
+   "trcov": 1.8226484060287476,
+   "mean_sq": 225.0609893798828,
+   "mean_grad_norm": 15.025668144226074,
+   "noise_to_signal": 0.00809846438092512,
+   "s_per_grad": 2.107
+  },
+  {
+   "kind": "z-noise, per-data-point pairs",
+   "r": 2,
+   "trcov": 15.898531913757324,
+   "mean_sq": 227.232177734375,
+   "mean_grad_norm": 15.404986381530762,
+   "noise_to_signal": 0.06996602361634736,
+   "s_per_grad": 0.345
+  },
+  {
+   "kind": "data+z noise, pooled per class",
+   "r": 1,
+   "trcov": 39.31019592285156,
+   "mean_sq": 296.630126953125,
+   "mean_grad_norm": 17.922033309936523,
+   "noise_to_signal": 0.1325226008788499,
+   "s_per_grad": 0.148
+  }
+ ]
+}

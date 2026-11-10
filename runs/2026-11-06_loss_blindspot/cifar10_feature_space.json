@@ -1,0 +1,18 @@
+{
+ "n_per_class": 100,
+ "pixel": {
+  "right_class_train": 0.024198651183578335,
+  "wrong_class_train": 1.9856953511690485,
+  "block_shuffled_4": 0.4172403230854599,
+  "block_shuffled_1": 0.46515930698633595,
+  "model_ema": 0.18079237827436856
+ },
+ "inception": {
+  "right_class_train": -0.0017175726548304127,
+  "wrong_class_train": 3.2724247122333034,
+  "block_shuffled_4": 13.06690679393545,
+  "block_shuffled_1": 15.819946119450652,
+  "model_ema": 18.220251498136754
+ },
+ "seconds": 256.26183247566223
+}

@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tmap"
+version = "0.1.0"
+description = "One-step generative transport maps trained with the energy score (DiT backbone)"
+requires-python = ">=3.11"
+dependencies = ["torch", "torchvision", "timm", "numpy", "pyyaml", "matplotlib"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:cacheprovider"

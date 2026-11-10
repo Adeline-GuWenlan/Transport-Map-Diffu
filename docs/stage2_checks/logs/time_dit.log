@@ -1,0 +1,19 @@
+Error importing huggingface_hub.hf_api: No module named 'httpcore2'
+torch 2.14.1, threads 8
+{"model": "DiT-XL/2", "input": "4x32x32", "tokens": 256, "classes": 1000, "params_M": 675.11, "trainable_M": 674.815, "counted_GMACs": 114.389, "attn_GMACs": 4.228, "fwd_GMACs": 118.617}
+{"model": "DiT-B/2", "input": "4x32x32", "tokens": 256, "classes": 1000, "params_M": 130.499, "trainable_M": 130.303, "counted_GMACs": 21.794, "attn_GMACs": 1.208, "fwd_GMACs": 23.002}
+{"model": "DiT-S/2", "input": "4x32x32", "tokens": 256, "classes": 1000, "params_M": 32.957, "trainable_M": 32.859, "counted_GMACs": 5.45, "attn_GMACs": 0.604, "fwd_GMACs": 6.054}
+{"model": "DiT-XL/2", "input": "3x32x32", "tokens": 256, "classes": 10, "params_M": 673.96, "trainable_M": 673.665, "counted_GMACs": 114.386, "attn_GMACs": 4.228, "fwd_GMACs": 118.614}
+{"model": "DiT-L/2", "input": "3x32x32", "tokens": 256, "classes": 10, "params_M": 457.063, "trainable_M": 456.801, "counted_GMACs": 77.47, "attn_GMACs": 3.221, "fwd_GMACs": 80.691}
+{"model": "DiT-B/2", "input": "3x32x32", "tokens": 256, "classes": 10, "params_M": 129.733, "trainable_M": 129.536, "counted_GMACs": 21.792, "attn_GMACs": 1.208, "fwd_GMACs": 23.0}
+{"model": "DiT-S/2", "input": "3x32x32", "tokens": 256, "classes": 10, "params_M": 32.574, "trainable_M": 32.475, "counted_GMACs": 5.449, "attn_GMACs": 0.604, "fwd_GMACs": 6.053}
+{"model": "DiT-B/4", "input": "3x32x32", "tokens": 64, "classes": 10, "params_M": 129.641, "trainable_M": 129.592, "counted_GMACs": 5.485, "attn_GMACs": 0.075, "fwd_GMACs": 5.56}
+{"model": "DiT-S/4", "input": "3x32x32", "tokens": 64, "classes": 10, "params_M": 32.528, "trainable_M": 32.503, "counted_GMACs": 1.372, "attn_GMACs": 0.038, "fwd_GMACs": 1.41, "step_s_b64_median": 0.595, "step_s_min": 0.558, "step_s_max": 0.645}
+{"model": "DiT-T/4", "input": "1x32x32", "tokens": 64, "classes": 10, "params_M": 7.392, "trainable_M": 7.375, "counted_GMACs": 0.305, "attn_GMACs": 0.013, "fwd_GMACs": 0.318, "step_s_b64_median": 0.138, "step_s_min": 0.137, "step_s_max": 0.14}
+{"model": "DiT-T/4", "input": "3x32x32", "tokens": 64, "classes": 10, "params_M": 7.408, "trainable_M": 7.392, "counted_GMACs": 0.306, "attn_GMACs": 0.013, "fwd_GMACs": 0.319, "step_s_b64_median": 0.138, "step_s_min": 0.137, "step_s_max": 0.139}
+{"model": "DiT-U/4", "input": "1x32x32", "tokens": 64, "classes": 10, "params_M": 2.847, "trainable_M": 2.835, "counted_GMACs": 0.115, "attn_GMACs": 0.006, "fwd_GMACs": 0.121, "step_s_b64_median": 0.061, "step_s_min": 0.061, "step_s_max": 0.062}
+{"model": "DiT-U/4", "input": "3x32x32", "tokens": 64, "classes": 10, "params_M": 2.859, "trainable_M": 2.847, "counted_GMACs": 0.115, "attn_GMACs": 0.006, "fwd_GMACs": 0.122, "step_s_b64_median": 0.063, "step_s_min": 0.062, "step_s_max": 0.064}
+{"model": "DiT-T/2", "input": "1x32x32", "tokens": 256, "classes": 10, "params_M": 7.434, "trainable_M": 7.369, "counted_GMACs": 1.211, "attn_GMACs": 0.201, "fwd_GMACs": 1.412, "step_s_b64_median": 0.637, "step_s_min": 0.603, "step_s_max": 0.678}
+{"model": "DiT-S/4", "input": "1x32x32", "tokens": 64, "classes": 10, "params_M": 32.503, "trainable_M": 32.478, "counted_GMACs": 1.371, "attn_GMACs": 0.038, "fwd_GMACs": 1.409, "step_s_b64_median": 0.607, "step_s_min": 0.547, "step_s_max": 0.667}
+{"model": "DiT-T/8", "input": "1x32x32", "tokens": 16, "classes": 10, "params_M": 7.404, "trainable_M": 7.4, "counted_GMACs": 0.079, "attn_GMACs": 0.001, "fwd_GMACs": 0.079, "step_s_b64_median": 0.047, "step_s_min": 0.046, "step_s_max": 0.048}
+exit 0

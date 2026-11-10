@@ -1,0 +1,46 @@
+model 7.392 M params; train 60000 images, classes [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; batch 8 x 8 (r = 1); device cpu, threads 7, bf16 False; out /scratch/wg2381/transport_map/runs/2026-11-06_smoke_fmnist_dit-t4
+[eval] step 0: held-out D1 raw 38.0639  ema 38.0639  diversity raw 0.000 ema 0.000
+step 500  loss 11.1594  conf 21.8594  inter 21.4000  |g| 22.94  lr 2.00e-04  2.83 it/s  2.3 min
+step 1000  loss 9.3605  conf 18.4228  inter 18.1245  |g| 10.52  lr 2.00e-04  3.92 it/s  4.6 min
+step 1500  loss 9.0617  conf 17.8051  inter 17.4868  |g| 6.89  lr 2.00e-04  4.06 it/s  6.7 min
+step 2000  loss 9.0077  conf 17.7135  inter 17.4116  |g| 5.30  lr 2.00e-04  3.60 it/s  8.9 min
+[eval] step 2000: held-out D1 raw 0.5480  ema 6.0757  diversity raw 0.966 ema 0.824
+step 2500  loss 8.9397  conf 17.6096  inter 17.3398  |g| 4.76  lr 2.00e-04  4.31 it/s  11.4 min
+step 3000  loss 8.9891  conf 17.7648  inter 17.5513  |g| 4.15  lr 2.00e-04  4.32 it/s  13.8 min
+step 3500  loss 8.9273  conf 17.5707  inter 17.2868  |g| 4.28  lr 2.00e-04  4.32 it/s  15.9 min
+step 4000  loss 8.9351  conf 17.5831  inter 17.2960  |g| 3.60  lr 2.00e-04  4.48 it/s  17.9 min
+[eval] step 4000: held-out D1 raw 0.3728  ema 0.4078  diversity raw 0.991 ema 0.985
+step 4500  loss 8.8863  conf 17.4992  inter 17.2259  |g| 4.67  lr 2.00e-04  4.43 it/s  20.1 min
+step 5000  loss 8.8359  conf 17.5361  inter 17.4005  |g| 4.78  lr 2.00e-04  4.42 it/s  22.0 min
+step 5500  loss 8.9063  conf 17.6371  inter 17.4616  |g| 4.01  lr 2.00e-04  4.37 it/s  23.9 min
+step 6000  loss 8.8254  conf 17.5377  inter 17.4246  |g| 4.07  lr 2.00e-04  4.33 it/s  25.9 min
+[eval] step 6000: held-out D1 raw 0.1845  ema 0.1858  diversity raw 1.019 ema 0.953
+step 6500  loss 8.8824  conf 17.4917  inter 17.2185  |g| 4.32  lr 2.00e-04  3.87 it/s  28.2 min
+step 7000  loss 8.7897  conf 17.5588  inter 17.5382  |g| 4.20  lr 2.00e-04  3.96 it/s  30.3 min
+step 7500  loss 8.8547  conf 17.5377  inter 17.3660  |g| 4.31  lr 2.00e-04  4.20 it/s  32.3 min
+step 8000  loss 8.9204  conf 17.6134  inter 17.3859  |g| 4.09  lr 2.00e-04  4.23 it/s  34.3 min
+[eval] step 8000: held-out D1 raw 0.2207  ema 0.1331  diversity raw 1.007 ema 0.980
+step 8500  loss 8.8019  conf 17.5397  inter 17.4756  |g| 4.01  lr 2.00e-04  4.19 it/s  36.6 min
+step 9000  loss 8.8100  conf 17.5593  inter 17.4987  |g| 4.04  lr 2.00e-04  4.18 it/s  38.6 min
+step 9500  loss 8.8831  conf 17.5104  inter 17.2546  |g| 3.95  lr 2.00e-04  4.25 it/s  40.6 min
+step 10000  loss 8.8222  conf 17.5890  inter 17.5336  |g| 3.92  lr 2.00e-04  4.24 it/s  42.5 min
+[eval] step 10000: held-out D1 raw 0.1893  ema 0.1167  diversity raw 0.983 ema 0.985
+step 10500  loss 8.8041  conf 17.5131  inter 17.4181  |g| 3.92  lr 2.00e-04  4.29 it/s  44.8 min
+step 11000  loss 8.8163  conf 17.6167  inter 17.6007  |g| 3.57  lr 2.00e-04  4.69 it/s  46.6 min
+step 11500  loss 8.8016  conf 17.4642  inter 17.3251  |g| 3.53  lr 2.00e-04  4.78 it/s  48.3 min
+step 12000  loss 8.7987  conf 17.3192  inter 17.0411  |g| 3.68  lr 2.00e-04  4.81 it/s  50.1 min
+[eval] step 12000: held-out D1 raw 0.1864  ema 0.1013  diversity raw 0.997 ema 0.989
+step 12500  loss 8.8475  conf 17.4408  inter 17.1865  |g| 3.84  lr 2.00e-04  4.93 it/s  52.1 min
+step 13000  loss 8.9674  conf 17.7205  inter 17.5062  |g| 3.61  lr 2.00e-04  4.60 it/s  53.9 min
+step 13500  loss 8.8145  conf 17.4319  inter 17.2347  |g| 3.44  lr 2.00e-04  4.72 it/s  55.7 min
+step 14000  loss 8.7347  conf 17.4180  inter 17.3666  |g| 3.42  lr 2.00e-04  4.53 it/s  57.5 min
+[eval] step 14000: held-out D1 raw 0.1416  ema 0.0803  diversity raw 0.988 ema 0.988
+step 14500  loss 8.7747  conf 17.4211  inter 17.2929  |g| 3.60  lr 2.00e-04  4.11 it/s  59.7 min
+step 15000  loss 8.7817  conf 17.5352  inter 17.5072  |g| 3.94  lr 2.00e-04  4.62 it/s  61.6 min
+step 15500  loss 8.6635  conf 17.1623  inter 16.9977  |g| 3.76  lr 2.00e-04  4.46 it/s  63.4 min
+step 16000  loss 8.7798  conf 17.4367  inter 17.3139  |g| 3.90  lr 2.00e-04  4.52 it/s  65.4 min
+[eval] step 16000: held-out D1 raw 0.1508  ema 0.0716  diversity raw 1.004 ema 0.987
+step 16500  loss 8.8614  conf 17.5042  inter 17.2857  |g| 3.92  lr 2.00e-04  4.29 it/s  67.5 min
+time limit 68.0 min reached at step 16624
+[eval] step 16624: held-out D1 raw 0.1479  ema 0.0679  diversity raw 0.995 ema 0.986
+done: step 16624, 68.3 min; checkpoint /scratch/wg2381/transport_map/runs/2026-11-06_smoke_fmnist_dit-t4/ckpt/latest.pt

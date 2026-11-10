@@ -1,0 +1,21 @@
+model 7.408 M params; train 50000 images, classes [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; batch 8 x 8 (r = 1); device cpu, threads 7, bf16 False; out /scratch/wg2381/transport_map/runs/2026-11-06_smoke_cifar10_dit-t4
+[eval] step 0: held-out D1 raw 17.8038  ema 17.8038  diversity raw 0.000 ema 0.000
+step 500  loss 18.6919  conf 36.4575  inter 35.5311  |g| 6.61  lr 2.00e-04  4.72 it/s  1.8 min
+step 1000  loss 18.6195  conf 36.5436  inter 35.8482  |g| 4.58  lr 2.00e-04  5.07 it/s  3.5 min
+step 1500  loss 18.5740  conf 36.4858  inter 35.8237  |g| 3.80  lr 2.00e-04  5.13 it/s  5.2 min
+step 2000  loss 18.4296  conf 36.0838  inter 35.3083  |g| 3.72  lr 2.00e-04  4.74 it/s  6.9 min
+[eval] step 2000: held-out D1 raw 0.4780  ema 2.0588  diversity raw 0.980 ema 0.693
+step 2500  loss 18.5658  conf 36.5217  inter 35.9120  |g| 3.54  lr 2.00e-04  5.02 it/s  12.2 min
+step 3000  loss 18.6102  conf 36.5487  inter 35.8771  |g| 3.83  lr 2.00e-04  4.78 it/s  15.9 min
+step 3500  loss 18.3742  conf 36.0439  inter 35.3394  |g| 3.72  lr 2.00e-04  4.84 it/s  17.7 min
+step 4000  loss 18.4086  conf 36.0723  inter 35.3273  |g| 3.43  lr 2.00e-04  4.92 it/s  19.4 min
+[eval] step 4000: held-out D1 raw 0.4777  ema 0.4764  diversity raw 0.956 ema 0.935
+step 4500  loss 18.4378  conf 36.0936  inter 35.3117  |g| 4.09  lr 2.00e-04  5.03 it/s  21.3 min
+step 5000  loss 18.4947  conf 36.2235  inter 35.4576  |g| 5.91  lr 2.00e-04  5.13 it/s  23.1 min
+step 5500  loss 18.4617  conf 36.3118  inter 35.7003  |g| 6.46  lr 2.00e-04  4.73 it/s  24.8 min
+step 6000  loss 18.3425  conf 35.9925  inter 35.3001  |g| 4.83  lr 2.00e-04  4.91 it/s  26.5 min
+[eval] step 6000: held-out D1 raw 0.2834  ema 0.2913  diversity raw 0.965 ema 0.947
+step 6500  loss 18.4476  conf 36.3283  inter 35.7613  |g| 5.57  lr 2.00e-04  4.80 it/s  28.5 min
+time limit 30.0 min reached at step 6921
+[eval] step 6921: held-out D1 raw 0.1894  ema 0.1925  diversity raw 0.971 ema 0.947
+done: step 6921, 30.2 min; checkpoint /scratch/wg2381/transport_map/runs/2026-11-06_smoke_cifar10_dit-t4/ckpt/latest.pt

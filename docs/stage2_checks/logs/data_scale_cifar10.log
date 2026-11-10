@@ -1,0 +1,1 @@
+{"dataset": "CIFAR-10", "dim": 3072, "rms_pixel": 0.5059504078489178, "pixel_std": 0.5031378501264409, "mean_over_classes": {"noise": 9.2176, "zero": 17.8513, "mean": 14.7843, "train": 0.005, "other": 2.1408, "EYY_within": 36.4068, "EYY_all": 37.9202}}

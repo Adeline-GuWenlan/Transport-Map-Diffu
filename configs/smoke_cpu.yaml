@@ -1,0 +1,85 @@
+# CPU smoke test for stage 4. Every choice is justified in docs/stage2_choices.md.
+# Loss / estimator: docs/energy_score_loss.tex, eq. (final) and eq. (estimator); beta = 1.
+name: smoke_cpu_fmnist_dit-t4
+seed: 0
+device: cpu
+num_threads: 8                      # torch.set_num_threads; the cpu_short node has 8 CPUs
+
+data:
+  dataset: fashion_mnist            # 60k train / 10k test, 28x28 gray, 10 balanced classes, MIT
+  root: data/fashion_mnist          # stage 3 puts the data here (see data/README.md)
+  image_size: 32                    # 28x28 zero-padded by 2 px per side (pad value 0 -> -1 after scaling)
+  channels: 1
+  num_classes: 10
+  normalize: minus_one_one          # x_uint8 / 127.5 - 1, as DiT's Normalize(0.5, 0.5)
+  hflip: false                      # keep the target distribution exact for the smoke test
+  train_split: train
+  heldout_split: test               # evaluation only, never trained on
+  num_workers: 2
+
+model:
+  backbone: dit                     # third_party/DiT/models.py, class DiT (commit ed81ce2), unmodified
+  input_size: 32
+  patch_size: 4                     # 8x8 = 64 tokens
+  in_channels: 1                    # z ~ N(0, I) with the image's shape (1x32x32); no extra noise channels
+  out_channels: 1                   # must equal in_channels while learn_sigma = false and no extra inputs
+  depth: 6                          # "DiT-T/4": our size, not in DiT's table (S/4 measured 0.61 s/step: too slow)
+  hidden_size: 256
+  num_heads: 4
+  mlp_ratio: 4.0
+  learn_sigma: false
+  class_dropout_prob: 0.0           # no null class, no CFG in the first test
+  timestep_mode: constant           # keep DiT's t-embedder, feed the same t to every sample
+  timestep_value: 999               # = DiT's "pure noise" index; reserved for the later per-noise-level variant
+  output: direct                    # F(z, c) = DiT(z, t_fixed, c); adaLN-Zero => F == 0 at step 0
+  # measured (docs/stage2_checks/results/dit_sizes.json): 7.39 M params, 0.318 GMACs/sample forward,
+  # 0.138 s per train step at batch 64 on 8 threads (fwd + loss + bwd + clip + AdamW, fp32)
+
+loss:
+  beta: 1.0
+  interaction_weight: 0.5           # the 1/2 of the energy score; anything else is not strictly proper
+  grouping: per_class               # interaction only over same-class generated pairs; weights n_c / N
+  samples_per_datapoint: 1          # r; m_c = r * n_c. r = 1: z-noise is ~30% of gradient noise (stage2 §2.5)
+  statistic: u                      # exclude the j = k diagonal by index; divide by m_c (m_c - 1)
+  norm: double_where                # exact ||u|| with gradient 0 at u = 0 (needed at step 0)
+  distance_dtype: float32
+
+batch:
+  sampler: class_stratified         # each step: pick classes_per_batch classes, n_per_class images of each
+  classes_per_batch: 8
+  n_per_class: 8                    # N = 64 data points, M = r * N = 64 network passes per step
+
+optim:
+  name: adamw
+  lr: 2.0e-4
+  betas: [0.9, 0.95]
+  eps: 1.0e-8
+  weight_decay: 0.0
+  warmup_steps: 500                 # linear from 0
+  schedule: constant                # after warmup
+  grad_clip_norm: 2.0               # binds on every step (measured pre-clip norm 3-67): acts as normalisation; log it
+  ema_decay: 0.999                  # EMA initialised to the model at step 0 (as DiT)
+
+train:
+  max_steps: 40000                  # upper bound; the wall-clock limit normally stops first
+  time_limit_min: 60
+  precision: fp32
+  log_every: 50                     # loss, grad norm (pre-clip), lr, steps/s -> metrics.jsonl
+  ckpt_every: 1000                  # model, ema, optimizer, step, rng states; resume from latest
+  sample_every: 2000                # per-class grid, fixed z, both raw and EMA weights
+
+eval:
+  every: 2000
+  energy_distance:                  # held-out, unbiased U-statistic D_1, per class and averaged
+    space: pixel
+    beta: 1.0
+    n_per_class: 500                # generated and test images per class during training
+    n_per_class_final: 1000         # at the end (Fashion-MNIST test has 1000 per class)
+    baselines: [noise, zero, class_mean, train, other_class]
+    # reference values measured in docs/stage2_checks/results/data_scale_mnist.json (mean over classes, n=1000):
+    #   noise N(0,I) 22.02 | zero (DiT step 0) 38.01 | class-mean point mass 7.31 | wrong class 12.68 | train 0.0004
+  nearest_neighbour:
+    n_generated: 1000
+    space: pixel
+  fid:
+    enabled: false                  # no standard Fashion-MNIST reference stats; optional indicative KID only

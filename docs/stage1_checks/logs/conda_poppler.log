@@ -1,0 +1,268 @@
+Channels:
+ - conda-forge
+Platform: linux-64
+Collecting package metadata (repodata.json): - \ | / - \ | / - done
+Solving environment: | / - done
+
+## Package Plan ##
+
+  environment location: /scratch/wg2381/.conda/envs/tmap-tex
+
+  added / updated specs:
+    - poppler
+    - pypdf
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    c-ares-1.34.9              |       hebe6cf0_0         228 KB  conda-forge
+    libcurl-8.23.0             |       ha042cf0_0         494 KB  conda-forge
+    libev-4.33                 |       h280c20c_3          42 KB  conda-forge
+    libnghttp2-1.71.0          |       hc5e5977_0         803 KB  conda-forge
+    libpsl-0.23.1              |       hd9e3e90_1          71 KB  conda-forge
+    libssh2-1.11.1             |       h6154650_1         299 KB  conda-forge
+    nspr-4.40                  |       h76ac25a_0         227 KB  conda-forge
+    poppler-26.10.0            |       h7813f90_0         2.0 MB  conda-forge
+    pypdf-6.21.4               |     pyh5ded981_0         329 KB  conda-forge
+    ------------------------------------------------------------
+                                           Total:         4.5 MB
+
+The following NEW packages will be INSTALLED:
+
+  c-ares             conda-forge/linux-64::c-ares-1.34.9-hebe6cf0_0 
+  libcurl            conda-forge/linux-64::libcurl-8.23.0-ha042cf0_0 
+  libev              conda-forge/linux-64::libev-4.33-h280c20c_3 
+  libnghttp2         conda-forge/linux-64::libnghttp2-1.71.0-hc5e5977_0 
+  libpsl             conda-forge/linux-64::libpsl-0.23.1-hd9e3e90_1 
+  libssh2            conda-forge/linux-64::libssh2-1.11.1-h6154650_1 
+  nspr               conda-forge/linux-64::nspr-4.40-h76ac25a_0 
+  nss                conda-forge/linux-64::nss-3.118-h445c969_0 
+  poppler            conda-forge/linux-64::poppler-26.10.0-h7813f90_0 
+  poppler-data       conda-forge/noarch::poppler-data-0.4.12-hd8ed1ab_0 
+  pypdf              conda-forge/noarch::pypdf-6.21.4-pyh5ded981_0 
+  xorg-libxscrnsaver conda-forge/linux-64::xorg-libxscrnsaver-1.2.4-hb9d3cd8_0 
+
+
+
+Downloading and Extracting Packages: ...working...poppler-26.10.0      | 2.0 MB    |            |   0% 
+libnghttp2-1.71.0    | 803 KB    |            |   0% [A
+
+libcurl-8.23.0       | 494 KB    |            |   0% [A[A
+
+
+pypdf-6.21.4         | 329 KB    |            |   0% [A[A[A
+
+
+
+libssh2-1.11.1       | 299 KB    |            |   0% [A[A[A[A
+
+
+
+
+c-ares-1.34.9        | 228 KB    |            |   0% [A[A[A[A[A
+
+
+
+
+
+nspr-4.40            | 227 KB    |            |   0% [A[A[A[A[A[A
+
+
+
+
+
+
+libpsl-0.23.1        | 71 KB     |            |   0% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+libev-4.33           | 42 KB     |            |   0% [A[A[A[A[A[A[A[A
+
+
+
+libssh2-1.11.1       | 299 KB    | 5          |   5% [A[A[A[A
+
+
+
+libssh2-1.11.1       | 299 KB    | ########## | 100% [A[A[A[A
+
+
+
+
+c-ares-1.34.9        | 228 KB    | 7          |   7% [A[A[A[A[A
+
+
+
+
+c-ares-1.34.9        | 228 KB    | ########## | 100% [A[A[A[A[A
+
+
+
+
+
+nspr-4.40            | 227 KB    | 7          |   7% [A[A[A[A[A[A
+
+
+
+
+
+nspr-4.40            | 227 KB    | ########## | 100% [A[A[A[A[A[A
+
+
+
+
+
+
+libpsl-0.23.1        | 71 KB     | ##2        |  23% [A[A[A[A[A[A[A
+
+
+
+
+
+
+libpsl-0.23.1        | 71 KB     | ########## | 100% [A[A[A[A[A[A[Apoppler-26.10.0      | 2.0 MB    |            |   1% 
+
+
+
+
+
+
+
+libev-4.33           | 42 KB     | ###7       |  38% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+libev-4.33           | 42 KB     | ########## | 100% [A[A[A[A[A[A[A[Apoppler-26.10.0      | 2.0 MB    | ########## | 100% 
+libnghttp2-1.71.0    | 803 KB    | 1          |   2% [A
+libnghttp2-1.71.0    | 803 KB    | ########## | 100% [A
+
+
+pypdf-6.21.4         | 329 KB    | 4          |   5% [A[A[A
+
+
+pypdf-6.21.4         | 329 KB    | ########## | 100% [A[A[A
+
+libcurl-8.23.0       | 494 KB    | 3          |   3% [A[A
+
+libcurl-8.23.0       | 494 KB    | ########## | 100% [A[A
+
+
+
+
+
+nspr-4.40            | 227 KB    | ########## | 100% [A[A[A[A[A[A
+
+
+
+
+
+nspr-4.40            | 227 KB    | ########## | 100% [A[A[A[A[A[A
+
+
+
+
+
+
+libpsl-0.23.1        | 71 KB     | ########## | 100% [A[A[A[A[A[A[A
+
+
+
+
+
+
+libpsl-0.23.1        | 71 KB     | ########## | 100% [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+libev-4.33           | 42 KB     | ########## | 100% [A[A[A[A[A[A[A[A
+
+
+
+
+
+
+
+libev-4.33           | 42 KB     | ########## | 100% [A[A[A[A[A[A[A[A
+
+
+
+
+c-ares-1.34.9        | 228 KB    | ########## | 100% [A[A[A[A[A
+
+
+
+
+c-ares-1.34.9        | 228 KB    | ########## | 100% [A[A[A[A[A
+libnghttp2-1.71.0    | 803 KB    | ########## | 100% [A
+libnghttp2-1.71.0    | 803 KB    | ########## | 100% [A
+
+
+
+libssh2-1.11.1       | 299 KB    | ########## | 100% [A[A[A[A
+
+
+
+libssh2-1.11.1       | 299 KB    | ########## | 100% [A[A[A[A
+
+libcurl-8.23.0       | 494 KB    | ########## | 100% [A[A
+
+libcurl-8.23.0       | 494 KB    | ########## | 100% [A[A
+
+
+pypdf-6.21.4         | 329 KB    | ########## | 100% [A[A[A
+
+
+pypdf-6.21.4         | 329 KB    | ########## | 100% [A[A[Apoppler-26.10.0      | 2.0 MB    | ########## | 100% poppler-26.10.0      | 2.0 MB    | ########## | 100%                                                      
+                                                     [A
+
+                                                     [A[A
+
+
+                                                     [A[A[A
+
+
+
+                                                     [A[A[A[A
+
+
+
+
+                                                     [A[A[A[A[A
+
+
+
+
+
+                                                     [A[A[A[A[A[A
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A
+
+
+
+
+
+
+
+                                                     [A[A[A[A[A[A[A[A done
+Preparing transaction: | / done
+Verifying transaction: \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | done
+Executing transaction: - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - \ | / - done

@@ -1,0 +1,90 @@
+# The real test on one GPU (stage 4 writes scripts/train_gpu.slurm for it; not submitted by the pipeline).
+# Every choice is justified in docs/stage2_choices.md. Loss: docs/energy_score_loss.tex, beta = 1.
+name: base_gpu_cifar10_dit-b2
+seed: 0
+device: cuda
+
+data:
+  dataset: cifar10                  # 50k train / 10k test, 32x32 RGB, 10 balanced classes
+  root: data/cifar10
+  image_size: 32
+  channels: 3
+  num_classes: 10
+  normalize: minus_one_one
+  hflip: true                       # DiT's only augmentation
+  train_split: train
+  heldout_split: test
+  num_workers: 8
+
+model:
+  backbone: dit                     # third_party/DiT/models.py (commit ed81ce2), unmodified
+  input_size: 32
+  patch_size: 2                     # 16x16 = 256 tokens, the same token count as DiT-*/2 on 256px latents
+  in_channels: 3
+  out_channels: 3
+  depth: 12                         # DiT-B
+  hidden_size: 768
+  num_heads: 12
+  mlp_ratio: 4.0
+  learn_sigma: false
+  class_dropout_prob: 0.0
+  timestep_mode: constant
+  timestep_value: 999
+  output: direct
+  # measured: 129.7 M params, 23.0 GMACs/sample forward (matches DiT paper Table 4: 23.01 for DiT-B/2)
+  # cheaper fallback: DiT-S/2 (depth 12, hidden 384, heads 6): 32.6 M params, 6.05 GMACs
+
+loss:
+  beta: 1.0
+  interaction_weight: 0.5
+  grouping: per_class
+  samples_per_datapoint: 1
+  statistic: u
+  norm: double_where
+  distance_dtype: float32           # distances in fp32 even under bf16 autocast
+
+batch:
+  sampler: class_stratified
+  classes_per_batch: 8
+  n_per_class: 64                   # N = 512 data points, M = 512 network passes per step (64 per class as Drifting)
+
+optim:
+  name: adamw
+  lr: 1.0e-4                        # DiT's verified value for this backbone
+  betas: [0.9, 0.95]
+  eps: 1.0e-8
+  weight_decay: 0.0
+  warmup_steps: 5000
+  schedule: constant
+  grad_clip_norm: 2.0               # binds on every step (measured pre-clip norm 3-67 on the smoke model); log it
+  ema_decay: 0.9999
+
+train:
+  max_steps: 200000                 # ~2000 epochs of CIFAR-10 at N = 512; requeue-safe via resume
+  precision: bf16                   # autocast for the network only
+  tf32: true
+  compile: false                    # optional; turn on after the first run works
+  log_every: 100
+  ckpt_every: 5000
+  sample_every: 5000
+
+eval:
+  every: 10000
+  energy_distance:
+    space: pixel
+    beta: 1.0
+    n_per_class: 1000               # all 1000 test images per class
+    baselines: [noise, zero, class_mean, train, other_class]
+    also_in_inception_space: true   # D_1 on the 2048-d pool features computed for FID
+  nearest_neighbour:
+    n_generated: 10000
+    space: [pixel, inception]
+  fid:
+    enabled: true
+    implementation: clean-fid       # MIT; precomputed stats downloaded from www.cs.cmu.edu/~clean-fid/stats/
+    mode: legacy_tensorflow         # comparable with published CIFAR-10 FIDs; also report mode: clean
+    dataset_name: cifar10
+    dataset_res: 32
+    dataset_split: train
+    num_gen: 10000                  # during training (FID-10k); 50000 at the end (FID-50k), EMA weights
+    num_gen_final: 50000

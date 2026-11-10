@@ -1,0 +1,63 @@
+es_beta1         seed 0: D1=0.0103 loss=1.2780 std=[1.432 1.388] out=0.000 (24.2s)
+es_beta1         seed 1: D1=0.0100 loss=1.2837 std=[1.42  1.409] out=0.000 (21.3s)
+es_beta1         seed 2: D1=0.0092 loss=1.2839 std=[1.412 1.418] out=0.000 (17.9s)
+es_beta1.5       seed 0: D1=0.0150 loss=2.2385 std=[1.417 1.408] out=0.000 (18.1s)
+es_beta1.5       seed 1: D1=0.0155 loss=2.2533 std=[1.425 1.412] out=0.000 (21.3s)
+es_beta1.5       seed 2: D1=0.0172 loss=2.2652 std=[1.417 1.415] out=0.000 (22.3s)
+literal_rawdiff  seed 0: D1=1.4627 loss=2.0032 std=[0.001 0.002] out=0.000 (16.8s)
+literal_rawdiff  seed 1: D1=1.4619 loss=2.0113 std=[0.002 0.001] out=0.000 (15.4s)
+literal_rawdiff  seed 2: D1=1.4645 loss=2.0229 std=[0.001 0.   ] out=0.000 (17.2s)
+data_pairs       seed 0: D1=1.4644 loss=0.6960 std=[0.001 0.   ] out=0.000 (12.6s)
+data_pairs       seed 1: D1=1.4636 loss=0.7497 std=[0.001 0.001] out=0.000 (12.2s)
+data_pairs       seed 2: D1=1.4648 loss=0.7146 std=[0.001 0.   ] out=0.000 (13.6s)
+beta2_squared    seed 0: D1=1.4618 loss=4.0225 std=[0.001 0.003] out=0.000 (18.3s)
+beta2_squared    seed 1: D1=1.4576 loss=4.0560 std=[0.006 0.002] out=0.000 (17.2s)
+beta2_squared    seed 2: D1=1.4632 loss=4.1016 std=[0.001 0.002] out=0.000 (17.2s)
+coef1_no_half    seed 0: D1=273703534.8038 loss=-138188736.0000 std=[3.32119812e+08 3.37980851e+08] out=1.000 (16.7s)
+coef1_no_half    seed 1: D1=160366695.5334 loss=-136193920.0000 std=[2.71836858e+08 2.70968296e+08] out=0.894 (18.8s)
+coef1_no_half    seed 2: D1=288529115.8812 loss=-158149248.0000 std=[3.49533402e+08 3.57977453e+08] out=1.000 (16.4s)
+mixed_norm_sq    seed 0: D1=964636635.2924 loss=-2147545083212201984.0000 std=[1.05669302e+09 1.06373981e+09] out=1.000 (17.9s)
+mixed_norm_sq    seed 1: D1=952560471.5421 loss=-2172942564863246336.0000 std=[1.02156402e+09 1.01890775e+09] out=1.000 (18.6s)
+mixed_norm_sq    seed 2: D1=976863915.3283 loss=-2523890183774928896.0000 std=[1.04734824e+09 1.05199365e+09] out=1.000 (15.7s)
+{
+ "baselines": {
+  "target_vs_target": 0.0005598486091540344,
+  "gaussian_source_vs_target": 0.24086316722870915,
+  "point_mass_origin_vs_target": 1.4674741211314872
+ },
+ "summary": {
+  "es_beta1": {
+   "D1_mean": 0.00983031038008845,
+   "D1_sd": 0.0005401762188225905
+  },
+  "es_beta1.5": {
+   "D1_mean": 0.01587718216009811,
+   "D1_sd": 0.0011382555201309265
+  },
+  "literal_rawdiff": {
+   "D1_mean": 1.463062134857938,
+   "D1_sd": 0.0013528408328574908
+  },
+  "data_pairs": {
+   "D1_mean": 1.4642664499084381,
+   "D1_sd": 0.0006443598112992901
+  },
+  "beta2_squared": {
+   "D1_mean": 1.460851236332198,
+   "D1_sd": 0.0029242949544549305
+  },
+  "coef1_no_half": {
+   "D1_mean": 240866448.7394631,
+   "D1_sd": 70107825.26398385
+  },
+  "mixed_norm_sq": {
+   "D1_mean": 964687007.3875751,
+   "D1_sd": 12151800.194987789
+  }
+ }
+}
+runtime 373.83486342430115
+
+real	6m23.088s
+user	40m21.878s
+sys	1m11.833s

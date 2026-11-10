@@ -1,0 +1,34 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.18, pytest-9.2.0, pluggy-1.7.0 -- /scratch/wg2381/.conda/envs/tmap/bin/python
+rootdir: /scratch/wg2381/transport_map
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.16.0
+collecting ... collected 24 items
+
+tests/test_data.py::test_fashion_mnist_shapes_range_and_padding PASSED   [  4%]
+tests/test_data.py::test_class_stratified_sampler PASSED                 [  8%]
+tests/test_data.py::test_subset_and_hflip PASSED                         [ 12%]
+tests/test_energy_score.py::test_energy_distance_matches_1d_gaussian_closed_form[0.0-1.0-0.0-1.0] PASSED [ 16%]
+tests/test_energy_score.py::test_energy_distance_matches_1d_gaussian_closed_form[1.0-1.0-0.0-1.0] PASSED [ 20%]
+tests/test_energy_score.py::test_energy_distance_matches_1d_gaussian_closed_form[0.0-2.0-0.0-1.0] PASSED [ 25%]
+tests/test_energy_score.py::test_energy_distance_matches_1d_gaussian_closed_form[0.5-1.5--0.3-0.7] PASSED [ 29%]
+tests/test_energy_score.py::test_loss_expectation_matches_closed_form_1d PASSED [ 33%]
+tests/test_energy_score.py::test_estimators_unbiased_at_p_equals_q PASSED [ 37%]
+tests/test_energy_score.py::test_loss_expectation_unbiased_2d_p_equals_q PASSED [ 41%]
+tests/test_energy_score.py::test_grouping_is_per_class_and_weighted PASSED [ 45%]
+tests/test_energy_score.py::test_r_samples_per_datapoint PASSED          [ 50%]
+tests/test_energy_score.py::test_zero_distance_gradient_is_finite PASSED [ 54%]
+tests/test_energy_score.py::test_eval_distances_match_exact PASSED       [ 58%]
+tests/test_energy_score.py::test_matches_stage1_reference PASSED         [ 62%]
+tests/test_energy_score.py::test_per_class_energy_distance_detects_wrong_class PASSED [ 66%]
+tests/test_evaluate.py::test_baselines_and_class_checks_on_real_data PASSED [ 70%]
+tests/test_evaluate.py::test_blockiness_detects_patch_grid PASSED        [ 75%]
+tests/test_model.py::test_shapes_and_zero_init_smoke_config PASSED       [ 79%]
+tests/test_model.py::test_shapes_rgb_and_out_channels PASSED             [ 83%]
+tests/test_model.py::test_gradients_reach_every_parameter PASSED         [ 87%]
+tests/test_model.py::test_output_depends_on_class_and_noise PASSED       [ 91%]
+tests/test_toy2d.py::test_toy2d_trains_to_low_energy_distance PASSED     [ 95%]
+tests/test_train.py::test_train_and_exact_resume PASSED                  [100%]
+
+======================== 24 passed in 126.01s (0:02:06) ========================
