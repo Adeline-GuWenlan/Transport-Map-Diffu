@@ -89,9 +89,14 @@ OMP_NUM_THREADS=7 python -m tmap.train --config configs/smoke_cpu.yaml --out run
 OMP_NUM_THREADS=7 python -m tmap.train --config configs/smoke_cpu_cifar10.yaml --out runs/2026-11-06_smoke_cifar10_dit-t4 \
     --set train.time_limit_min=30 num_threads=7
 # all of the above plus the evaluations and plots, as run: bash scripts/stage4_cpu_runs.sh smoke overfit eval_smoke ...
-# GPU (not run yet): CIFAR-10, DiT-B/2, 200k steps, bf16, requeue-safe. Recommended first: a 30k-step pilot
-TRAIN_SET="train.max_steps=30000" RUN=runs/gpu_pilot_cifar10_dit-b2 sbatch scripts/train_gpu.slurm
-sbatch scripts/train_gpu.slurm
+# GPU, Experiments A / B (submitted 2026-11-10; design, jobs and the 200k decision rule: docs/experiments_AB.md):
+# 30k steps of DiT-B/2 on CIFAR-10, pixel ES (A) vs pixel + DINOv2 ES (B), one L40S each, then evaluation of the
+# 5k/10k/20k/30k snapshots (FID-10k, pixel / Inception / DINOv2 D1, sample grids)
+CONFIG=configs/expA_cifar10_dit-b2_pixel.yaml RUN=runs/expA_s0 TRAIN_SET="seed=0" \
+    sbatch --job-name=tmap_A_s0 --time=10:00:00 scripts/exp_gpu.slurm
+python scripts/summarize_ab.py          # table, metric curves and sample montage across all runs/exp[AB]_*
+# 200k-step run (stage 2 plan): DiT-B/2 at N = 512 needs ~55 GiB of activations in one pass, so on a 48 GB L40S
+# add train.grad_chunk=128 (exact two-pass gradient), e.g. TRAIN_SET="train.grad_chunk=128" sbatch scripts/train_gpu.slurm
 ```
 - `--set key.sub=value` overrides any config entry; values are parsed as YAML.
 - Re-running the same command with the same `--out` resumes from `<out>/ckpt/latest.pt`. SIGTERM or SIGUSR1

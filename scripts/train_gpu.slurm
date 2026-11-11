@@ -36,7 +36,7 @@ nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv
 
 # First start only: environment check on the GPU (pinned versions, DiT clone, CUDA forward/backward at N = 512).
 if [ "${SLURM_RESTART_COUNT:-0}" = "0" ] && [ ! -f "$RUN/ckpt/latest.pt" ]; then
-  python scripts/check_env.py --config "$CONFIG" --device cuda --reps 5 2>&1 | tee "$RUN/check_env.log" || {
+  python scripts/check_env.py --config "$CONFIG" --device cuda --reps 5 --n-per-class 16 2>&1 | tee "$RUN/check_env.log" || {
     echo "check_env failed; not training"; exit 1; }
 fi
 

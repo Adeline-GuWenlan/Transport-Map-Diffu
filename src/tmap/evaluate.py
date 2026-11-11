@@ -184,6 +184,39 @@ def fid_cleanfid(model, num_gen: int, dataset_name="cifar10", dataset_res=32, mo
                                  device=torch.device(device), use_dataparallel=False, num_workers=0, verbose=False))
 
 
+def real_sets(train, classes, n_per_class: int, seed: int = 0):
+    """Right-class ("train", the floor) and wrong-class ("other_class", class (c + 1) mod K) train images, the same
+    draws as baselines()."""
+    out = {}
+    for name in ("train", "other_class"):
+        xs, ls = [], []
+        for i, c in enumerate(classes):
+            c2 = c if name == "train" else classes[(i + 1) % len(classes)]
+            ids = train.by_class[c2]
+            sel = np.random.default_rng(seed + c).choice(ids, min(n_per_class, len(ids)), replace=False)
+            xs.append(train.get(sel)[0])
+            ls.append(torch.full((len(sel),), c, dtype=torch.long))
+        out[name] = (torch.cat(xs), torch.cat(ls))
+    return out
+
+
+def feature_functions(names, device):
+    """name -> function mapping [-1, 1] images (clamped here, i.e. as displayed) to float64 CPU features.
+    inception: clean-fid legacy_tensorflow pool3 (the FID space); dinov2: DINOv2 ViT-S/14 CLS (features.py)."""
+    from .features import build_feature_encoder, encode, inception_extractor, inception_features
+    fns = {}
+    for n in names:
+        if n == "inception":
+            ext = inception_extractor(device)
+            fns[n] = lambda x, ext=ext: inception_features(ext, x.clamp(-1, 1), device).double()
+        elif n.startswith("dinov2"):
+            enc = build_feature_encoder({"encoder": "dinov2_vits14" if n == "dinov2" else n}).to(device)
+            fns[n] = lambda x, enc=enc: encode(enc, x.clamp(-1, 1)).double()
+        else:
+            raise ValueError(f"unknown feature space {n}")
+    return fns
+
+
 def main():
     from .sample import load_checkpoint_model, save_grid
     ap = argparse.ArgumentParser()
@@ -195,6 +228,7 @@ def main():
     ap.add_argument("--device", default="cpu")
     ap.add_argument("--fid-num-gen", type=int, default=0, help=">0: also compute clean-fid FID (CIFAR-10 only)")
     ap.add_argument("--nn-grid", default=None, help="PNG of generated samples next to their nearest train image")
+    ap.add_argument("--feature-ed", default="", help="comma list of feature spaces for per-class D1: inception,dinov2")
     a = ap.parse_args()
     t0 = time.time()
     torch.set_num_threads(int(os.environ.get("OMP_NUM_THREADS", len(os.sched_getaffinity(0)))))
@@ -219,6 +253,14 @@ def main():
     if multi:
         # reference values for the class-identity checks: real held-out images in place of samples
         res["real_heldout_nn_classifier_accuracy"] = nn_classifier_accuracy(ref_x, ref_l, train)
+    spaces = [f for f in a.feature_ed.split(",") if f]
+    if spaces:
+        ffn = feature_functions(spaces, a.device)
+        rs = real_sets(train, sorted(torch.unique(ref_l).tolist()), n_eff, a.seed)
+        fref = {f: ffn[f](ref_x) for f in spaces}
+        fyy = {f: {} for f in spaces}
+        res["feature_baselines"] = {f: {k: per_class_energy_distance(ffn[f](xb), lb, fref[f], ref_l, beta, fyy[f])["mean"]
+                                        for k, (xb, lb) in rs.items()} for f in spaces}
     for w in (["ema", "raw"] if a.weights == "both" else [a.weights]):
         model, _, _ = load_checkpoint_model(a.ckpt, w, a.device)
         r, x, lx = heldout_energy_distance(model, ref_x, ref_l, n_eff, seed=a.seed, beta=beta, yy_cache=yy)
@@ -234,6 +276,11 @@ def main():
             res[w]["class_confusion_D1"] = M
             res[w]["class_confusion_argmin_accuracy"] = acc
             res[w]["nn_classifier_accuracy"] = nn_classifier_accuracy(x, lx, train)
+        if spaces:
+            res[w]["feature_ed"] = {}
+            for f in spaces:
+                r_f = per_class_energy_distance(ffn[f](x), lx, fref[f], ref_l, beta, fyy[f])
+                res[w]["feature_ed"][f] = {"mean": r_f["mean"], "per_class": r_f["per_class"]}
         if a.nn_grid and w == "ema":
             # 2 rows per class: generated (first 8) and their nearest train images
             rows = []
@@ -270,6 +317,12 @@ def main():
                       f"D1-confusion row-argmin accuracy {res[w]['class_confusion_argmin_accuracy']:.2f}")
     for k, v in b.items():
         print(f"  baseline {k:12s} {v['mean']:.4f}")
+    for f, fb in res.get("feature_baselines", {}).items():
+        model_s = "  ".join(f"{w} {res[w]['feature_ed'][f]['mean']:.4f}" for w in ("ema", "raw") if w in res)
+        print(f"  {f} D1: {model_s}  | right-class real {fb['train']:.4f}  wrong-class real {fb['other_class']:.4f}")
+    for w in ("ema", "raw"):
+        if w in res and res[w].get("fid") is not None:
+            print(f"  FID ({w}) {res[w]['fid']:.2f}  [{res[w]['fid_note']}]")
     print(f"wrote {a.out} ({res['seconds']:.0f} s)")
 
 

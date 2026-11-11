@@ -67,6 +67,85 @@ def ema_update(ema, model, decay):
         be.copy_(bm)
 
 
+def loss_terms(x, fx, y, fy, yl, xl, lc: dict, lam: float):
+    """Pixel energy-score loss (stage 1 eq. (9)) plus, if fx is given, lam * the same estimator on features."""
+    beta, w = lc.get("beta", 1.0), lc.get("interaction_weight", 0.5)
+    loss, parts = energy_score_loss(x, y, yl, xl, beta=beta, interaction_weight=w, return_parts=True)
+    parts["pixel_loss"] = loss.detach()
+    if fx is not None:
+        lf, pf = energy_score_loss(fx, fy, yl, xl, beta=beta, interaction_weight=w, return_parts=True)
+        loss = loss + lam * lf
+        parts["feat_loss"] = lf.detach()
+        parts["feat_confinement"], parts["feat_interaction"] = pf["confinement"], pf["interaction"]
+    return loss, parts
+
+
+def forward_backward(model, enc, z, xl, y, yl, lc: dict, lam: float, bf16: bool, chunk: int = 0):
+    """Loss and parameter gradients for one batch (gradients accumulate into .grad).
+
+    chunk <= 0: one pass (activations of all M samples are kept for backward).
+    chunk > 0: exact two-pass gradient with activation memory of `chunk` samples. Pass 1 computes x = F(z, c) and
+    phi(x) for the whole batch without a graph, then the loss and dL/dx, dL/dphi(x) on detached copies. Pass 2
+    recomputes each chunk with a graph and backpropagates <F(z_k, c_k), dL/dx_k> + <phi(F(z_k, c_k)), dL/dphi_k>,
+    whose parameter gradient is the chain rule for dL/dtheta. F has no dropout, so pass 2 reproduces pass 1's x.
+    Cost: one extra forward of F (and of phi), about +1/3 compute.
+    """
+    dev_type = z.device.type
+
+    def fwd(zc, cc):
+        with torch.autocast(device_type=dev_type, dtype=torch.bfloat16, enabled=bf16):
+            return model(zc, cc)
+
+    def enc_fwd(xc):
+        with torch.autocast(device_type=dev_type, dtype=torch.bfloat16, enabled=bf16):
+            return enc(xc)
+
+    M = len(z)
+    cb = chunk if 0 < chunk < M else M
+    fy = None
+    if enc is not None:
+        with torch.no_grad():
+            fy = torch.cat([enc_fwd(y[i:i + cb]) for i in range(0, len(y), cb)]).float()
+    if cb == M:
+        x = fwd(z, xl)
+        fx = enc_fwd(x) if enc is not None else None
+        loss, parts = loss_terms(x, fx, y, fy, yl, xl, lc, lam)
+        loss.backward()
+        return loss.detach(), parts
+    idx = range(0, M, cb)
+    with torch.no_grad():
+        x = torch.cat([fwd(z[i:i + cb], xl[i:i + cb]) for i in idx]).float()
+        fx = torch.cat([enc_fwd(x[i:i + cb]) for i in idx]).float() if enc is not None else None
+    xd = x.requires_grad_(True)
+    fxd = fx.requires_grad_(True) if fx is not None else None
+    loss, parts = loss_terms(xd, fxd, y, fy, yl, xl, lc, lam)
+    loss.backward()
+    gx, gf = xd.grad, (fxd.grad if fxd is not None else None)
+    for i in idx:
+        xc = fwd(z[i:i + cb], xl[i:i + cb])
+        sur = (xc.float() * gx[i:i + cb]).sum()
+        if enc is not None:
+            sur = sur + (enc_fwd(xc).float() * gf[i:i + cb]).sum()
+        sur.backward()
+    return loss.detach(), parts
+
+
+@torch.no_grad()
+def feature_scale(enc, data, n_per_class: int, beta: float, device, bf16: bool) -> dict:
+    """s = (mean same-class ||y - y'|| in pixels) / (the same in feature space), on the first n_per_class train
+    images of every class. lam = loss.feature.weight * s puts the feature term on the pixel term's scale."""
+    from .energy_score import _offdiag_mean, pairwise_dist_eval
+    from .features import encode
+    px, ft = [], []
+    for c in data.classes:
+        yc = data.class_tensor(c, n_per_class)
+        fc = encode(enc, yc.to(device), bf16=bf16)
+        px.append(float(_offdiag_mean(pairwise_dist_eval(yc, yc, beta))))
+        ft.append(float(_offdiag_mean(pairwise_dist_eval(fc, fc, beta))))
+    p, f = sum(px) / len(px), sum(ft) / len(ft)
+    return {"scale": p / f, "pixel_mean_dist": p, "feature_mean_dist": f, "n_per_class": n_per_class}
+
+
 def save_ckpt(path, **state):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     tmp = path + ".tmp"
@@ -116,10 +195,17 @@ def train(cfg: dict, out: str, resume: bool = True) -> dict:
     yy_cache = {}
     grid_z, grid_c = fixed_noise(model, train_data.classes, 8, seed=1234)
 
+    fcfg = lc.get("feature") or {}
+    enc, feat = None, None
+    if fcfg.get("weight", 0) > 0:
+        from .features import build_feature_encoder
+        enc = build_feature_encoder(fcfg, cfg["data"]["channels"]).to(device)
+
     step = 0
     ck_path = os.path.join(out, "ckpt", "latest.pt")
     if resume and os.path.exists(ck_path):
         ck = torch.load(ck_path, map_location=device, weights_only=False)
+        feat = ck.get("feat")
         model.load_state_dict(ck["model"])
         ema.load_state_dict(ck["ema"])
         opt.load_state_dict(ck["opt"])
@@ -131,6 +217,21 @@ def train(cfg: dict, out: str, resume: bool = True) -> dict:
     else:
         with open(os.path.join(out, "config.yaml"), "w") as f:
             yaml.safe_dump(cfg, f, sort_keys=False)
+    lam = 0.0
+    if enc is not None:
+        if feat is None:   # fixed once per run (stored in the checkpoint, so a resumed run keeps the same lambda)
+            if fcfg.get("scale", "auto") == "auto":
+                feat = feature_scale(enc, train_data, int(fcfg.get("scale_n_per_class", 200)), lc.get("beta", 1.0),
+                                     device, bf16)
+            else:
+                feat = {"scale": float(fcfg["scale"])}
+            feat["weight"] = float(fcfg["weight"])
+            feat["lambda"] = feat["weight"] * feat["scale"]
+            jsonl(os.path.join(out, "feature_scale.jsonl"), feat)
+        lam = feat["lambda"]
+        print(f"feature term: encoder {fcfg.get('encoder')} ({enc.dim}-d), lambda = {lam:.4g} ({feat})", flush=True)
+    chunk = int(tc.get("grad_chunk", 0))
+    snap_steps = {int(s) for s in tc.get("snapshot_steps", [])}
     print(f"model {count_params(model) / 1e6:.3f} M params; train {len(train_data)} images, classes "
           f"{train_data.classes}; batch {bc['classes_per_batch']} x {bc['n_per_class']} (r = {r}); device {device}, "
           f"threads {torch.get_num_threads()}, bf16 {bf16}; out {out}", flush=True)
@@ -138,7 +239,12 @@ def train(cfg: dict, out: str, resume: bool = True) -> dict:
     def checkpoint():
         save_ckpt(ck_path, model=model.state_dict(), ema=ema.state_dict(), opt=opt.state_dict(),
                   sampler=sampler.state_dict(), zgen=zgen.get_state(), torch_rng=torch.get_rng_state(),
-                  step=step, config=cfg)
+                  step=step, config=cfg, feat=feat)
+
+    def snapshot():
+        """Weights-only copy at a fixed step (latest.pt is overwritten), for evaluation after training."""
+        save_ckpt(os.path.join(out, "ckpt", f"step{step:07d}.pt"), model=model.state_dict(), ema=ema.state_dict(),
+                  step=step, config=cfg, feat=feat)
 
     def do_eval_and_samples(tag_step, do_eval=True, do_samples=True):
         rec = {"step": tag_step, "time": time.time()}
@@ -171,7 +277,7 @@ def train(cfg: dict, out: str, resume: bool = True) -> dict:
         do_eval_and_samples(0)
     t_start = time.time()
     t_log, imgs_since, steps_since = time.time(), 0, 0
-    acc = {"loss": 0.0, "conf": 0.0, "inter": 0.0, "gn": 0.0, "gn_max": 0.0}
+    acc = {"loss": 0.0, "conf": 0.0, "inter": 0.0, "gn": 0.0, "gn_max": 0.0, "pix": 0.0, "feat": 0.0}
     model.train()
     exit_code = 0
     while step < max_steps:
@@ -189,13 +295,9 @@ def train(cfg: dict, out: str, resume: bool = True) -> dict:
         y, yl = y.to(device, non_blocking=True), yl.to(device, non_blocking=True)
         xl = yl.repeat_interleave(r) if r > 1 else yl
         z = torch.randn((len(xl), *y.shape[1:]), generator=zgen, device=device)
-        with torch.autocast(device_type=device.type, dtype=torch.bfloat16, enabled=bf16):
-            x = model(z, xl)
-        loss, parts = energy_score_loss(x, y, yl, xl, beta=lc.get("beta", 1.0),
-                                        interaction_weight=lc.get("interaction_weight", 0.5), return_parts=True)
         opt.zero_grad(set_to_none=True)
-        loss.backward()
-        gn = torch.nn.utils.clip_grad_norm_(params, oc.get("grad_clip_norm") or float("inf"))
+        loss, parts = forward_backward(model, enc, z, xl, y, yl, lc, lam, bf16, chunk)
+        gn =torch.nn.utils.clip_grad_norm_(params, oc.get("grad_clip_norm") or float("inf"))
         if not torch.isfinite(loss) or not torch.isfinite(gn):
             raise FloatingPointError(f"non-finite loss {loss.item()} or grad norm {gn.item()} at step {step}")
         opt.step()
@@ -203,6 +305,7 @@ def train(cfg: dict, out: str, resume: bool = True) -> dict:
         step += 1
         acc["loss"] += loss.item(); acc["conf"] += parts["confinement"].item(); acc["inter"] += parts["interaction"].item()
         acc["gn"] += gn.item(); acc["gn_max"] = max(acc["gn_max"], gn.item())
+        acc["pix"] += parts["pixel_loss"].item(); acc["feat"] += parts["feat_loss"].item() if "feat_loss" in parts else 0.0
         imgs_since += len(xl); steps_since += 1
         if step % log_every == 0:
             if device.type == "cuda":
@@ -212,6 +315,11 @@ def train(cfg: dict, out: str, resume: bool = True) -> dict:
                    "interaction": acc["inter"] / steps_since, "grad_norm": acc["gn"] / steps_since,
                    "grad_norm_max": acc["gn_max"], "lr": lr, "steps_per_s": steps_since / dt,
                    "imgs_per_s": imgs_since / dt, "elapsed_min": (time.time() - t_start) / 60, "time": time.time()}
+            if enc is not None:
+                rec["pixel_loss"] = acc["pix"] / steps_since
+                rec["feat_loss"] = acc["feat"] / steps_since       # feature-space ES, before the lambda weight
+            if device.type == "cuda":
+                rec["max_mem_gib"] = torch.cuda.max_memory_allocated() / 2 ** 30
             jsonl(os.path.join(out, "metrics.jsonl"), rec)
             if step % (log_every * 10) == 0:
                 print(f"step {step}  loss {rec['loss']:.4f}  conf {rec['confinement']:.4f}  inter {rec['interaction']:.4f}"
@@ -221,6 +329,8 @@ def train(cfg: dict, out: str, resume: bool = True) -> dict:
             t_log, imgs_since, steps_since = time.time(), 0, 0
         if step % ck_every == 0:
             checkpoint()
+        if step in snap_steps:
+            snapshot()
         if step % e_every == 0 or step % s_every == 0:
             do_eval_and_samples(step, do_eval=step % e_every == 0, do_samples=step % s_every == 0)
             t_log = time.time()   # do not count eval time in throughput
