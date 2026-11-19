@@ -30,3 +30,25 @@ Packing costs ≈ 20 % per process at 1 thread (0.11 vs 0.09 s/step) but 8 × 1 
 - Different `cpu_short` nodes may be slower; the job script must checkpoint and requeue anyway (`ddm2d.train --deadline`, exit code 3).
 
 Reproduce: `python scripts/time_step.py --out docs/timing_s1.json`; `python scripts/bench_packed.py --out docs/benchmark_packed_s1.json`.
+
+## S2 confirmation on a second node (cs601, Slurm job 23766928) — `docs/benchmark_packed_s2.json`, 150 timed steps
+| layout | per-process median s/step (range) | worst | h per 100k-step run |
+|---|---|---|---|
+| 8 × 1 | 0.108–0.118 | 0.1183 | 3.29 |
+| 6 × 1 | 0.110–0.114 | 0.1140 | 3.17 |
+| 4 × 2 | 0.063–0.075 | 0.0749 | 2.08 |
+| 2 × 4 | 0.042–0.044 | 0.0444 | 1.23 |
+| 1 × 8 | 0.0305 | 0.0305 | 0.85 |
+
+cs601 is ≈ 5 % slower than cs607 at 1 thread per process and ≈ 40 % slower at 8 threads, so 1-thread processes are also the most
+node-robust choice. (The `cpu_h_per_run` field in the JSON divides by 8 CPUs; for 6 × 1 in a 6-CPU job it is 3.17 CPU-h.)
+
+## Chosen layout and budget (S2)
+- **3 jobs × 6 CPUs, each = one seed: 6 processes × 1 thread** (GMM A, B, C; checkerboard A, B, C). Arms of one seed share a node, so
+  their wall times are directly comparable. 3 × 6 = 18 CPUs ≤ the chain's 24-CPU cap; with the 8-CPU agent job that is 26 of the user's
+  32 `cpu_short` CPUs, so all three jobs can run at once.
+- Expected: ≈ 0.11–0.12 s/step → ≈ 3.2–3.4 h per run, inside one 5 h job (deadline = end − 12 min; continuation if a node is slower).
+- CPU-h (Slurm charges CPUs × elapsed): 3 jobs × 6 CPUs × ≈ 3.4 h ≈ **61 CPU-h** for all 18 runs (seeds 0, 1, 2; checkerboard B
+  included, ≈ 10 CPU-h). Worst case with every job using its full 5 h: 90 CPU-h. Both are far inside the 600 CPU-h chain budget, so seeds
+  1 and 2 and checkerboard B were launched together with seed 0.
+- Rejected: 8 × 1 jobs (no spare cores, and 18 runs do not split into 8s); 4 × 2 (≈ 30 % more CPU-h per run on cs601).

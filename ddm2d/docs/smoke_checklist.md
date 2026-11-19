@@ -25,3 +25,9 @@ The 300-step smoke models are far from converged (MMD²_u 0.2–1.3), as expecte
 (`runs/smoke/sanity3k_gmm_eval/eval.json`) — smoke numbers, not results.
 
 Not done here (S2): the packed-process benchmark, the job script, and the paper-scale launch.
+
+**S2 review (2026-11-19):** S2 accepted these items as they stand (S1 did them with the code S2 launched, except for the EMA-snapshot option
+added in `78a6e03`, which is covered by `tests/test_train.py::test_ema_snapshots_and_resume_unchanged`; 74 tests pass). Item 1, GPU: the
+S2 allocation (cs601, job 23766928) has no GPU either; GPU is not used because the user's `gpu48` QOS allows 2 GPUs and the user's other
+chains hold them (`_rules.md`), and CPU suffices (`docs/benchmark.md`). Item 8 was re-checked at the job-script level (deadline exit 3 →
+continuation → resume → DONE; `runs/smoke/jobtest/README.md`).
