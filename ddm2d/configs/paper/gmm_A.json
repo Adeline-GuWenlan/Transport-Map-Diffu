@@ -1,0 +1,4 @@
+{"name": "gmm_A", "_comment": "Paper-scale config, arm A. App. I.1 settings (arXiv 2502.02483 v3 p. 33).",
+ "dataset": "gmm", "arm": "A", "m": 1, "beta": 2.0, "lam": 0.0,
+ "steps": 100000, "batch": 128, "lr": 0.001, "b1": 0.9, "b2": 0.999, "adam_eps": 1e-08, "warmup": 100, "clip": 1.0, "ema": 0.99,
+ "safety": 0.01, "w_bias": 0.0, "train_size": 102400, "data_seed": 0, "ckpt_every": 5000, "log_every": 100, "keep_ckpts": 2}
