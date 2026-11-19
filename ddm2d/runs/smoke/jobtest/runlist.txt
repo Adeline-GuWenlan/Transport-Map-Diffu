@@ -1,0 +1,3 @@
+# test
+runs/smoke/jobtest/gmm_A_1500.json runs/smoke/jobtest/run_A 0
+runs/smoke/jobtest/gmm_C_1500.json runs/smoke/jobtest/run_C 0

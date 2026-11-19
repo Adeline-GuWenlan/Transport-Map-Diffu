@@ -1,0 +1,13 @@
+{
+ "steps": 1500,
+ "wall_s_total": 163.9,
+ "peak_rss_mb": 907.7,
+ "git": {
+  "commit": "4daf55f257644409a48ddb1c4221fb850277939f",
+  "dirty_src_or_configs": true
+ },
+ "seed": 0,
+ "n_segments": 2,
+ "finished_utc": "2026-11-19T22:56:15Z",
+ "final_ckpt_sha256": "af0de438098b62a028b0c694ae1f2888afc1b8116f6b22f8b9949b33b604351b"
+}

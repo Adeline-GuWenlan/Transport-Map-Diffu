@@ -1,0 +1,122 @@
+{
+ "meta": {
+  "host": "cs601.hpc.nyu.edu",
+  "slurm_job": "23766928",
+  "date": "2026-11-19T17:51:15-0500",
+  "steps_timed": 150
+ },
+ "results": [
+  {
+   "layout": "8x1",
+   "procs": 8,
+   "threads_each": 1,
+   "per_proc_median_s": [
+    0.1174,
+    0.1134,
+    0.118,
+    0.1183,
+    0.1078,
+    0.1171,
+    0.1172,
+    0.1134
+   ],
+   "arms": [
+    "C",
+    "A",
+    "B",
+    "C",
+    "A",
+    "B",
+    "C",
+    "A"
+   ],
+   "worst_median_s": 0.11827220697887242,
+   "wall_s": 32.9,
+   "h_per_100k_run_worst": 3.285339082746456,
+   "runs_per_8cpu_hour": 2.435060673649617,
+   "cpu_h_per_run": 3.285339082746456
+  },
+  {
+   "layout": "6x1",
+   "procs": 6,
+   "threads_each": 1,
+   "per_proc_median_s": [
+    0.1097,
+    0.1128,
+    0.1102,
+    0.114,
+    0.1114,
+    0.1116
+   ],
+   "arms": [
+    "C",
+    "A",
+    "B",
+    "C",
+    "A",
+    "B"
+   ],
+   "worst_median_s": 0.11398232297506183,
+   "wall_s": 29.5,
+   "h_per_100k_run_worst": 3.166175638196162,
+   "runs_per_8cpu_hour": 1.8950306886380845,
+   "cpu_h_per_run": 4.221567517594883
+  },
+  {
+   "layout": "4x2",
+   "procs": 4,
+   "threads_each": 2,
+   "per_proc_median_s": [
+    0.0633,
+    0.0749,
+    0.0677,
+    0.0626
+   ],
+   "arms": [
+    "C",
+    "A",
+    "B",
+    "C"
+   ],
+   "worst_median_s": 0.0748674850910902,
+   "wall_s": 27.9,
+   "h_per_100k_run_worst": 2.0796523636413946,
+   "runs_per_8cpu_hour": 1.9233983861591886,
+   "cpu_h_per_run": 4.159304727282789
+  },
+  {
+   "layout": "2x4",
+   "procs": 2,
+   "threads_each": 4,
+   "per_proc_median_s": [
+    0.0423,
+    0.0444
+   ],
+   "arms": [
+    "C",
+    "A"
+   ],
+   "worst_median_s": 0.04440792207606137,
+   "wall_s": 24.5,
+   "h_per_100k_run_worst": 1.2335533910017047,
+   "runs_per_8cpu_hour": 1.6213323351783775,
+   "cpu_h_per_run": 4.934213564006819
+  },
+  {
+   "layout": "1x8",
+   "procs": 1,
+   "threads_each": 8,
+   "per_proc_median_s": [
+    0.0305
+   ],
+   "arms": [
+    "C"
+   ],
+   "worst_median_s": 0.03049134905450046,
+   "wall_s": 15.9,
+   "h_per_100k_run_worst": 0.8469819181805683,
+   "runs_per_8cpu_hour": 1.1806627491506965,
+   "cpu_h_per_run": 6.775855345444547
+  }
+ ]
+}

@@ -1,0 +1,1 @@
+--parsable --job-name=jobtest --dependency=afterany:23766928 --export=ALL,RUNLIST=runs/smoke/jobtest/runlist.txt,SEG=2,MAXSEG=5,JOBIDS=runs/smoke/jobtest/jobids.txt /scratch/wg2381/tmap-ddm2d/ddm2d/scripts/train_job.sbatch

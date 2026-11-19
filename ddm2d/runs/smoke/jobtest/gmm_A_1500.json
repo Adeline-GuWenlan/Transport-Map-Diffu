@@ -1,0 +1,4 @@
+{"name": "smoke_gmm_A", "_comment": "SMOKE config, arm A: paper model/optimizer/loss, but only 300 steps. Never use its outputs as paper results.",
+ "dataset": "gmm", "arm": "A", "m": 1, "beta": 2.0, "lam": 0.0,
+ "steps": 1500, "batch": 128, "lr": 0.001, "b1": 0.9, "b2": 0.999, "adam_eps": 1e-08, "warmup": 100, "clip": 1.0, "ema": 0.99,
+ "safety": 0.01, "w_bias": 0.0, "train_size": 102400, "data_seed": 0, "ckpt_every": 100, "log_every": 10, "keep_ckpts": 2}

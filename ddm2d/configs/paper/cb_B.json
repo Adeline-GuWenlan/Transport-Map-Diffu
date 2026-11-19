@@ -1,4 +1,4 @@
 {"name": "cb_B", "_comment": "Paper-scale config, arm B. Checkerboard: settings BORROWED from the GMM App. I.1 config; dataset = FFJORD generator (approximation). See docs/paper_vs_implementation.md rows 4-7.",
  "dataset": "checkerboard", "arm": "B", "m": 32, "beta": 2.0, "lam": 0.0,
  "steps": 100000, "batch": 128, "lr": 0.001, "b1": 0.9, "b2": 0.999, "adam_eps": 1e-08, "warmup": 100, "clip": 1.0, "ema": 0.99,
- "safety": 0.01, "w_bias": 0.0, "train_size": 102400, "data_seed": 0, "ckpt_every": 5000, "log_every": 100, "keep_ckpts": 2}
+ "safety": 0.01, "w_bias": 0.0, "train_size": 102400, "data_seed": 0, "ckpt_every": 5000, "log_every": 100, "keep_ckpts": 2, "ema_snap_every": 10000}

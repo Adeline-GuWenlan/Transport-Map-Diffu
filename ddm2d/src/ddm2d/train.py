@@ -35,7 +35,7 @@ from .schedule import forward_sample, sample_train_times, sigmoid_weight
 
 DEFAULTS = dict(dataset="gmm", arm="C", steps=100_000, batch=128, lr=1e-3, b1=0.9, b2=0.999, adam_eps=1e-8, warmup=100, clip=1.0,
                 ema=0.99, safety=0.01, w_bias=0.0, m=32, beta=0.1, lam=1.0, train_size=D.TRAIN_SIZE, data_seed=0,
-                ckpt_every=5000, log_every=100, keep_ckpts=2)
+                ckpt_every=5000, log_every=100, keep_ckpts=2, ema_snap_every=0)
 
 
 def resolve_config(cfg: dict) -> dict:
@@ -186,12 +186,15 @@ def sha256_file(p: Path) -> str:
     return h.hexdigest()
 
 
-def load_ema_model(run_dir) -> torch.nn.Module:
-    """EMA weights of a finished run (final.pt), else of the latest checkpoint."""
+def load_ema_model(run_dir, step: int | None = None) -> torch.nn.Module:
+    """EMA weights of a finished run (final.pt), else of the latest checkpoint; with `step`, the EMA snapshot ckpt/ema_<step>.pt."""
     run_dir = Path(run_dir)
-    p = run_dir / "ckpt" / "final.pt"
-    if not p.exists():
-        p = run_dir / "ckpt" / "latest.pt"
+    if step is not None:
+        p = run_dir / "ckpt" / f"ema_{step:07d}.pt"
+    else:
+        p = run_dir / "ckpt" / "final.pt"
+        if not p.exists():
+            p = run_dir / "ckpt" / "latest.pt"
     sd = torch.load(p, map_location="cpu", weights_only=False)
     m = build_model(sd["cfg"]["arm"])
     m.load_state_dict(sd["ema"])
@@ -237,6 +240,12 @@ def run(cfg: dict, out: Path, seed: int, threads: int, deadline: float | None, m
                 olds = sorted(ck.glob("step_*.pt"))[:-c["keep_ckpts"]]
                 for o in olds:
                     o.unlink()
+        if c["ema_snap_every"] and tr.step % c["ema_snap_every"] == 0:
+            # small EMA-only snapshot kept for every interval (intermediate-checkpoint evaluation, S3); does not touch any RNG
+            snap = ck / f"ema_{tr.step:07d}.pt"
+            tmp = snap.with_name(snap.name + ".tmp")
+            torch.save({"ema": tr.ema.state_dict(), "step": tr.step, "cfg": tr.cfg, "seed": tr.seed}, tmp)
+            os.replace(tmp, snap)
         if deadline is not None and time.time() > deadline and tr.step < target:
             tr.save(latest, wall)          # the partial log window travels in the checkpoint ("acc")
             status = "deadline"

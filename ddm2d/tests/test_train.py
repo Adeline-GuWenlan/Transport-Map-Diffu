@@ -77,3 +77,19 @@ def test_load_ema_model(tmp_path):
     m = T.load_ema_model(out)
     sd = final_state(out)
     assert all(torch.equal(m.state_dict()[k], sd["ema"][k]) for k in sd["ema"])
+
+
+def test_ema_snapshots_and_resume_unchanged(tmp_path):
+    """ema_snap_every writes ema_<step>.pt; the run with snapshots equals the run without them; snapshot at the end = final EMA."""
+    c = dict(cfg("C"), ema_snap_every=4)
+    a, b = tmp_path / "a", tmp_path / "b"
+    T.run(cfg("C"), a, seed=0, threads=1, deadline=None, max_steps=None)
+    T.run(c, b, seed=0, threads=1, deadline=None, max_steps=None)
+    snaps = sorted(p.name for p in (b / "ckpt").glob("ema_*.pt"))
+    assert snaps == ["ema_0000004.pt", "ema_0000008.pt"]
+    fa, fb = final_state(a), final_state(b)
+    assert all(torch.equal(fa["ema"][k], fb["ema"][k]) for k in fa["ema"])
+    m8 = T.load_ema_model(b, step=8)
+    assert all(torch.equal(m8.state_dict()[k], fb["ema"][k]) for k in fb["ema"])
+    m4 = T.load_ema_model(b, step=4)
+    assert not all(torch.equal(m4.state_dict()[k], fb["ema"][k]) for k in fb["ema"])

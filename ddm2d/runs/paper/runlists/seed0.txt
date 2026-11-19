@@ -1,0 +1,7 @@
+# config out seed  (seed 0: GMM A,B,C; checkerboard A,B,C)
+configs/paper/gmm_A.json runs/paper/gmm_A_s0 0
+configs/paper/gmm_B.json runs/paper/gmm_B_s0 0
+configs/paper/gmm_C.json runs/paper/gmm_C_s0 0
+configs/paper/cb_A.json runs/paper/cb_A_s0 0
+configs/paper/cb_B.json runs/paper/cb_B_s0 0
+configs/paper/cb_C.json runs/paper/cb_C_s0 0
