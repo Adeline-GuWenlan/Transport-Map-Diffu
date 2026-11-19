@@ -1,0 +1,9 @@
+# checkpoints and caches (sha256 manifests are committed instead)
+runs/**/ckpt/
+*.pt
+*.pth
+data/cache/
+# third-party clones (repo, commit and license are recorded in third_party/README.md)
+third_party/*/
+__pycache__/
+.pytest_cache/

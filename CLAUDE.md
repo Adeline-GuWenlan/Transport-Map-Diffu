@@ -1,5 +1,8 @@
 # transport_map
 
+> Branch `ddm2d-repro`: `ddm2d/` is a separate sub-project (DDM 2D reproduction) with its own rules in `ddm2d/CLAUDE.md`,
+> which take precedence inside `ddm2d/`.
+
 One-step generative transport maps trained with the energy score, on a DiT backbone.
 
 ## Idea
