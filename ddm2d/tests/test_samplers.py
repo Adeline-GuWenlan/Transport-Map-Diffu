@@ -19,7 +19,7 @@ class ExactGaussianPosterior(torch.nn.Module):
 
     def forward(self, t, xt, xi=None):
         self.calls += 1
-        tt = float(t[0])
+        tt = float(t) if not torch.is_tensor(t) or t.ndim == 0 else float(t[0])
         _, nu, var = posterior_params(xt.double().numpy(), tt, means=MU, s=S, pis=np.array([1.0]))
         nu = torch.from_numpy(nu[:, 0]).to(xt.dtype)
         return nu + var ** 0.5 * xi if self.stochastic else nu

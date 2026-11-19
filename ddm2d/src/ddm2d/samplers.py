@@ -20,8 +20,7 @@ from .schedule import bridge_coeffs, sampling_grid
 @torch.no_grad()
 def denoise(model, t_scalar: float, x, generator=None):
     """One denoiser call on a batch x [n, d] at time t_scalar. Draws a fresh xi for the stochastic model."""
-    n = x.shape[0]
-    t = torch.full((n,), t_scalar, dtype=x.dtype, device=x.device)
+    t = float(t_scalar)                     # shared by all rows: the model evaluates its time path once
     if model.stochastic:
         xi = torch.randn(x.shape, generator=generator, dtype=x.dtype, device=x.device)
         return model(t, x, xi)
@@ -56,7 +55,7 @@ def posterior_draws(model, t_scalar: float, xt, n_draws: int, generator=None):
     For the standard model all draws are identical (deterministic predictor)."""
     model.eval()
     n, d = xt.shape
-    t = torch.full((n,), t_scalar, dtype=xt.dtype)
+    t = float(t_scalar)
     if model.stochastic:
         xi = torch.randn((n, n_draws, d), generator=generator, dtype=xt.dtype)
         return model(t, xt, xi)

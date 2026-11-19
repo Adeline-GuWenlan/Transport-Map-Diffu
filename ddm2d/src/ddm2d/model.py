@@ -61,11 +61,15 @@ class DenoiserMLP(nn.Module):
         return self.t_pre(self.time_mlp(self.temb(t)))
 
     def forward(self, t, xt, xi=None):
-        """t: [n]; xt: [n, d].
+        """t: [n], or a python float / 0-d tensor shared by all rows (time path computed once, as in sampling); xt: [n, d].
         standard: returns [n, d].
         stochastic: xi is [n, m, d] (m particles per x_t) or [n, d]; returns [n, m, d] or [n, d].
         """
-        h_t = self.time_features(t)                                   # [n, width], once per data point
+        if not torch.is_tensor(t) or t.ndim == 0:
+            t1 = torch.as_tensor(t, dtype=xt.dtype, device=xt.device).reshape(1)
+            h_t = self.time_features(t1).expand(xt.shape[0], -1)        # shared t: one row through the time path
+        else:
+            h_t = self.time_features(t)                               # [n, width], once per data point
         if not self.stochastic:
             assert xi is None
             h = torch.cat([h_t, self.x_pre(xt)], dim=-1)

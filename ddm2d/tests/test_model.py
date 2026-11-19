@@ -76,3 +76,14 @@ def test_backprop_through_losses(arm):
 def test_standard_model_rejects_xi():
     with pytest.raises(AssertionError):
         build_model("A")(torch.rand(2), torch.randn(2, 2), torch.randn(2, 2))
+
+
+def test_shared_scalar_time_equals_per_row_time():
+    torch.manual_seed(0)
+    for arm in "AC":
+        m = build_model(arm)
+        xt = torch.randn(6, 2)
+        xi = None if arm == "A" else torch.randn(6, 3, 2)
+        a = m(0.37, xt) if xi is None else m(0.37, xt, xi)
+        b = m(torch.full((6,), 0.37), xt) if xi is None else m(torch.full((6,), 0.37), xt, xi)
+        assert torch.allclose(a, b, atol=1e-6)

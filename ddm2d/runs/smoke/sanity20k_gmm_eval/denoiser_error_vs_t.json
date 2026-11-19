@@ -1,0 +1,76 @@
+{
+ "WARNING": "smoke diagnostic (20k-step models), not a result",
+ "eval_set_k": 50,
+ "rows": [
+  {
+   "t": 0.001,
+   "rmse_A_vs_post_mean": 0.11523096176453451,
+   "rmse_C_particle_mean_vs_post_mean": 0.08236707576521572,
+   "post_std": 0.0010009989951791512,
+   "C_std": 0.06423556804656982
+  },
+  {
+   "t": 0.005,
+   "rmse_A_vs_post_mean": 0.09446998853584289,
+   "rmse_C_particle_mean_vs_post_mean": 0.05844125890983197,
+   "post_std": 0.005024871859512976,
+   "C_std": 0.06341515481472015
+  },
+  {
+   "t": 0.01,
+   "rmse_A_vs_post_mean": 0.03455899976973665,
+   "rmse_C_particle_mean_vs_post_mean": 0.02117993968212077,
+   "post_std": 0.010098949511396902,
+   "C_std": 0.06149104982614517
+  },
+  {
+   "t": 0.02,
+   "rmse_A_vs_post_mean": 0.027406252500238284,
+   "rmse_C_particle_mean_vs_post_mean": 0.021609838566036314,
+   "post_std": 0.020391184757145936,
+   "C_std": 0.06373922526836395
+  },
+  {
+   "t": 0.05,
+   "rmse_A_vs_post_mean": 0.024922807711886423,
+   "rmse_C_particle_mean_vs_post_mean": 0.022609425401149512,
+   "post_std": 0.05234239225901703,
+   "C_std": 0.08126369118690491
+  },
+  {
+   "t": 0.1,
+   "rmse_A_vs_post_mean": 0.022670072961238973,
+   "rmse_C_particle_mean_vs_post_mean": 0.034285212021372885,
+   "post_std": 0.10846522890934616,
+   "C_std": 0.1283673346042633
+  },
+  {
+   "t": 0.2,
+   "rmse_A_vs_post_mean": 0.03194853587496022,
+   "rmse_C_particle_mean_vs_post_mean": 0.04601980571112969,
+   "post_std": 0.22360679805061534,
+   "C_std": 0.2281365841627121
+  },
+  {
+   "t": 0.5,
+   "rmse_A_vs_post_mean": 0.04398995548823844,
+   "rmse_C_particle_mean_vs_post_mean": 0.15638563988038623,
+   "post_std": 0.46067996082654206,
+   "C_std": 0.49543386697769165
+  },
+  {
+   "t": 0.9,
+   "rmse_A_vs_post_mean": 0.20599900215273967,
+   "rmse_C_particle_mean_vs_post_mean": 1.3699668601117654,
+   "post_std": 1.6900628446528625,
+   "C_std": 1.1942428350448608
+  },
+  {
+   "t": 0.99,
+   "rmse_A_vs_post_mean": 0.5480025271400146,
+   "rmse_C_particle_mean_vs_post_mean": 2.1645370696243327,
+   "post_std": 1.7699775180613968,
+   "C_std": 1.159977674484253
+  }
+ ]
+}
