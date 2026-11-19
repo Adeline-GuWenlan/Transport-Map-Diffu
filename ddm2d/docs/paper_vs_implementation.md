@@ -16,7 +16,7 @@ borrowed one; **unknown** = not stated and not determinable. P = arXiv 2502.0248
 | 8 | Schedule | α_t = 1 − t, σ_t = t | same | verified (test) | Eq. 3 P2, App. I.1 |
 | 9 | Bridge Eq. (4) | μ, Σ with r_{i,j}; main text (σ_s²/σ_t²)^j vs App. G (σ_s/σ_t)^j | App. G form (the only one that preserves marginals) | verified (test: marginals, ε = 0 DDIM, ε = 1 DDPM) | Eq. 4 P2; App. G tex 1475–1480 |
 | 10 | Churn ε (2D) | not stated | 1.0, all arms | approximated | §4.1 P4 uses ε = 1 |
-| 11 | Safety ε | 1e-2; "time interval [η, 1 − η]" | training t ~ U[0.01, 0.99]; sampler calls the denoiser at clamp(t, 0.01, 0.99) | approximated (exact use not stated) | App. I.1 P33; App. K.2 P39 |
+| 11 | Safety ε | 1e-2; "time interval [η, 1 − η]" | training t ~ U[0.01, 0.99]; sampler calls the denoiser at clamp(t, 0.01, 0.99); for NFE > 100 the low clamp biases the sampler (oracle test), so `clamp_low` is an option to report both ways | approximated (exact use not stated) | App. I.1 P33; App. K.2 P39 |
 | 12 | Training time distribution | U[0, 1] (Alg. 1) | U[0.01, 0.99] | approximated | Alg. 1 P4 |
 | 13 | Loss weighting | sigmoid, w_t = (1 + exp[b − log(α²/σ²)])^{−1} | same formula, per data point, all arms | matched | §4.2 P5, App. I.1 |
 | 14 | Sigmoid bias b | not stated for 2D (images: sweep {−2..2}) | 0 | approximated | App. I.2 P34 |

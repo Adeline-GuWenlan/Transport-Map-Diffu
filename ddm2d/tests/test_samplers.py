@@ -62,3 +62,15 @@ def test_posterior_draws_shapes():
     assert d.shape == (5, 8, 2) and d.std(1).min() > 0
     d = posterior_draws(build_model("A"), 0.5, xt, 8)
     assert d.shape == (5, 8, 2) and d.std(1).max() == 0
+
+
+def test_low_clamp_bias_at_fine_grids():
+    """N = 1000 > 1/safety: clamping t < 0.01 up to 0.01 biases even an exact posterior; clamp_low=False is exact. N = 100: no effect."""
+    kw = dict(churn=1.0, safety=0.01, dtype=torch.float64)
+    xc = sample(ExactGaussianPosterior(True), 100_000, 1000, generator=torch.Generator().manual_seed(0), **kw)
+    xn = sample(ExactGaussianPosterior(True), 100_000, 1000, generator=torch.Generator().manual_seed(0), clamp_low=False, **kw)
+    assert np.allclose(xn.mean(0).numpy(), MU[0], atol=0.01) and np.allclose(xn.std(0).numpy(), S, atol=0.01)
+    assert np.abs(xc.mean(0).numpy() - MU[0]).max() > 0.02          # measured: mean (1.029, -2.052) vs (1, -2)
+    x1 = sample(ExactGaussianPosterior(True), 20_000, 100, generator=torch.Generator().manual_seed(0), **kw)
+    x2 = sample(ExactGaussianPosterior(True), 20_000, 100, generator=torch.Generator().manual_seed(0), clamp_low=False, **kw)
+    assert torch.equal(x1, x2)

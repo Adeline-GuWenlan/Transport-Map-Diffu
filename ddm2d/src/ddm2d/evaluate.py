@@ -23,17 +23,17 @@ def sampler_seed(nfe: int, repeat: int) -> int:
 
 
 def mmd_vs_nfe(model, dataset: str, nfes, n: int = 4096, repeats: int = 1, churn: float = 1.0, safety: float = 0.01, sigma: float = 1.0,
-               return_samples: bool = False):
+               return_samples: bool = False, clamp_low: bool = True):
     rows, samples = [], {}
     for r in range(repeats):
         ref = D.eval_set(dataset, n, k=r)
         for nfe in nfes:
             g = torch.Generator().manual_seed(sampler_seed(nfe, r))
-            x, used = sample(model, n, nfe, churn=churn, safety=safety, generator=g, return_nfe=True, chunk=4096)
+            x, used = sample(model, n, nfe, churn=churn, safety=safety, generator=g, return_nfe=True, chunk=4096, clamp_low=clamp_low)
             assert used == nfe
             x = x.numpy()
             res = rbf_mmd2(x, ref, sigma)
-            res.update(nfe=nfe, repeat=r, churn=churn, n_finite=int(np.isfinite(x).all(1).sum()))
+            res.update(nfe=nfe, repeat=r, churn=churn, clamp_low=clamp_low, n_finite=int(np.isfinite(x).all(1).sum()))
             if dataset == "checkerboard":
                 res["frac_in_support"] = float(D.in_checkerboard(x).mean())
             rows.append(res)

@@ -4,6 +4,11 @@ x_hat(t, x_t) for the standard arm (DDIM/DDPM family; churn 1 = the "SDE sampler
 Grid: uniform t_k = k/N (Algorithm 2: t_0 = 0, t_N = 1). The denoiser is called at clamp(t_{k+1}, safety, 1 - safety) (safety interval of
 App. K.2); the bridge uses the true grid times. The last step goes to s = 0, where Sigma = 0 and mu = x_hat, so the output is the last
 prediction. One NFE = one denoiser call; N steps = N NFE for every arm (docs/plan.md).
+
+Caveat for N > 1/safety (e.g. NFE 1000): grid times below `safety` are clamped up to `safety`, so the denoiser is asked for the posterior at
+the wrong noise level. With an exact-posterior oracle this biases the output (tests/test_samplers.py::test_low_clamp_bias_at_fine_grids).
+`clamp_low=False` passes the true t below `safety` instead (the network then extrapolates below its training range). For N <= 1/safety the
+two options are identical except at t_N = 1. Evaluate NFE 1000 both ways, identically for every arm.
 """
 from __future__ import annotations
 
@@ -25,7 +30,7 @@ def denoise(model, t_scalar: float, x, generator=None):
 
 @torch.no_grad()
 def sample(model, n: int, n_steps: int, churn: float = 1.0, safety: float = 0.01, generator=None, dim: int = 2,
-           dtype=torch.float32, return_nfe: bool = False, chunk: int | None = None):
+           dtype=torch.float32, return_nfe: bool = False, chunk: int | None = None, clamp_low: bool = True):
     """Generate n samples with n_steps denoiser calls. Uses `generator` for X_1, xi and Z (reproducible)."""
     model.eval()
     grid = sampling_grid(n_steps)
@@ -33,7 +38,7 @@ def sample(model, n: int, n_steps: int, churn: float = 1.0, safety: float = 0.01
     nfe = 0
     for k in range(n_steps - 1, -1, -1):
         s, t = grid[k], grid[k + 1]
-        t_in = min(max(t, safety), 1.0 - safety)
+        t_in = min(max(t, safety) if clamp_low else t, 1.0 - safety)
         if chunk is None:
             x0hat = denoise(model, t_in, x, generator)
         else:

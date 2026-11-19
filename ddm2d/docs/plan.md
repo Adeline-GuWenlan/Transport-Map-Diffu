@@ -43,6 +43,11 @@ regression loss averaged over 32 draws of ξ. **[G]**
   clamp(t_{k+1}, η, 1 − η) (only t_N = 1 → 0.99 changes for N ≤ 100); the bridge uses the true grid times. The last step goes to s = 0, where
   Σ = 0 and μ = X̂_0, so the output is the last prediction. **[G]** Every denoiser call is useful, nothing divides by zero (α_s ≥ 1/N,
   σ_t ≥ 1/N).
+- **NFE 1000 caveat [E: test].** For N > 1/η = 100 the grid has times below η. Clamping them up to η asks the denoiser for the posterior at the
+  wrong noise level: with an exact-posterior oracle (p_0 = N((1, −2), 0.7² I), 10^5 samples, churn 1) N = 1000 gives mean (1.029, −2.052),
+  std 0.717 instead of (1, −2), 0.7, while N = 100 is exact (`tests/test_samplers.py::test_low_clamp_bias_at_fine_grids`). The sampler
+  therefore has `clamp_low` (default True); `clamp_low=False` passes the true t (the network extrapolates below its training range t ≥ 0.01).
+  For NFE 1000 (Table 2), S4 should evaluate both settings, identically for both arms, and report both. For N ≤ 100 they are identical.
 - Churn ε = 1 for every arm (not stated for 2D; §4.1 uses ε = 1; it is the "SDE sampler" of App. I.2). **[G]** A churn sensitivity
   (ε = 0, same for all arms) is an optional extra for S3/S4.
 
