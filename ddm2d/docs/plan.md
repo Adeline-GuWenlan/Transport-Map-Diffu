@@ -106,4 +106,26 @@ CPU only (`_task.md` §5.1 GPU blocker: the user's `gpu48` QOS has 2 GPUs, both 
 training step per arm is in the section below and in `state/S1.json`; S2 picks the job layout.
 
 ## CPU timing (S1, node cs607, this allocation)
-(filled in by the timing step)
+Measured by `scripts/time_step.py` on cs607 (Slurm job 23760197, 8-CPU allocation), 2026-11-19 16:43 EST, one process at a time, nothing
+else running; paper config (batch 128, m = 32 for B/C), 5 warm-up steps then 40 timed steps. Raw: `docs/timing_s1.json`. **[E]**
+
+| arm | threads | median s/step | p10 | p90 | est. h / 100k steps | est. CPU-h / 100k | peak RSS MB |
+|---|---|---|---|---|---|---|---|
+| A | 1 | 0.0884 | 0.0723 | 0.0992 | 2.46 | 2.46 | 853 |
+| A | 2 | 0.0513 | 0.0436 | 0.0583 | 1.43 | 2.85 | 855 |
+| A | 4 | 0.0328 | 0.0283 | 0.0361 | 0.91 | 3.65 | 854 |
+| A | 8 | 0.0193 | 0.0178 | 0.0229 | 0.54 | 4.29 | 856 |
+| B | 1 | 0.0836 | 0.0795 | 0.0964 | 2.32 | 2.32 | 889 |
+| B | 2 | 0.0507 | 0.0453 | 0.0592 | 1.41 | 2.82 | 889 |
+| B | 4 | 0.0320 | 0.0284 | 0.0347 | 0.89 | 3.56 | 889 |
+| B | 8 | 0.0204 | 0.0189 | 0.0229 | 0.57 | 4.52 | 887 |
+| C | 1 | 0.0946 | 0.0855 | 0.1061 | 2.63 | 2.63 | 903 |
+| C | 2 | 0.0535 | 0.0464 | 0.0619 | 1.48 | 2.97 | 887 |
+| C | 4 | 0.0340 | 0.0296 | 0.0399 | 0.94 | 3.77 | 887 |
+| C | 8 | 0.0238 | 0.0203 | 0.0283 | 0.66 | 5.28 | 903 |
+
+Reading: the time MLP on 128 unique t values dominates, so all three arms cost about the same. One thread is the most CPU-efficient
+(≈2.5 CPU-h per 100k-step run); 8 threads finish a run in ≈0.6 h. 15 runs (GMM A, B, C and checkerboard A, C at 3 seeds) cost
+on the order of 40–80 CPU-h, far below the 600 CPU-h budget. These are isolated timings: packed processes share memory bandwidth and the
+`_rules.md` note says an 8-thread process slows ≈6× next to other work, so S2 must benchmark the packed layout (e.g. 8 × 1 thread, 4 × 2 threads)
+before choosing. Logging and checkpointing (every 100 / 5000 steps) are not included.
