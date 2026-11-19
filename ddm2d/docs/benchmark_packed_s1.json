@@ -1,0 +1,96 @@
+{
+ "meta": {
+  "host": "cs607.hpc.nyu.edu",
+  "slurm_job": "23760197",
+  "date": "2026-11-19T16:55:52-0500",
+  "steps_timed": 150
+ },
+ "results": [
+  {
+   "layout": "8x1",
+   "procs": 8,
+   "threads_each": 1,
+   "per_proc_median_s": [
+    0.1121,
+    0.1076,
+    0.1074,
+    0.1085,
+    0.109,
+    0.1098,
+    0.1122,
+    0.1072
+   ],
+   "arms": [
+    "C",
+    "A",
+    "B",
+    "C",
+    "A",
+    "B",
+    "C",
+    "A"
+   ],
+   "worst_median_s": 0.11219675105530769,
+   "wall_s": 29.0,
+   "h_per_100k_run_worst": 3.116576418202991,
+   "runs_per_8cpu_hour": 2.5669192493642674,
+   "cpu_h_per_run": 3.116576418202991
+  },
+  {
+   "layout": "4x2",
+   "procs": 4,
+   "threads_each": 2,
+   "per_proc_median_s": [
+    0.0619,
+    0.0597,
+    0.0613,
+    0.0616
+   ],
+   "arms": [
+    "C",
+    "A",
+    "B",
+    "C"
+   ],
+   "worst_median_s": 0.06188998802099377,
+   "wall_s": 19.1,
+   "h_per_100k_run_worst": 1.7191663339164935,
+   "runs_per_8cpu_hour": 2.3267091270263878,
+   "cpu_h_per_run": 3.438332667832987
+  },
+  {
+   "layout": "2x4",
+   "procs": 2,
+   "threads_each": 4,
+   "per_proc_median_s": [
+    0.0351,
+    0.0355
+   ],
+   "arms": [
+    "C",
+    "A"
+   ],
+   "worst_median_s": 0.035470832022838295,
+   "wall_s": 14.8,
+   "h_per_100k_run_worst": 0.985300889523286,
+   "runs_per_8cpu_hour": 2.0298367953038707,
+   "cpu_h_per_run": 3.941203558093144
+  },
+  {
+   "layout": "1x8",
+   "procs": 1,
+   "threads_each": 8,
+   "per_proc_median_s": [
+    0.0214
+   ],
+   "arms": [
+    "C"
+   ],
+   "worst_median_s": 0.021394342998974025,
+   "wall_s": 13.5,
+   "h_per_100k_run_worst": 0.5942873055270562,
+   "runs_per_8cpu_hour": 1.6826878021786598,
+   "cpu_h_per_run": 4.75429844421645
+  }
+ ]
+}

@@ -127,5 +127,5 @@ else running; paper config (batch 128, m = 32 for B/C), 5 warm-up steps then 40 
 Reading: the time MLP on 128 unique t values dominates, so all three arms cost about the same. One thread is the most CPU-efficient
 (≈2.5 CPU-h per 100k-step run); 8 threads finish a run in ≈0.6 h. 15 runs (GMM A, B, C and checkerboard A, C at 3 seeds) cost
 on the order of 40–80 CPU-h, far below the 600 CPU-h budget. These are isolated timings: packed processes share memory bandwidth and the
-`_rules.md` note says an 8-thread process slows ≈6× next to other work, so S2 must benchmark the packed layout (e.g. 8 × 1 thread, 4 × 2 threads)
-before choosing. Logging and checkpointing (every 100 / 5000 steps) are not included.
+`_rules.md` note says an 8-thread process slows ≈6× next to other work, so S1 also benchmarked packed layouts (`docs/benchmark.md`): 8 processes × 1 thread give 0.11 s/step
+each (≈ 3.1 CPU-h per run), the best throughput. Logging and checkpointing (every 100 / 5000 steps) are not included.
