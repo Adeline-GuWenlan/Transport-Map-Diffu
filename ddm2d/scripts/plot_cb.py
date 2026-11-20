@@ -3,7 +3,7 @@ Colours as in scripts/plot_gmm.py (green = A standard diffusion, orange = B beta
 Paper values (Table 2 of arXiv 2502.02483 v3, App. K.1; docs/paper_values/table2_paper_values.json) are drawn only in a separate panel or with
 an explicit "paper" label, never as ours.
 
-Usage: python scripts/plot_cb.py gt|grids|curve|table|snaps|all
+Usage: python scripts/plot_cb.py gt|grids|curve|table|snaps|dnerr|all
 """
 import csv
 import json
@@ -259,8 +259,37 @@ def snaps():
     save(fig, "snapshots_mmd2")
 
 
+def dnerr():
+    r = json.loads((EV / "denoiser_err.json").read_text())
+    ts = sorted({q["t"] for q in r})
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4.2))
+    ex = [[q for q in r if q["t"] == t][0] for t in ts]
+    axes[0].plot(ts, [q["exact_std_32"] for q in ex], "k-", lw=2, label="exact posterior std (per coordinate)")
+    axes[0].plot(ts, [q["exact_mc_err_32"] for q in ex], "k:", lw=1.2, label="MC error of a 32-draw mean (exact draws)")
+    for arm in "ABC":
+        for s in SEEDS:
+            y = [np.mean([q["rms_err_mean"] for q in r if q["t"] == t and q["run"] == f"cb_{arm}_s{s}" and q["which"] == "clamped"]) for t in ts]
+            axes[0].plot(ts, y, "-o", ms=3, color=COL[arm], alpha=[1, 0.7, 0.45][s], label=(LAB[arm] if s == 0 else None))
+            y = [np.mean([q["draw_std"] for q in r if q["t"] == t and q["run"] == f"cb_{arm}_s{s}" and q["which"] == "clamped"]) for t in ts]
+            if arm != "A":
+                axes[1].plot(ts, y, "-o", ms=3, color=COL[arm], alpha=[1, 0.7, 0.45][s], label=(LAB[arm] if s == 0 else None))
+    axes[1].plot(ts, [q["exact_std_32"] for q in ex], "k-", lw=2, label="exact posterior (32 draws)")
+    axes[0].set_title("RMS error of E[x̂] vs the exact posterior mean\n(A: x̂; B, C: mean of 32 draws); t < 0.01 fed as 0.01", fontsize=9)
+    axes[1].set_title("spread of the 32 draws (per-coordinate std)", fontsize=9)
+    for a in axes:
+        a.set_xscale("log")
+        a.set_yscale("log")
+        a.axvspan(1e-3, 0.01, color="#dddddd", alpha=0.5, lw=0)
+        a.set_xlabel("diffusion time t (grey: below the training range [0.01, 0.99])")
+        a.grid(alpha=0.3, which="both")
+        a.legend(fontsize=7)
+    fig.suptitle("Checkerboard denoisers vs the exact posterior (4096 x_t per t; runs/paper/eval_cb/denoiser_err.json)", fontsize=10)
+    fig.tight_layout()
+    save(fig, "denoiser_error_vs_t")
+
+
 if __name__ == "__main__":
     part = sys.argv[1] if len(sys.argv) > 1 else "all"
-    for name, fn in [("gt", gt), ("table", table), ("curve", curve), ("grids", grids), ("snaps", snaps)]:
+    for name, fn in [("gt", gt), ("table", table), ("curve", curve), ("grids", grids), ("snaps", snaps), ("dnerr", dnerr)]:
         if part in (name, "all"):
             fn()
