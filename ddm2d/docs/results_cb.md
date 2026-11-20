@@ -68,7 +68,7 @@ p_0-vs-p_0 null (20 draws, `mmd_null.json`), and the repeat-to-repeat sd of a mo
 - `figures/cb/samples_grid_seed{0,1,2}.png`: rows A, B, C; columns ground truth, NFE 5, 10, 50, 100, 1000 (repeat-0 samples; MMD²_u and
   in-support fraction in each title). The samples are in `samples_cb_*.npz`.
 - `figures/cb/snapshots_mmd2.png`: MMD²_u of the EMA snapshots at 10k … 100k steps (NFE 5, 10, 100). Points at 1e-6 are clipped negatives.
-- `figures/cb/denoiser_error_vs_t.png`: denoiser accuracy vs t against the exact posterior (§5.4).
+- `figures/cb/denoiser_error_vs_t.png`: denoiser accuracy vs t against the exact posterior (§5.3).
 - Training-loss curves of the 9 checkerboard runs: `figures/gmm/loss/loss_cb_*.png` and `figures/gmm/loss_overview_cb.png` (made by S3).
 
 ## 4. What reproduces
@@ -119,7 +119,7 @@ truncated normals over the 8 squares, tested against importance sampling (`tests
 - The paper's 1.55–2.0e-4 is about the V-statistic floor of n ≈ 10,000 samples (1.7e-4, `audit.md` §5.2). Its C may be better than ours, or its
   numbers may be dominated by the estimator floor. The lower-lr diagnostic (§5.5) shows that our C reaches 5e-5–1.6e-4 once its weights
   converge further, so a better-converged C is a sufficient explanation **[E for ours, G for the paper's]**.
-- Where our C loses accuracy: at low noise it is over-dispersed (§5.4). Its draws have std ≈ 0.06 at every t ≤ 0.02, while the exact posterior
+- Where our C loses accuracy: at low noise it is over-dispersed (§5.3). Its draws have std ≈ 0.06 at every t ≤ 0.02, while the exact posterior
   has 0.001–0.02. This blurs the square edges: the in-support fraction is 0.92–0.94, not 1. The GMM's C shows the same (std 0.036 vs 0.009 at
   t = 0.01; `results_gmm.md` §4), and so does the paper's own Fig. 3 right for the GMM (0.039 vs 0.012).
 
@@ -129,7 +129,8 @@ truncated normals over the 8 squares, tested against importance sampling (`tests
 - **Not the clamp alone [E].** With exact posterior draws the clamp costs only 2–4e-4 at NFE 500–1000. Without the clamp the oracle is ≈ 0,
   but the trained networks get much *worse* (A 1.4e-2, C 3.1e-3; they are fed t below their training range).
 - **Safety-interval grid** (no denoiser call below t = 0.01, last step to 0; `grid_mmd.json`, 3 repeats): NFE 1000 improves to A 1.2e-3,
-  B 1.0e-3, C 5.1e-4, with the oracle at ≈ 0. It is still above NFE 100.
+  B 1.0e-3, C 5.1e-4, with the oracle at ≈ 0. A and B stay above their NFE-100 values on this grid (5.4e-4, 7.2e-4);
+  C is about level (4.6e-4 → 5.1e-4).
 - **Cause: the networks' low-noise accuracy [E].** See `denoiser_err.json` and `figures/cb/denoiser_error_vs_t.png` (4096 x_t per t):
   - At t = 0.01, A's RMS error against the exact posterior mean is 0.048, while the posterior std is 0.010. B's is 0.046; C's draws have
     std 0.059.

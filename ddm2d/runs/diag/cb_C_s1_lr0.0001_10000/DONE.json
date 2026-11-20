@@ -1,0 +1,14 @@
+{
+ "diagnostic": true,
+ "from": "runs/paper/cb_C_s1/ckpt/final.pt",
+ "from_sha256": "2ab9b0bdf84c35441f028c2e6ec4e430aab11ec8f52af0bf3426674b13461aa8",
+ "start_step": 100000,
+ "steps": 110000,
+ "lr": 0.0001,
+ "wall_s": 1670.3,
+ "git": {
+  "commit": "ea98509ee1d0813c709335e532feecdbb58df369",
+  "dirty_src_or_configs": false
+ },
+ "final_ckpt_sha256": "1fcaa455122844f0d98eed683d2df25b524f0625f451f5d6b27ea4c83412c7fb"
+}
