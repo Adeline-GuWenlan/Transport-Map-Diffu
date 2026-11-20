@@ -203,3 +203,24 @@ Question (`task_spec.md` §7): is Table 2's "MMD" MMD or MMD², with which kerne
 **Conclusion: the convention is not stated in any source we could read.** Table 2 numbers are therefore compared with ours only as
 "unverified" (`task_spec.md` §7). Below, we test which convention is *consistent* with the paper's numbers. That is evidence about plausibility,
 not a determination.
+
+### 5.2 Which conventions are consistent with the paper's numbers (tests, not proof)
+Raw: `runs/paper/eval_cb/mmd_null.json` (p_0 vs p_0, 20 draws per n), `table2_summary.json`, `big_cb_*.json` (n = 10,000),
+`scale_oracle_mmd.json`. RBF k(x, y) = exp(−‖x − y‖²/(2σ²)) on our FFJORD-scale board ([−4, 4]²).
+
+| Hypothesis for Table 2's "MMD" | Test | Verdict |
+|---|---|---|
+| MMD (not squared) | The distributional column (1.6–2.0e-4) would mean MMD² ≈ 3e-8. A single p_0-vs-p_0 evaluation already has MMD²_u sd 1.8e-4 (n = 4096) and 6.7e-5 (n = 10,000). | **implausible [E]** |
+| Biased MMD²_b, n = m = 4096 (the GMM's sample size), σ ∈ {0.5, 1, 2} | The V-statistic floor (p_0 vs p_0) is 4.7e-4 / 4.8e-4 / 3.7e-4 (σ = 1 / 0.5 / 2). Paper values of 1.55–2.0e-4 lie below that floor. | **ruled out** at our data scale **[E]** |
+| Biased MMD²_b, n ≈ 10,000, σ ∈ {0.5, 1, 2} | Floor 1.7e-4 / 1.9e-4 / 1.4e-4 ± 0.7e-4 (sd). The paper's distributional column (1.55–2.0e-4) and its diffusion values at NFE 100–1000 (1.7–2.0e-4) sit on this floor. | **consistent [G]**, i.e. the paper's large-NFE values could be pure estimator floor |
+| Unbiased MMD²_u, n = 4096 | Plausible magnitudes, but 5 single evaluations with null sd 1.8e-4 would scatter by ± 2e-4 (and go negative). The paper's 5 distributional values lie within 1.55–2.0e-4, all positive. | **possible but less likely [G]** (it needs a real model error of ≈ 1.8e-4 plus unusually small scatter) |
+| ½ MMD² (D_ρ, Eq. 10) | A constant factor 2 changes every value equally; it cannot be separated from the scale questions below by the numbers alone. | **undetermined** |
+| Our data scale and σ = 1 | Diffusion column at NFE 5 / 10: the *exact* posterior-mean sampler (the best any x_0-regression model can do with this sampler, `oracle_mmd.json`) gives 3.3e-2 / 7.7e-3 (churn 1) or 2.0e-2 / 4.7e-3 (churn 0). The paper reports 7.0e-3 / 2.1e-3, below the oracle by 3–5× (churn 1) and 2–3× (churn 0). | the paper's diffusion setup or metric **differs from ours [E]** |
+| A smaller board (×0.5 or ×0.25), σ = 1 | Exact posterior-mean oracle at NFE 5 / 10: ×0.5 → 3.8e-2 / 8.6e-3; ×0.25 → 2.0e-2 / 5.4e-3 (`scale_oracle_mmd.json`). Still 2.6–5× above the paper. | data scale **alone does not explain** it **[E]** |
+
+What *is* scale-free: the ratio Diffusion / Distributional at each NFE (a constant normalisation such as ½ cancels; a V-statistic floor does
+not). Paper: 45 (NFE 5), 10.7 (10), 1.7 (50), 0.98 (100), 0.93 (1000). These are compared with ours in `docs/results_cb.md`.
+
+**Decision.** Our Table 2 uses the paper's only defined metric (§6.1: RBF, σ = 1, 4096 samples) with the **unbiased** MMD²_u as primary,
+MMD²_b on the same samples, σ ∈ {0.5, 2} for sensitivity, and a separate n = 10,000 evaluation. Numeric agreement with Table 2 is marked
+**unverified** in every row; the comparison is qualitative (orderings, ratios, trends).
