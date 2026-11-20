@@ -1,0 +1,33 @@
+23769610	ddm2d_train_s1	seg1	restart0	cs619.hpc.nyu.edu	2026-11-19T22:57:18Z	start	runs/paper/runlists/seed1.txt
+23769609	ddm2d_train_s0	seg1	restart0	cs619.hpc.nyu.edu	2026-11-19T22:57:18Z	start	runs/paper/runlists/seed0.txt
+23769636	ddm2d_train_s2	seg1	restart0	cs603.hpc.nyu.edu	2026-11-19T22:57:24Z	start	runs/paper/runlists/seed2.txt
+23769636	ddm2d_train_s2	seg1	runs/paper/gmm_A_s2	exit0	2026-11-20T03:05:27Z
+23769609	ddm2d_train_s0	seg1	runs/paper/gmm_A_s0	exit3	2026-11-20T03:45:03Z
+23769609	ddm2d_train_s0	seg1	runs/paper/gmm_B_s0	exit3	2026-11-20T03:45:03Z
+23769609	ddm2d_train_s0	seg1	runs/paper/gmm_C_s0	exit0	2026-11-20T03:45:03Z
+23769609	ddm2d_train_s0	seg1	runs/paper/cb_A_s0	exit3	2026-11-20T03:45:03Z
+23769609	ddm2d_train_s0	seg1	runs/paper/cb_B_s0	exit3	2026-11-20T03:45:03Z
+23769609	ddm2d_train_s0	seg1	runs/paper/cb_C_s0	exit0	2026-11-20T03:45:03Z
+23769610	ddm2d_train_s1	seg1	runs/paper/gmm_A_s1	exit3	2026-11-20T03:45:03Z
+23769610	ddm2d_train_s1	seg1	runs/paper/gmm_B_s1	exit3	2026-11-20T03:45:04Z
+23769610	ddm2d_train_s1	seg1	runs/paper/gmm_C_s1	exit0	2026-11-20T03:45:04Z
+23769610	ddm2d_train_s1	seg1	runs/paper/cb_A_s1	exit3	2026-11-20T03:45:04Z
+23769610	ddm2d_train_s1	seg1	runs/paper/cb_B_s1	exit3	2026-11-20T03:45:04Z
+23769610	ddm2d_train_s1	seg1	runs/paper/cb_C_s1	exit0	2026-11-20T03:45:04Z
+23769636	ddm2d_train_s2	seg1	runs/paper/gmm_B_s2	exit3	2026-11-20T03:45:11Z
+23769636	ddm2d_train_s2	seg1	runs/paper/gmm_C_s2	exit0	2026-11-20T03:45:11Z
+23769636	ddm2d_train_s2	seg1	runs/paper/cb_A_s2	exit0	2026-11-20T03:45:11Z
+23769636	ddm2d_train_s2	seg1	runs/paper/cb_B_s2	exit0	2026-11-20T03:45:11Z
+23769636	ddm2d_train_s2	seg1	runs/paper/cb_C_s2	exit0	2026-11-20T03:45:11Z
+23800062	ddm2d_train_s1	seg2	restart0	cs605.hpc.nyu.edu	2026-11-20T03:45:22Z	start	runs/paper/runlists/seed1.txt
+23800063	ddm2d_train_s0	seg2	restart0	cs611.hpc.nyu.edu	2026-11-20T03:45:24Z	start	runs/paper/runlists/seed0.txt
+23800073	ddm2d_train_s2	seg2	restart0	cs619.hpc.nyu.edu	2026-11-20T03:45:26Z	start	runs/paper/runlists/seed2.txt
+23800073	ddm2d_train_s2	seg2	runs/paper/gmm_B_s2	exit0	2026-11-20T03:50:06Z
+23800063	ddm2d_train_s0	seg2	runs/paper/gmm_A_s0	exit0	2026-11-20T04:03:31Z
+23800063	ddm2d_train_s0	seg2	runs/paper/gmm_B_s0	exit0	2026-11-20T04:03:31Z
+23800062	ddm2d_train_s1	seg2	runs/paper/gmm_A_s1	exit0	2026-11-20T04:18:26Z
+23800062	ddm2d_train_s1	seg2	runs/paper/gmm_B_s1	exit0	2026-11-20T04:18:26Z
+23800063	ddm2d_train_s0	seg2	runs/paper/cb_A_s0	exit0	2026-11-20T04:21:59Z
+23800063	ddm2d_train_s0	seg2	runs/paper/cb_B_s0	exit0	2026-11-20T04:21:59Z
+23800062	ddm2d_train_s1	seg2	runs/paper/cb_A_s1	exit0	2026-11-20T04:46:32Z
+23800062	ddm2d_train_s1	seg2	runs/paper/cb_B_s1	exit0	2026-11-20T04:46:32Z
