@@ -181,3 +181,25 @@ x1 = U[0,1)*4 - 2 ; x2_ = U[0,1) - randint{0,1}*2 ; x2 = x2_ + (floor(x1) % 2) ;
   training settings transfer to the DDM checkerboard run. No code released (search above).
 - Conclusion: the checkerboard of Table 2 cannot be pinned down. We use FFJORD's generator as a documented approximation and borrow the GMM
   training configuration (both labelled in `paper_vs_implementation.md`).
+
+---
+
+## 5. Table 2's metric convention (S4, 2026-11-20)
+
+Question (`task_spec.md` §7): is Table 2's "MMD" MMD or MMD², with which kernel, bandwidth, sample size and estimator?
+
+### 5.1 Sources searched
+| Source | What it says about Table 2's metric | Result |
+|---|---|---|
+| P v3 `main.tex` l. 1795–1811 (App. K.1) | "We report MMD between sampled and target distributions with different NFEs"; caption "MMD between target and sampled distribution for checkerboard dataset" | the word "MMD" only **[E]** |
+| P v1 (5 Feb 2025, e-print sha256 `69fea830…`) and v2 (26 Feb 2025, `b599a7e8…`) | no checkerboard experiment and no Table 2 at all (`grep -i checkerboard` empty) | Table 2 was added in v3 (7 Jul 2025, the ICML camera-ready) **[E]** |
+| P v3 §6.1 and App. I.1 (GMM) | "MMD squared given by D_ρ (10) with ρ = −k_rbf … σ = 1"; 4096 samples | the only metric definition in the paper; for the GMM, not for the checkerboard **[E]** |
+| P v3 figure sources (`figures/`) | no checkerboard figure or data file | **[E]** |
+| G (Galashov et al., arXiv 2405.06780 v1, the cited checkerboard source) | 2D experiments are qualitative (sample plots) plus MMD²(P_t, P; t) of learned kernels; no MMD between samples and target, no generator code | nothing usable **[E]** |
+| G's Fig. "2d_grad_flow_toy_samples.png" | 4 × 4 board, 8 occupied squares, same parity as FFJORD (top row: columns 2 and 4 occupied); no axis ticks | the layout agrees with FFJORD; the scale is unknown **[E]** |
+| Code: GitHub / web search, 2026-11-20 (queries: paper title + "code", "github", "checkerboard") | no official code; only the third-party `edluyuan/ddm` (GMM only, unbiased MMD², σ = 1, Gretton convention) | **[E: absent]** |
+| OpenReview forum `N82967FcVK` (reviews / rebuttal, where Table 2 may have been requested) | `api2.openreview.net` and the forum page return a browser-challenge page to automated clients | **not readable from this cluster**; the user could check it in a browser |
+
+**Conclusion: the convention is not stated in any source we could read.** Table 2 numbers are therefore compared with ours only as
+"unverified" (`task_spec.md` §7). Below, we test which convention is *consistent* with the paper's numbers. That is evidence about plausibility,
+not a determination.

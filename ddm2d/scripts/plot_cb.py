@@ -143,9 +143,10 @@ def curve():
                 ax.plot([1000], [max(np.mean(nc), 1e-6)], marker="s", mfc="none", color=COL[arm], ms=8, ls="")
         if nu:
             v = [q[key] for q in nu]
-            ax.axhspan(max(min(v), 1e-6), max(v), color="#888888", alpha=0.25, lw=0, label=f"p0 vs p0 null, {len(v)} draws")
-            if key == "mmd2_u":
-                ax.axhline(2 * np.std(v), color="#555555", ls=":", lw=1, label="2 sd of the null (one 4096-sample evaluation)")
+            if key == "mmd2_u":       # the null of MMD²_u is centred at 0 (half the draws are negative): show its +2 sd level only
+                ax.axhline(2 * np.std(v), color="#555555", ls=":", lw=1.2, label=f"+2 sd of the p0-vs-p0 null ({len(v)} draws; one 4096-sample evaluation)")
+            else:
+                ax.axhspan(min(v), max(v), color="#888888", alpha=0.25, lw=0, label=f"p0 vs p0 null, min-max of {len(v)} draws (V-statistic floor)")
         ax.plot([], [], marker="s", mfc="none", color="k", ls="", label="NFE 1000 with clamp_low=False")
         ax.set_xscale("log")
         ax.set_yscale("log")
@@ -166,7 +167,7 @@ def curve():
     lo = min(a.get_ylim()[0] for a in axes)
     hi = max(a.get_ylim()[1] for a in axes)
     for a in axes:
-        a.set_ylim(max(lo, 1e-6), hi)
+        a.set_ylim(max(lo, 3e-5), hi)
     fig.tight_layout()
     save(fig, "metric_vs_nfe")
 

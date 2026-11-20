@@ -1,0 +1,5 @@
+null n 1000 3s
+null n 2048 23s
+null n 4096 101s
+null n 10000 533s
+total 533s

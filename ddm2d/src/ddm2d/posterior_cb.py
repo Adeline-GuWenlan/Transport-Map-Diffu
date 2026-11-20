@@ -34,12 +34,12 @@ def _tn_mean(m, s, lo, hi):
     return np.clip(m + s * (pa - pb), lo, hi)
 
 
-def _components(xt, t):
+def _components(xt, t, scale=1.0):
     xt = np.asarray(xt, float)
     al, si = alpha_sigma(float(t))
     al, si = float(al), float(si)
     m, s = xt / al, si / al                                   # [n, 2], scalar
-    lo, hi = SQUARES[None, :, :], SQUARES[None, :, :] + 2.0   # [1, 8, 2]
+    lo, hi = scale * SQUARES[None, :, :], scale * (SQUARES[None, :, :] + 2.0)   # [1, 8, 2]
     a, b = (lo - m[:, None, :]) / s, (hi - m[:, None, :]) / s
     logw = _log_mass(a, b).sum(-1)                            # [n, 8]
     logw -= logw.max(1, keepdims=True)
@@ -48,25 +48,25 @@ def _components(xt, t):
     return m, s, lo, hi, w
 
 
-def posterior_mean(xt, t):
-    """E[X_0 | X_t = x_t] for each row of xt [n, 2]."""
-    m, s, lo, hi, w = _components(xt, t)
+def posterior_mean(xt, t, scale: float = 1.0):
+    """E[X_0 | X_t = x_t] for each row of xt [n, 2]. `scale` rescales the board (diagnostic: scale 0.5 = support [-2, 2]^2)."""
+    m, s, lo, hi, w = _components(xt, t, scale)
     mu = _tn_mean(m[:, None, :], s, lo, hi)                    # [n, 8, 2]
     return (w[..., None] * mu).sum(1)
 
 
-def sample_posterior(xt, t, n_draws: int, rng: np.random.Generator):
+def sample_posterior(xt, t, n_draws: int, rng: np.random.Generator, scale: float = 1.0):
     """n_draws exact posterior draws per row of xt [n, 2] -> [n, n_draws, 2] (inverse-CDF truncated normal; log-space in the far tails)."""
-    m, s, lo, hi, w = _components(xt, t)
+    m, s, lo, hi, w = _components(xt, t, scale)
     n = m.shape[0]
     out = np.empty((n, n_draws, 2))
     cw = np.cumsum(w, 1)
     u = rng.random((n, n_draws))
     k = np.minimum((u[..., None] > cw[:, None, :]).sum(-1), 7)  # component index [n, n_draws]
     for d in range(2):
-        L = SQUARES[k, d]
+        L = scale * SQUARES[k, d]
         a = (L - m[:, None, d]) / s
-        b = (L + 2.0 - m[:, None, d]) / s
+        b = (L + 2.0 * scale - m[:, None, d]) / s
         v = rng.random((n, n_draws))
         # sample on the side of the tail with more numerical room: flip so the interval is in the lower half where ndtr is accurate
         flip = (a + b) > 0

@@ -1,0 +1,23 @@
+cb_A_s0 repeat 0 52s
+cb_A_s0 repeat 1 104s
+cb_A_s0 repeat 2 157s
+cb_A_s0 repeat 3 210s
+cb_A_s0 repeat 4 264s
+cb_A_s0 repeat 5 316s
+cb_A_s0 repeat 6 370s
+cb_A_s0 repeat 7 424s
+cb_A_s0 repeat 8 478s
+cb_A_s0 repeat 9 531s
+cb_A_s0 [(5, True, '2.58e-02'), (10, True, '5.24e-03'), (20, True, '1.08e-03'), (30, True, '9.13e-04'), (50, True, '9.16e-04'), (70, True, '1.04e-03'), (100, True, '8.94e-04'), (200, True, '1.99e-03'), (500, True, '3.11e-03'), (1000, True, '4.11e-03'), (1000, False, '1.80e-02')]
+cb_C_s2 repeat 0 567s
+cb_C_s2 repeat 1 602s
+cb_C_s2 repeat 2 638s
+cb_C_s2 repeat 3 674s
+cb_C_s2 repeat 4 709s
+cb_C_s2 repeat 5 744s
+cb_C_s2 repeat 6 779s
+cb_C_s2 repeat 7 815s
+cb_C_s2 repeat 8 850s
+cb_C_s2 repeat 9 886s
+cb_C_s2 [(5, True, '1.01e-03'), (10, True, '5.46e-04'), (20, True, '5.45e-04'), (30, True, '4.99e-04'), (50, True, '5.40e-04'), (70, True, '8.19e-04'), (100, True, '1.05e-03'), (200, True, '7.83e-04'), (500, True, '1.06e-03'), (1000, True, '1.53e-03'), (1000, False, '4.38e-03')]
+total 886s
