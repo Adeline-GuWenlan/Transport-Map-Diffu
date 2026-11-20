@@ -1,0 +1,2 @@
+fig4 done 56s
+total 56s
