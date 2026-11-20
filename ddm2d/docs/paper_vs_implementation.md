@@ -42,9 +42,12 @@ borrowed one; **unknown** = not stated and not determinable. P = arXiv 2502.0248
 | 34 | NFE | 1 denoiser call per step | same, counted by the sampler | verified (test) | App. H |
 | 35 | Fig. 3 metric | "MMD squared given by D_ρ", RBF σ = 1, 4096 samples | standard MMD²_u (primary), MMD²_b, D_ρ = ½MMD² all stored | approximated (normalisation and estimator unknown) | §6.1 P7, App. I.1 P33 |
 | 36 | Fig. 3 left NFE grid | x-ticks 5, 10, 20, 30, 50, 70, 90, 100 | same | matched | source `figures/mmd_2d.pdf` |
-| 37 | Fig. 3 right std | 8 draws, std over ξ, average over 4096 x_t | per-coordinate std (ddof 0), mean over coords | approximated (vector→scalar reduction) | App. I.1 P33 |
+| 37 | Fig. 3 right std | 8 draws, std over ξ, average over 4096 x_t | per-coordinate std (ddof 0), mean over coords (same for exact posterior and models) | approximated (vector→scalar reduction not stated; S3: the paper's exact-posterior curve matches "mean distance to the 8-draw mean" at t ≤ 0.45 but no single reduction fits all its curves, `docs/results_gmm.md` §4) | App. I.1 P33 |
 | 38 | Analytic posterior | mixture formula App. I.1 | same; tested vs importance sampling | verified (test) | App. I.1 P33 |
-| 39 | Fig. 4 | x_0 ∈ {μ_1, μ_2}, t ∈ {0.99, 0.88, 0.45, 0.23, 0.01}, 4096 samples, one x_t per panel | same | matched | Fig. 4 P7, App. I.1 |
+| 39 | Fig. 4 | x_0 ∈ {μ_1, μ_2}, t ∈ {0.99, 0.88, 0.45, 0.23, 0.01}, 4096 samples, one x_t per panel; caption: top row = left Gaussian | same, but rows in the task-spec order (top = (3, 3) = right Gaussian), each row labelled | matched (row order swapped vs the paper, by the binding spec) | Fig. 4 caption (tex l. 525), `docs/task_spec.md` §6 |
 | 40 | Table 2 metric | "MMD", nothing else stated | same estimator family as Fig. 3, reported with its definition; numeric agreement unverified | unknown | App. K.1 P35 |
 | 41 | Seeds | not stated (single run) | seeds 0, 1, 2 if budget allows; seed 0 is the primary run | approximated | — |
 | 42 | Hardware | TPU/GPU (JAX) | CPU, PyTorch 2.14.1 float32 | approximated | `_rules.md` GPU blocker |
+| 43 | Fig. 3 right t grid | not stated in the text | `linspace(0.01, 0.99, 10)` (+ a 50-point grid for the plot) | verified (vertices of the paper's vector figure) | `figures/std_over_eps_avg_over_xt.pdf`, `docs/paper_values/fig3_paper_values.json` |
+| 44 | Fig. 3 left evaluation repeats | one curve, presumably one evaluation of 4096 samples | 10 repeats (sampler seed + reference set) per seed, 3 training seeds; mean reported, all repeats in the CSV | approximated (extra repeats reduce MC noise; single-evaluation noise ≈ ±2–4e-4 is reported) | `docs/results_gmm.md` §3 |
+| 45 | Fig. 3 / Fig. 4 checkpoint | not stated | EMA weights of the 100k-step `final.pt` for every arm and seed | approximated | — |
