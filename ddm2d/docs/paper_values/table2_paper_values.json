@@ -1,0 +1,4 @@
+{"source": "De Bortoli et al., Distributional Diffusion Models with Scoring Rules, arXiv 2502.02483 v3, App. K.1, Table 2 ('MMD between target and sampled distribution for checkerboard dataset'); main.tex lines 1795-1811 of the v3 e-print. Not present in v1 or v2. PUBLISHED values, NOT ours. Metric convention (MMD vs MMD^2, kernel, bandwidth, n, estimator) is not stated; see docs/audit.md section 5.",
+ "url": "https://arxiv.org/abs/2502.02483v3",
+ "values": {"diffusion": {"5": 7.00e-3, "10": 2.10e-3, "50": 2.70e-4, "100": 1.96e-4, "1000": 1.71e-4},
+            "distributional": {"5": 1.57e-4, "10": 1.96e-4, "50": 1.55e-4, "100": 2.00e-4, "1000": 1.83e-4}}}
