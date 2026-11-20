@@ -1,0 +1,23 @@
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+step 30000  n/class 1000  held-out D1 (mean over classes):
+  model[ema] 1.0116  diversity ratio 0.977  NN gen->train p50 22.327 (test->train p50 19.446)
+    blockiness 12.377 (reference 1.008); power ratio gen/ref by band {'1-4': 0.63, '4-8': 1.81, '8-12': 4.47, '12-17': 4.08}
+    1-NN classifier agrees with the conditioning class: 0.210 (real test images: 0.288); D1-confusion row-argmin accuracy 0.60
+  model[raw] 0.4848  diversity ratio 1.099  NN gen->train p50 23.988 (test->train p50 19.446)
+    blockiness 26.003 (reference 1.008); power ratio gen/ref by band {'1-4': 0.65, '4-8': 2.08, '8-12': 5.24, '12-17': 4.74}
+    1-NN classifier agrees with the conditioning class: 0.206 (real test images: 0.288); D1-confusion row-argmin accuracy 0.90
+  baseline noise        9.2208
+  baseline zero         17.8513
+  baseline class_mean   14.7843
+  baseline train        0.0106
+  baseline other_class  2.0586
+  inception D1: ema 14.0092  raw 11.0988  | right-class real 0.0019  wrong-class real 3.2603
+  dinov2 D1: ema 43.6589  raw 39.4481  | right-class real 0.0053  wrong-class real 15.6721
+  FID (ema) 348.96  [clean-fid 10000 samples on cuda; indicative only if small]
+  FID (raw) 335.26  [clean-fid 10000 samples on cuda; indicative only if small]
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0030000.json.tmp (191 s)
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0030000_samples_ema.png: 10 classes (rows) x 10, step 30000, ema weights
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0030000_samples_raw.png: 10 classes (rows) x 10, step 30000, raw weights

@@ -1,0 +1,94 @@
+[Wed Nov 11 06:59:57 EST 2026] job 22606248 restart 0 on gl059.hpc.nyu.edu; config /scratch/wg2381/transport_map/configs/expA_cifar10_dit-b2_pixel.yaml; run /scratch/wg2381/transport_map/runs/expA_s1; set: seed=1
+name, driver_version, memory.total [MiB]
+NVIDIA L40S, 610.43.02, 46068 MiB
+[Wed Nov 11 16:54:34 EST 2026] tmap.train exited with 3
+checkpoint written; requeueing 22606248
+[Thu Nov 12 01:23:46 EST 2026] job 22606248 restart 1 on gl040.hpc.nyu.edu; config /scratch/wg2381/transport_map/configs/expA_cifar10_dit-b2_pixel.yaml; run /scratch/wg2381/transport_map/runs/expA_s1; set: seed=1
+name, driver_version, memory.total [MiB]
+NVIDIA L40S, 610.43.02, 46068 MiB
+[Thu Nov 12 03:58:51 EST 2026] tmap.train exited with 0
+[Thu Nov 12 03:58:51 EST 2026] evaluating step0005000
+  warnings.warn(
+step 5000  n/class 1000  held-out D1 (mean over classes):
+  model[ema] 12.4891  diversity ratio 0.139  NN gen->train p50 9.636 (test->train p50 19.446)
+    blockiness 10.463 (reference 1.008); power ratio gen/ref by band {'1-4': 0.01, '4-8': 0.06, '8-12': 0.14, '12-17': 0.13}
+    1-NN classifier agrees with the conditioning class: 0.100 (real test images: 0.288); D1-confusion row-argmin accuracy 0.10
+  model[raw] 0.4058  diversity ratio 0.972  NN gen->train p50 26.430 (test->train p50 19.446)
+    blockiness 15.845 (reference 1.008); power ratio gen/ref by band {'1-4': 0.33, '4-8': 2.78, '8-12': 7.05, '12-17': 6.18}
+    1-NN classifier agrees with the conditioning class: 0.211 (real test images: 0.288); D1-confusion row-argmin accuracy 1.00
+  baseline noise        9.2208
+  baseline zero         17.8513
+  baseline class_mean   14.7843
+  baseline train        0.0106
+  baseline other_class  2.0586
+  inception D1: ema 15.7001  raw 19.7647  | right-class real 0.0019  wrong-class real 3.2603
+  dinov2 D1: ema 62.8649  raw 58.6176  | right-class real 0.0053  wrong-class real 15.6721
+  FID (ema) 353.83  [clean-fid 10000 samples on cuda; indicative only if small]
+  FID (raw) 449.78  [clean-fid 10000 samples on cuda; indicative only if small]
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0005000.json.tmp (199 s)
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0005000_samples_ema.png: 10 classes (rows) x 10, step 5000, ema weights
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0005000_samples_raw.png: 10 classes (rows) x 10, step 5000, raw weights
+[Thu Nov 12 04:02:56 EST 2026] evaluating step0010000
+  warnings.warn(
+step 10000  n/class 1000  held-out D1 (mean over classes):
+  model[ema] 4.6804  diversity ratio 0.472  NN gen->train p50 14.627 (test->train p50 19.446)
+    blockiness 7.468 (reference 1.008); power ratio gen/ref by band {'1-4': 0.07, '4-8': 0.64, '8-12': 1.64, '12-17': 1.52}
+    1-NN classifier agrees with the conditioning class: 0.175 (real test images: 0.288); D1-confusion row-argmin accuracy 0.20
+  model[raw] 0.2847  diversity ratio 0.972  NN gen->train p50 24.043 (test->train p50 19.446)
+    blockiness 7.674 (reference 1.008); power ratio gen/ref by band {'1-4': 0.36, '4-8': 2.25, '8-12': 5.73, '12-17': 5.32}
+    1-NN classifier agrees with the conditioning class: 0.190 (real test images: 0.288); D1-confusion row-argmin accuracy 1.00
+  baseline noise        9.2208
+  baseline zero         17.8513
+  baseline class_mean   14.7843
+  baseline train        0.0106
+  baseline other_class  2.0586
+  inception D1: ema 16.2676  raw 17.7394  | right-class real 0.0019  wrong-class real 3.2603
+  dinov2 D1: ema 58.8685  raw 51.0603  | right-class real 0.0053  wrong-class real 15.6721
+  FID (ema) 385.75  [clean-fid 10000 samples on cuda; indicative only if small]
+  FID (raw) 409.03  [clean-fid 10000 samples on cuda; indicative only if small]
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0010000.json.tmp (193 s)
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0010000_samples_ema.png: 10 classes (rows) x 10, step 10000, ema weights
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0010000_samples_raw.png: 10 classes (rows) x 10, step 10000, raw weights
+[Thu Nov 12 04:06:50 EST 2026] evaluating step0020000
+  warnings.warn(
+step 20000  n/class 1000  held-out D1 (mean over classes):
+  model[ema] 1.9753  diversity ratio 0.635  NN gen->train p50 17.747 (test->train p50 19.446)
+    blockiness 3.585 (reference 1.008); power ratio gen/ref by band {'1-4': 0.25, '4-8': 1.02, '8-12': 2.67, '12-17': 3.11}
+    1-NN classifier agrees with the conditioning class: 0.209 (real test images: 0.288); D1-confusion row-argmin accuracy 0.70
+  model[raw] 0.1672  diversity ratio 0.974  NN gen->train p50 21.286 (test->train p50 19.446)
+    blockiness 6.923 (reference 1.008); power ratio gen/ref by band {'1-4': 0.48, '4-8': 1.64, '8-12': 4.11, '12-17': 3.9}
+    1-NN classifier agrees with the conditioning class: 0.185 (real test images: 0.288); D1-confusion row-argmin accuracy 1.00
+  baseline noise        9.2208
+  baseline zero         17.8513
+  baseline class_mean   14.7843
+  baseline train        0.0106
+  baseline other_class  2.0586
+  inception D1: ema 12.6780  raw 11.0570  | right-class real 0.0019  wrong-class real 3.2603
+  dinov2 D1: ema 47.6168  raw 40.9654  | right-class real 0.0053  wrong-class real 15.6721
+  FID (ema) 307.52  [clean-fid 10000 samples on cuda; indicative only if small]
+  FID (raw) 328.09  [clean-fid 10000 samples on cuda; indicative only if small]
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0020000.json.tmp (191 s)
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0020000_samples_ema.png: 10 classes (rows) x 10, step 20000, ema weights
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0020000_samples_raw.png: 10 classes (rows) x 10, step 20000, raw weights
+[Thu Nov 12 04:10:43 EST 2026] evaluating step0030000
+  warnings.warn(
+step 30000  n/class 1000  held-out D1 (mean over classes):
+  model[ema] 1.0116  diversity ratio 0.977  NN gen->train p50 22.327 (test->train p50 19.446)
+    blockiness 12.377 (reference 1.008); power ratio gen/ref by band {'1-4': 0.63, '4-8': 1.81, '8-12': 4.47, '12-17': 4.08}
+    1-NN classifier agrees with the conditioning class: 0.210 (real test images: 0.288); D1-confusion row-argmin accuracy 0.60
+  model[raw] 0.4848  diversity ratio 1.099  NN gen->train p50 23.988 (test->train p50 19.446)
+    blockiness 26.003 (reference 1.008); power ratio gen/ref by band {'1-4': 0.65, '4-8': 2.08, '8-12': 5.24, '12-17': 4.74}
+    1-NN classifier agrees with the conditioning class: 0.206 (real test images: 0.288); D1-confusion row-argmin accuracy 0.90
+  baseline noise        9.2208
+  baseline zero         17.8513
+  baseline class_mean   14.7843
+  baseline train        0.0106
+  baseline other_class  2.0586
+  inception D1: ema 14.0092  raw 11.0988  | right-class real 0.0019  wrong-class real 3.2603
+  dinov2 D1: ema 43.6589  raw 39.4481  | right-class real 0.0053  wrong-class real 15.6721
+  FID (ema) 348.96  [clean-fid 10000 samples on cuda; indicative only if small]
+  FID (raw) 335.26  [clean-fid 10000 samples on cuda; indicative only if small]
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0030000.json.tmp (191 s)
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0030000_samples_ema.png: 10 classes (rows) x 10, step 30000, ema weights
+wrote /scratch/wg2381/transport_map/runs/expA_s1/eval/step0030000_samples_raw.png: 10 classes (rows) x 10, step 30000, raw weights
+[Thu Nov 12 04:14:40 EST 2026] done

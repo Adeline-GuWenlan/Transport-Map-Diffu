@@ -1,0 +1,25 @@
+{
+ "n_per_class": 200,
+ "pixel": {
+  "right_class_train": 0.036062226898789615,
+  "wrong_class_train": 2.010105974454509,
+  "block_shuffled_4": 0.4071361552537752,
+  "block_shuffled_1": 0.44624581380980005,
+  "model_ema": 0.15284146559749417
+ },
+ "inception": {
+  "right_class_train": 0.00036529467059800427,
+  "wrong_class_train": 3.2834926547851047,
+  "block_shuffled_4": 13.01893074220032,
+  "block_shuffled_1": 15.700116661217526,
+  "model_ema": 18.112059236961233
+ },
+ "dinov2": {
+  "right_class_train": -0.010876159030728161,
+  "wrong_class_train": 16.01626967887482,
+  "block_shuffled_4": 47.53010100794354,
+  "block_shuffled_1": 54.75092343559653,
+  "model_ema": 58.07783548027004
+ },
+ "seconds": 27.540042638778687
+}

@@ -1,0 +1,37 @@
+[Tue Nov 10 21:04:01 EST 2026] job 22605880 on gl043.hpc.nyu.edu; out /scratch/wg2381/transport_map/runs/bench_gpu_22605880
+name, driver_version, memory.total [MiB]
+NVIDIA L40S, 610.43.02, 46068 MiB
+check_env exit 0
+  /scratch/wg2381/transport_map/third_party/DiT HEAD ed81ce2229091fd4ecc9a223645f95cf379d582b  porcelain clean
+[PASS] third_party/DiT pinned and unmodified (0.14 s)
+ALL CHECKS PASSED
+== A_c128: exit 0 in 114 s
+   median 1.463 s/step over steps 30-60; peak mem 16.8 GiB; loss 27.283 -> 27.204
+== A_c256: exit 0 in 115 s
+   median 1.494 s/step over steps 30-60; peak mem 30.8 GiB; loss 27.283 -> 27.204
+== B_c128: exit 0 in 148 s
+   median 1.982 s/step over steps 30-60; peak mem 20.4 GiB; loss 69.539 -> 65.338
+feature term: encoder dinov2_vits14 (384-d), lambda = 0.6595 ({'scale': 0.6595136583963134, 'pixel_mean_dist': 37.062942436338105, 'feature_mean_dist': 56.197384185281464, 'n_per_class': 200, 'weight': 1.0, 'lambda': 0.6595136583963134})
+== evaluate (100/class, FID-2k, both weights): exit 0 in 78 s
+    1-NN classifier agrees with the conditioning class: 0.100 (real test images: 0.285); D1-confusion row-argmin accuracy 0.10
+  model[raw] 17.9953  diversity ratio 0.001  NN gen->train p50 7.945 (test->train p50 19.276)
+    blockiness 0.987 (reference 1.005); power ratio gen/ref by band {'1-4': 0.0, '4-8': 0.0, '8-12': 0.0, '12-17': 0.01}
+    1-NN classifier agrees with the conditioning class: 0.100 (real test images: 0.285); D1-confusion row-argmin accuracy 0.10
+  baseline noise        9.3504
+  baseline zero         18.0391
+  baseline class_mean   14.7449
+  baseline train        0.0471
+  baseline other_class  2.2994
+  inception D1: ema 25.7676  raw 25.3500  | right-class real 0.0038  wrong-class real 3.3736
+  dinov2 D1: ema 72.4109  raw 58.5694  | right-class real -0.0490  wrong-class real 15.8690
+  FID (ema) 483.95  [clean-fid 2000 samples on cuda; indicative only if small]
+  FID (raw) 481.08  [clean-fid 2000 samples on cuda; indicative only if small]
+wrote /scratch/wg2381/transport_map/runs/bench_gpu_22605880/eval_B60.json (68 s)
+sample exit 0
+right_class_train    pixel D1   0.0361   inception D1     0.000   dinov2 D1    -0.011
+wrong_class_train    pixel D1   2.0101   inception D1     3.283   dinov2 D1    16.016
+block_shuffled_4     pixel D1   0.4071   inception D1    13.019   dinov2 D1    47.530
+block_shuffled_1     pixel D1   0.4462   inception D1    15.700   dinov2 D1    54.751
+model_ema            pixel D1   0.1528   inception D1    18.112   dinov2 D1    58.078
+wrote /scratch/wg2381/transport_map/runs/bench_gpu_22605880/feature_space_check.json (28 s)
+[Tue Nov 10 21:13:20 EST 2026] done

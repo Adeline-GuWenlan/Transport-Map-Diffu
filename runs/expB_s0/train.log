@@ -1,0 +1,46 @@
+feature term: encoder dinov2_vits14 (384-d), lambda = 0.6595 ({'scale': 0.6595136583963134, 'pixel_mean_dist': 37.062942436338105, 'feature_mean_dist': 56.197384185281464, 'n_per_class': 200, 'weight': 1.0, 'lambda': 0.6595136583963134})
+model 129.733 M params; train 50000 images, classes [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; batch 8 x 64 (r = 1); device cuda, threads 8, bf16 True; out /scratch/wg2381/transport_map/runs/expB_s0
+[eval] step 0: held-out D1 raw 17.8513  ema 17.8513  diversity raw 0.000 ema 0.000
+step 1000  loss 41.9120  conf 35.2318  inter 30.5857  |g| 107.72  lr 2.00e-05  0.50 it/s  33.0 min
+step 2000  loss 39.1524  conf 35.8330  inter 34.0771  |g| 107.27  lr 4.00e-05  0.51 it/s  65.9 min
+step 3000  loss 37.7735  conf 35.8976  inter 34.5247  |g| 56.39  lr 6.00e-05  0.51 it/s  98.9 min
+step 4000  loss 37.3383  conf 36.0086  inter 35.0744  |g| 22.15  lr 8.00e-05  0.50 it/s  131.9 min
+step 5000  loss 37.2607  conf 36.1406  inter 35.3387  |g| 15.74  lr 1.00e-04  0.50 it/s  165.0 min
+[eval] step 5000: held-out D1 raw 0.3092  ema 17.1671  diversity raw 0.976 ema 0.015
+step 6000  loss 37.2110  conf 36.3046  inter 35.6652  |g| 11.24  lr 1.00e-04  0.50 it/s  198.4 min
+step 7000  loss 37.1504  conf 36.3171  inter 35.7264  |g| 10.06  lr 1.00e-04  0.50 it/s  231.6 min
+step 8000  loss 37.0496  conf 36.2618  inter 35.7583  |g| 8.55  lr 1.00e-04  0.50 it/s  264.7 min
+step 9000  loss 37.1067  conf 36.3868  inter 35.9593  |g| 7.63  lr 1.00e-04  0.50 it/s  297.9 min
+step 10000  loss 37.0277  conf 36.3102  inter 35.9207  |g| 6.91  lr 1.00e-04  0.50 it/s  331.0 min
+[eval] step 10000: held-out D1 raw 0.1614  ema 15.4874  diversity raw 1.015 ema 0.074
+step 11000  loss 36.9902  conf 36.2549  inter 35.8070  |g| 6.83  lr 1.00e-04  0.50 it/s  364.4 min
+step 12000  loss 37.0342  conf 36.4423  inter 36.1196  |g| 6.26  lr 1.00e-04  0.50 it/s  397.5 min
+step 13000  loss 36.9216  conf 36.2425  inter 35.9030  |g| 6.22  lr 1.00e-04  0.50 it/s  430.8 min
+step 14000  loss 36.9824  conf 36.3799  inter 36.0705  |g| 5.77  lr 1.00e-04  0.50 it/s  463.9 min
+step 15000  loss 36.9679  conf 36.3619  inter 36.0600  |g| 5.53  lr 1.00e-04  0.50 it/s  497.0 min
+[eval] step 15000: held-out D1 raw 0.1536  ema 3.7756  diversity raw 0.977 ema 0.533
+step 16000  loss 36.9484  conf 36.3362  inter 36.0138  |g| 5.52  lr 1.00e-04  0.51 it/s  530.2 min
+step 17000  loss 36.9954  conf 36.3677  inter 36.0625  |g| 5.26  lr 1.00e-04  0.51 it/s  563.1 min
+step 18000  loss 36.9532  conf 36.2807  inter 36.0014  |g| 4.94  lr 1.00e-04  0.51 it/s  595.9 min
+step 19000  loss 36.9530  conf 36.3764  inter 36.0923  |g| 5.18  lr 1.00e-04  0.50 it/s  629.0 min
+step 20000  loss 36.9570  conf 36.4300  inter 36.1562  |g| 4.95  lr 1.00e-04  0.50 it/s  662.1 min
+[eval] step 20000: held-out D1 raw 0.1543  ema 0.8692  diversity raw 0.968 ema 0.792
+step 21000  loss 36.9120  conf 36.4114  inter 36.1921  |g| 4.91  lr 1.00e-04  0.50 it/s  695.4 min
+[Wed Nov 11 09:48:49 EST 2026] got USR1 during train
+signal 10: checkpointing at step 21554 and exiting
+done: step 21554, 713.7 min; checkpoint /scratch/wg2381/transport_map/runs/expB_s0/ckpt/latest.pt
+resumed from /scratch/wg2381/transport_map/runs/expB_s0/ckpt/latest.pt at step 21554
+feature term: encoder dinov2_vits14 (384-d), lambda = 0.6595 ({'scale': 0.6595136583963134, 'pixel_mean_dist': 37.062942436338105, 'feature_mean_dist': 56.197384185281464, 'n_per_class': 200, 'weight': 1.0, 'lambda': 0.6595136583963134})
+model 129.733 M params; train 50000 images, classes [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; batch 8 x 64 (r = 1); device cuda, threads 8, bf16 True; out /scratch/wg2381/transport_map/runs/expB_s0
+step 22000  loss 36.9366  conf 36.3837  inter 36.1222  |g| 4.84  lr 1.00e-04  0.50 it/s  14.8 min
+step 23000  loss 36.9189  conf 36.3188  inter 36.0565  |g| 4.50  lr 1.00e-04  0.50 it/s  48.0 min
+step 24000  loss 36.9062  conf 36.3394  inter 36.1176  |g| 4.49  lr 1.00e-04  0.50 it/s  81.2 min
+step 25000  loss 36.8943  conf 36.2734  inter 36.0410  |g| 4.65  lr 1.00e-04  0.50 it/s  114.4 min
+[eval] step 25000: held-out D1 raw 0.0859  ema 0.3199  diversity raw 1.005 ema 0.881
+step 26000  loss 36.9296  conf 36.4002  inter 36.1915  |g| 4.56  lr 1.00e-04  0.50 it/s  147.9 min
+step 27000  loss 36.9551  conf 36.4080  inter 36.1555  |g| 4.70  lr 1.00e-04  0.50 it/s  181.1 min
+step 28000  loss 36.9645  conf 36.5432  inter 36.3518  |g| 4.36  lr 1.00e-04  0.50 it/s  214.3 min
+step 29000  loss 36.9395  conf 36.4332  inter 36.1974  |g| 4.39  lr 1.00e-04  0.50 it/s  247.5 min
+step 30000  loss 36.8912  conf 36.3665  inter 36.1377  |g| 4.48  lr 1.00e-04  0.50 it/s  280.8 min
+[eval] step 30000: held-out D1 raw 0.1088  ema 0.1563  diversity raw 0.989 ema 0.926
+done: step 30000, 281.1 min; checkpoint /scratch/wg2381/transport_map/runs/expB_s0/ckpt/latest.pt

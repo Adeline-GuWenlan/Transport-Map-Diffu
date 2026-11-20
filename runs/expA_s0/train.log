@@ -1,0 +1,44 @@
+model 129.733 M params; train 50000 images, classes [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; batch 8 x 64 (r = 1); device cuda, threads 8, bf16 True; out /scratch/wg2381/transport_map/runs/expA_s0
+[eval] step 0: held-out D1 raw 17.8513  ema 17.8513  diversity raw 0.000 ema 0.000
+step 1000  loss 18.6350  conf 36.5928  inter 35.9155  |g| 14.22  lr 2.00e-05  0.67 it/s  24.7 min
+step 2000  loss 18.4655  conf 36.2449  inter 35.5588  |g| 6.87  lr 4.00e-05  0.67 it/s  49.5 min
+step 3000  loss 18.4824  conf 36.2725  inter 35.5802  |g| 6.21  lr 6.00e-05  0.68 it/s  74.2 min
+step 4000  loss 18.4558  conf 36.2363  inter 35.5611  |g| 5.19  lr 8.00e-05  0.68 it/s  98.9 min
+step 5000  loss 18.4925  conf 36.2980  inter 35.6109  |g| 5.56  lr 1.00e-04  0.68 it/s  123.6 min
+[eval] step 5000: held-out D1 raw 0.3993  ema 12.7066  diversity raw 0.987 ema 0.133
+step 6000  loss 18.5214  conf 36.3976  inter 35.7523  |g| 4.59  lr 1.00e-04  0.67 it/s  148.6 min
+step 7000  loss 18.5183  conf 36.3627  inter 35.6888  |g| 3.58  lr 1.00e-04  0.68 it/s  173.3 min
+step 8000  loss 18.4654  conf 36.2830  inter 35.6351  |g| 3.31  lr 1.00e-04  0.68 it/s  198.0 min
+step 9000  loss 18.5095  conf 36.3601  inter 35.7012  |g| 2.81  lr 1.00e-04  0.68 it/s  222.7 min
+step 10000  loss 18.4585  conf 36.2848  inter 35.6526  |g| 2.99  lr 1.00e-04  0.68 it/s  247.4 min
+[eval] step 10000: held-out D1 raw 0.4000  ema 3.9014  diversity raw 0.983 ema 0.520
+step 11000  loss 18.3466  conf 36.3473  inter 36.0015  |g| 4.49  lr 1.00e-04  0.67 it/s  272.4 min
+step 12000  loss 18.3710  conf 36.4839  inter 36.2260  |g| 4.45  lr 1.00e-04  0.68 it/s  297.1 min
+step 13000  loss 18.2831  conf 36.2581  inter 35.9499  |g| 3.30  lr 1.00e-04  0.68 it/s  321.8 min
+step 14000  loss 18.3340  conf 36.3687  inter 36.0694  |g| 3.34  lr 1.00e-04  0.67 it/s  346.6 min
+step 15000  loss 18.3105  conf 36.4119  inter 36.2029  |g| 3.25  lr 1.00e-04  0.67 it/s  371.4 min
+[eval] step 15000: held-out D1 raw 0.0775  ema 1.8145  diversity raw 0.996 ema 0.673
+step 16000  loss 18.3184  conf 36.3806  inter 36.1245  |g| 3.00  lr 1.00e-04  0.67 it/s  396.5 min
+step 17000  loss 18.3308  conf 36.5072  inter 36.3527  |g| 3.02  lr 1.00e-04  0.67 it/s  421.2 min
+step 18000  loss 18.2710  conf 36.3296  inter 36.1171  |g| 3.43  lr 1.00e-04  0.67 it/s  446.0 min
+step 19000  loss 18.3404  conf 36.3889  inter 36.0970  |g| 4.93  lr 1.00e-04  0.67 it/s  470.8 min
+step 20000  loss 18.3444  conf 36.5912  inter 36.4937  |g| 3.93  lr 1.00e-04  0.67 it/s  495.6 min
+[eval] step 20000: held-out D1 raw 0.2354  ema 1.8952  diversity raw 0.968 ema 0.657
+step 21000  loss 18.3046  conf 36.3877  inter 36.1664  |g| 3.07  lr 1.00e-04  0.67 it/s  520.7 min
+step 22000  loss 18.3249  conf 36.4658  inter 36.2819  |g| 5.11  lr 1.00e-04  0.67 it/s  545.6 min
+step 23000  loss 18.2987  conf 36.2954  inter 35.9934  |g| 4.39  lr 1.00e-04  0.67 it/s  570.4 min
+[Wed Nov 11 06:58:14 EST 2026] got USR1 during train
+signal 10: checkpointing at step 23921 and exiting
+done: step 23921, 593.3 min; checkpoint /scratch/wg2381/transport_map/runs/expA_s0/ckpt/latest.pt
+resumed from /scratch/wg2381/transport_map/runs/expA_s0/ckpt/latest.pt at step 23921
+model 129.733 M params; train 50000 images, classes [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; batch 8 x 64 (r = 1); device cuda, threads 8, bf16 True; out /scratch/wg2381/transport_map/runs/expA_s0
+step 24000  loss 18.3240  conf 36.3699  inter 36.0919  |g| 9.72  lr 1.00e-04  0.66 it/s  2.0 min
+step 25000  loss 18.3205  conf 36.2788  inter 35.9165  |g| 13.21  lr 1.00e-04  0.67 it/s  27.0 min
+[eval] step 25000: held-out D1 raw 0.2497  ema 0.7038  diversity raw 0.957 ema 0.795
+step 26000  loss 18.3721  conf 36.2419  inter 35.7395  |g| 80.64  lr 1.00e-04  0.67 it/s  52.2 min
+step 27000  loss 18.3942  conf 36.3018  inter 35.8152  |g| 78.01  lr 1.00e-04  0.67 it/s  77.1 min
+step 28000  loss 18.4272  conf 36.4170  inter 35.9796  |g| 36.98  lr 1.00e-04  0.67 it/s  102.0 min
+step 29000  loss 18.4139  conf 36.4078  inter 35.9879  |g| 139.50  lr 1.00e-04  0.67 it/s  126.9 min
+step 30000  loss 18.3403  conf 36.2928  inter 35.9051  |g| 32.68  lr 1.00e-04  0.67 it/s  151.8 min
+[eval] step 30000: held-out D1 raw 0.1499  ema 0.5709  diversity raw 0.981 ema 0.880
+done: step 30000, 152.1 min; checkpoint /scratch/wg2381/transport_map/runs/expA_s0/ckpt/latest.pt

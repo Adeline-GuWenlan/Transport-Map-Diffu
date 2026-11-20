@@ -1,0 +1,23 @@
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/cleanfid/fid.py:46: LinAlgWarning: Matrix is singular. The result might be inaccurate or the array might not have a square root.
+  covmean, _ = linalg.sqrtm(sigma1.dot(sigma2), disp=False)
+step 60  n/class 100  held-out D1 (mean over classes):
+  model[ema] 18.0390  diversity ratio 0.000  NN gen->train p50 7.937 (test->train p50 19.276)
+    blockiness 0.997 (reference 1.005); power ratio gen/ref by band {'1-4': 0.0, '4-8': 0.0, '8-12': 0.0, '12-17': 0.0}
+    1-NN classifier agrees with the conditioning class: 0.100 (real test images: 0.285); D1-confusion row-argmin accuracy 0.10
+  model[raw] 17.9953  diversity ratio 0.001  NN gen->train p50 7.945 (test->train p50 19.276)
+    blockiness 0.987 (reference 1.005); power ratio gen/ref by band {'1-4': 0.0, '4-8': 0.0, '8-12': 0.0, '12-17': 0.01}
+    1-NN classifier agrees with the conditioning class: 0.100 (real test images: 0.285); D1-confusion row-argmin accuracy 0.10
+  baseline noise        9.3504
+  baseline zero         18.0391
+  baseline class_mean   14.7449
+  baseline train        0.0471
+  baseline other_class  2.2994
+  inception D1: ema 25.7676  raw 25.3500  | right-class real 0.0038  wrong-class real 3.3736
+  dinov2 D1: ema 72.4109  raw 58.5694  | right-class real -0.0490  wrong-class real 15.8690
+  FID (ema) 483.95  [clean-fid 2000 samples on cuda; indicative only if small]
+  FID (raw) 481.08  [clean-fid 2000 samples on cuda; indicative only if small]
+wrote /scratch/wg2381/transport_map/runs/bench_gpu_22605880/eval_B60.json (68 s)

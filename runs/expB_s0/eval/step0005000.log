@@ -1,0 +1,25 @@
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/cleanfid/fid.py:46: LinAlgWarning: Matrix is singular. The result might be inaccurate or the array might not have a square root.
+  covmean, _ = linalg.sqrtm(sigma1.dot(sigma2), disp=False)
+step 5000  n/class 1000  held-out D1 (mean over classes):
+  model[ema] 17.1668  diversity ratio 0.015  NN gen->train p50 9.189 (test->train p50 19.446)
+    blockiness 1.005 (reference 1.008); power ratio gen/ref by band {'1-4': 0.01, '4-8': 0.0, '8-12': 0.0, '12-17': 0.17}
+    1-NN classifier agrees with the conditioning class: 0.100 (real test images: 0.288); D1-confusion row-argmin accuracy 0.10
+  model[raw] 0.3091  diversity ratio 0.976  NN gen->train p50 18.543 (test->train p50 19.446)
+    blockiness 1.596 (reference 1.008); power ratio gen/ref by band {'1-4': 0.96, '4-8': 0.56, '8-12': 0.57, '12-17': 1.74}
+    1-NN classifier agrees with the conditioning class: 0.200 (real test images: 0.288); D1-confusion row-argmin accuracy 0.90
+  baseline noise        9.2208
+  baseline zero         17.8513
+  baseline class_mean   14.7843
+  baseline train        0.0106
+  baseline other_class  2.0586
+  inception D1: ema 21.1303  raw 2.2713  | right-class real 0.0019  wrong-class real 3.2603
+  dinov2 D1: ema 60.5516  raw 0.6204  | right-class real 0.0053  wrong-class real 15.6721
+  FID (ema) 407.83  [clean-fid 10000 samples on cuda; indicative only if small]
+  FID (raw) 88.29  [clean-fid 10000 samples on cuda; indicative only if small]
+wrote /scratch/wg2381/transport_map/runs/expB_s0/eval/step0005000.json.tmp (198 s)
+wrote /scratch/wg2381/transport_map/runs/expB_s0/eval/step0005000_samples_ema.png: 10 classes (rows) x 10, step 5000, ema weights
+wrote /scratch/wg2381/transport_map/runs/expB_s0/eval/step0005000_samples_raw.png: 10 classes (rows) x 10, step 5000, raw weights

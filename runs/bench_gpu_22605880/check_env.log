@@ -1,0 +1,33 @@
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+check_env.py  config configs/expA_cifar10_dit-b2_pixel.yaml  2026-11-10 21:04:02 EST
+  host gl043.hpc.nyu.edu  python 3.11.18 (/scratch/wg2381/.conda/envs/tmap/bin/python)
+  torch 2.14.1+cu126  cuda build 12.6  cudnn 91002  cuda available True  threads 8
+  gpu NVIDIA L40S  driver-visible devices 1
+  torchvision 0.29.1+cu126  timm 1.0.31  numpy 2.4.6  scipy 1.17.1  yaml 6.0.3  PIL 13.0.0  pyarrow 26.0.1  matplotlib 3.11.2  tqdm 4.70.1  cleanfid 0.1.35  requests 2.34.2  pytest 9.2.0  huggingface_hub 2.4.0  safetensors 0.8.0
+[PASS] versions (32.66 s)
+  /scratch/wg2381/transport_map/third_party/DiT HEAD ed81ce2229091fd4ecc9a223645f95cf379d582b  porcelain clean
+[PASS] third_party/DiT pinned and unmodified (0.27 s)
+  <class 'models.DiT'> from /scratch/wg2381/transport_map/third_party/DiT/models.py
+[PASS] import DiT from third_party/DiT/models.py (0.01 s)
+  NOTE: batch.n_per_class overridden 64 -> 16
+  expA_cifar10_dit-b2_pixel: depth 12 hidden 768 heads 12 patch 2 -> 129.733 M params; out_channels 3
+[PASS] build model from config (1.17 s)
+  fashion_mnist: train 60000 / test 10000, (1, 28, 28), uint8, 6000/1000 per class
+  mnist: train 60000 / test 10000, (1, 28, 28), uint8, MNIST class counts (unbalanced)
+  cifar10: train 50000 / test 10000, (3, 32, 32), uint8, 5000/1000 per class
+[PASS] data files (data/README.md) (0.17 s)
+  batch: (128, 3, 32, 32) from data/cifar10, classes [0, 1, 2, 3, 4, 6, 8, 9], range [-1.00, 1.00], device cuda, torch threads 8, network autocast bf16
+  frozen (requires_grad=False, no grad expected): ['pos_embed']
+  step 0: max|F(z,c)| = 0.00e+00 (adaLN-Zero: expect 0); loss 26.9701 (F == 0 => loss = mean||y|| = 26.9701); pre-clip grad norm 57.143; params with non-zero grad: 2/131 ['final_layer.linear.weight', 'final_layer.linear.bias']
+  step 0 fwd+loss+bwd+clip: 2.849 s (includes first-call overhead)
+  3 train steps (fwd+loss+bwd+clip+AdamW, batch 128): median 0.287 s, min 0.285 s, max 0.423 s; losses [26.97, 26.643, 26.44]; params with non-zero grad after 3 steps: 131/131; max|F| 0.128
+[PASS] forward + backward on a real batch (4.86 s)
+  stats/cifar10_legacy_tensorflow_train_32.npz: mu (2048,) sigma (2048, 2048)
+  stats/cifar10_clean_train_32.npz: mu (2048,) sigma (2048, 2048)
+  clean-fid /scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/cleanfid/__init__.py: stats cache /scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/cleanfid/stats has both npz files
+  InceptionV3W (torchscript) forward on 2 random 299px images -> (2, 2048)
+[PASS] FID assets (clean-fid, reference stats, Inception) (1.95 s)
+  /scratch/wg2381/transport_map/third_party/DiT HEAD ed81ce2229091fd4ecc9a223645f95cf379d582b  porcelain clean
+[PASS] third_party/DiT pinned and unmodified (0.14 s)
+ALL CHECKS PASSED
