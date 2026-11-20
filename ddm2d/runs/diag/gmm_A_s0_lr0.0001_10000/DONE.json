@@ -1,0 +1,14 @@
+{
+ "diagnostic": true,
+ "from": "runs/paper/gmm_A_s0/ckpt/final.pt",
+ "from_sha256": "e5daa7ea4832cc9419fad38a7d9562299280a3177eb66ba8b3c8dfa5e8fa5588",
+ "start_step": 100000,
+ "steps": 110000,
+ "lr": 0.0001,
+ "wall_s": 1247.7,
+ "git": {
+  "commit": "6b0fe081b05c1b3619697a71a609b588769370de",
+  "dirty_src_or_configs": false
+ },
+ "final_ckpt_sha256": "86eec159055234aeb0db9eba1bddfda1d5434bdc2f895cbba157f4e73da5a1f0"
+}

@@ -102,15 +102,18 @@ checkerboard, A / C is 61–156 at NFE 5 and 15–31 at NFE 10.
 - The paper's values at NFE 1000 (1.7–1.8e-4) imply more accurate low-noise denoisers, or a floor-dominated metric **[G]**.
 
 ### 4.4 Is the low-noise floor optimisation noise? (diagnostic)
-Diagnostic only, one seed per arm (`results_cb.md` §5.5, `runs/diag/diag_eval.json`). cb_A_s0 and cb_C_s0 were continued for 10k steps
-at a constant lr of 1e-4 instead of 1e-3, with everything else unchanged. Both arms got the same treatment.
-- C at NFE 5 / 10 / 50 / 100 fell from 2.0e-4 / 2.7e-4 / 3.3e-4 / 4.6e-4 to **6.1e-5 / 1.6e-4 / 4.7e-5 / 7.4e-5**, at or below the paper's
-  distributional column. Its low-noise spread halved (0.062 → 0.027 at t = 0.01).
-- A improved at NFE 50–100 (7–9e-4 → 4.3e-4) but not at NFE 5–10, where it is at the sampler's oracle floor.
-- NFE 1000 improved but is still worse than NFE 100 for both arms.
-- **Conclusion [E, one seed]:** most of our C's distance from the paper is convergence, from the constant lr 1e-3 with the short EMA 0.99
-  that App. I.1 specifies. The few-step advantage of C *grows* when both arms converge further. The paper runs and tables keep the paper's
-  configuration.
+Diagnostic only (`results_cb.md` §5.5, `runs/diag/diag_summary.md`). Checkerboard A and C for seeds 0–2 and GMM A and C for seed 0 were
+continued for 10k steps at a constant lr of 1e-4 instead of 1e-3, with everything else unchanged. Every arm got the same treatment.
+- **Checkerboard C**, NFE 5 / 10 / 50 / 100, seed means: 3.1 / 3.4 / 3.8 / 4.3e-4 → **1.2 / 1.2 / 1.0 / 1.2e-4**. That is at or below the
+  paper's distributional column. The low-noise spread halves (0.06 → 0.03 at t = 0.01) on every seed.
+- **Checkerboard A** improves at NFE 50–100 (6.6–7.2e-4 → 3.4–3.9e-4) but not at NFE 5–10, where it is at the sampler's oracle floor.
+  A / C becomes 270× at NFE 5 and 56× at NFE 10.
+- **GMM (one seed).** A improves 1.7–4× at NFE 20–100. C's low-noise spread halves, but its MMD² changes are within noise; it was already
+  near the evaluation floor.
+- **NFE 1000** improves but is still worse than NFE 100 for every arm.
+- **Conclusion [E].** Much of our distance from the paper's distributional column, and part of the large-NFE floor, is convergence under the
+  constant lr 1e-3 / EMA 0.99 that App. I.1 specifies. The few-step advantage of C *grows* when both arms converge further. The paper runs
+  and tables keep the paper's configuration.
 
 ### 4.5 Smaller items
 - *GMM Fig. 3 right, exact-posterior curve.* The paper's curve is 1.31× ours at t ≤ 0.45. "Mean distance to the 8-draw mean" reproduces it

@@ -35,9 +35,9 @@ What does not match, in short (details and investigations in the results docs):
   - Our A at NFE 5–10 sits at the exact-oracle floor of our sampler, which is 3–5× above the paper's Diffusion column.
   - Our C is ≈ 2× above the paper's Distributional column.
   - At NFE ≥ 200 every arm gets worse. The cause is the networks' low-noise accuracy, measured against the exact posterior.
-- **Diagnostic** (one seed per arm; not a paper run): 10k more steps at lr 1e-4 instead of 1e-3 bring our checkerboard C to 6e-5–1.6e-4 at
-  NFE 5–100, at or below the paper's values. A at NFE 5–10 does not move, because it is at the oracle floor. So most of the low-noise gap is
-  convergence under the paper's constant lr 1e-3 with EMA 0.99 (`docs/results_cb.md` §5.5).
+- **Diagnostic** (not a paper run). Continuing every checkerboard A and C run for 10k steps at lr 1e-4 instead of 1e-3 brings C to
+  1.0–1.2e-4 at NFE 5–100 (seed means), at or below the paper's values. A at NFE 5–10 does not move, because it is at the oracle floor.
+  So much of the low-noise gap is convergence under the paper's constant lr 1e-3 with EMA 0.99 (`docs/results_cb.md` §5.5).
 
 ## Layout
 | Path | Content |
@@ -97,10 +97,13 @@ $PY scripts/cb_extras.py oracle --repeats 5; $PY scripts/cb_extras.py grid --rep
 $PY scripts/cb_extras.py scale --repeats 3; $PY scripts/cb_extras.py dnerr --threads 4
 $PY scripts/plot_cb.py all                                    # figures/cb/*, eval_cb/table2.md, table2_summary.json, cb_mmd_raw.csv
 
-# 5. diagnostic only (not in any paper table): lower-lr fine-tune of one A and one C run
-$PY scripts/diag_finetune.py --run cb_A_s0 --lr 1e-4 --steps 10000 --threads 2
-$PY scripts/diag_finetune.py --run cb_C_s0 --lr 1e-4 --steps 10000 --threads 2
-$PY scripts/diag_eval.py runs/paper/cb_A_s0 runs/paper/cb_C_s0 runs/diag/cb_A_s0_lr0.0001_10000 runs/diag/cb_C_s0_lr0.0001_10000
+# 5. diagnostic only (not in any paper table): +10k steps at lr 1e-4 from each final.pt (~20-50 min per run on 1-2 threads)
+for r in cb_A_s0 cb_A_s1 cb_A_s2 cb_C_s0 cb_C_s1 cb_C_s2 gmm_A_s0 gmm_C_s0; do
+  $PY scripts/diag_finetune.py --run $r --lr 1e-4 --steps 10000 --threads 2
+done
+$PY scripts/diag_eval.py runs/paper/{cb_A_s0,cb_A_s1,cb_A_s2,cb_C_s0,cb_C_s1,cb_C_s2,gmm_A_s0,gmm_C_s0} --out runs/diag/diag_eval_orig.json
+$PY scripts/diag_eval.py runs/diag/*_lr0.0001_10000 --out runs/diag/diag_eval_ft.json
+$PY scripts/diag_summary.py                                   # runs/diag/diag_summary.md
 ```
 The extraction of the paper's Fig. 3 values from the arXiv source (`scripts/extract_paper_fig3.py`) needs `pypdf` and the arXiv tarball; see
 `third_party/README.md`.
