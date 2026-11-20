@@ -35,6 +35,9 @@ What does not match, in short (details and investigations in the results docs):
   - Our A at NFE 5–10 sits at the exact-oracle floor of our sampler, which is 3–5× above the paper's Diffusion column.
   - Our C is ≈ 2× above the paper's Distributional column.
   - At NFE ≥ 200 every arm gets worse. The cause is the networks' low-noise accuracy, measured against the exact posterior.
+- **Diagnostic** (one seed per arm; not a paper run): 10k more steps at lr 1e-4 instead of 1e-3 bring our checkerboard C to 6e-5–1.6e-4 at
+  NFE 5–100, at or below the paper's values. A at NFE 5–10 does not move, because it is at the oracle floor. So most of the low-noise gap is
+  convergence under the paper's constant lr 1e-3 with EMA 0.99 (`docs/results_cb.md` §5.5).
 
 ## Layout
 | Path | Content |

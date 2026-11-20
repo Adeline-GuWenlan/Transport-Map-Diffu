@@ -117,7 +117,8 @@ truncated normals over the 8 squares, tested against importance sampling (`tests
 - Ours: 3.1–4.3e-4 (MMD²_u, n = 4096). At n = 10,000 it is 2.3–6.7e-4 per seed (`big_cb_*.json`), so this is real model error, not noise.
   The exact-draw oracle is ≈ 0 at every NFE ≤ 200, so the sampler is not the cause.
 - The paper's 1.55–2.0e-4 is about the V-statistic floor of n ≈ 10,000 samples (1.7e-4, `audit.md` §5.2). Its C may be better than ours, or its
-  numbers may be dominated by the estimator floor. We cannot tell which **[G]**.
+  numbers may be dominated by the estimator floor. The lower-lr diagnostic (§5.5) shows that our C reaches 5e-5–1.6e-4 once its weights
+  converge further, so a better-converged C is a sufficient explanation **[E for ours, G for the paper's]**.
 - Where our C loses accuracy: at low noise it is over-dispersed (§5.4). Its draws have std ≈ 0.06 at every t ≤ 0.02, while the exact posterior
   has 0.001–0.02. This blurs the square edges: the in-support fraction is 0.92–0.94, not 1. The GMM's C shows the same (std 0.036 vs 0.009 at
   t = 0.01; `results_gmm.md` §4), and so does the paper's own Fig. 3 right for the GMM (0.039 vs 0.012).
@@ -136,7 +137,7 @@ truncated normals over the 8 squares, tested against importance sampling (`tests
   - With churn 1, a step from t to t − h weights x̂ by ≈ 2h/t. Over a fine grid the denoiser's low-noise error is applied with total weight
     ≈ 2·ln(t_max/t_min) **[derivation]**. This integrated error grows with NFE as the grid resolves smaller t. It is the same low-noise floor
     that S1 and S3 saw on the GMM (`results_gmm.md` §3.3b).
-- **Is the floor optimisation noise?** Diagnostic in §5.5.
+- **Is the floor optimisation noise?** Largely yes for C, partly for A: see the diagnostic in §5.5.
 
 ### 5.4 Training length and stability
 - EMA snapshots at 10k … 100k steps (`snaps_cb_*.json`, 2 repeats, NFE 5 / 10 / 100): from 20k steps on there is no trend in any arm.
@@ -145,7 +146,34 @@ truncated normals over the 8 squares, tested against importance sampling (`tests
 - Loss curves: like on the GMM, the β = 2 arms (A, B) have isolated loss spikes and C has none (`figures/gmm/loss_overview_cb.png`, S3).
 
 ### 5.5 Diagnostic: lower learning rate after 100k steps
-FINETUNE_PLACEHOLDER
+`scripts/diag_finetune.py` + `scripts/diag_eval.py`; raw `runs/diag/diag_eval.json`, `runs/diag/*/DONE.json`, `runs/diag/*/log.jsonl`.
+**Diagnostic only: one seed per arm (cb_A_s0, cb_C_s0). It is not a paper run and is not in Table 2.**
+- What was done: each run continued from its own 100k `final.pt` (model, EMA, Adam state, data order, RNG) for 10k more steps. The only
+  change was a constant lr of 1e-4 instead of 1e-3. EMA 0.99, loss, batch and clipping were unchanged. Both arms got exactly the same treatment.
+- Evaluation: the Table 2 protocol (same seeds, 10 repeats, MMD²_u) and the denoiser error vs the exact posterior. Re-evaluating the original
+  checkpoints reproduces their Table 2 values exactly (A 2.83e-2, C 2.03e-4 at NFE 5), which checks determinism.
+
+| run | NFE 5 | 10 | 50 | 100 | 1000 | t = 0.01: RMS err of E[x̂] | t = 0.01: draw std (exact 0.010) |
+|---|---|---|---|---|---|---|---|
+| cb_A_s0, 100k (paper config) | 2.83e-2 | 5.46e-3 | 7.43e-4 | 8.78e-4 | 3.69e-3 | 0.047 | 0 |
+| cb_A_s0, + 10k at lr 1e-4 | 3.10e-2 | 6.34e-3 | 4.29e-4 | 4.26e-4 | 2.46e-3 | 0.036 | 0 |
+| cb_C_s0, 100k (paper config) | 2.03e-4 | 2.71e-4 | 3.27e-4 | 4.56e-4 | 1.65e-3 | 0.027 | 0.062 |
+| cb_C_s0, + 10k at lr 1e-4 | **6.1e-5** | **1.56e-4** | **4.7e-5** | **7.4e-5** | 7.47e-4 | 0.013 | 0.027 |
+| paper Table 2 (not ours; A = Diffusion, C = Distributional) | 7.00e-3 / 1.57e-4 | 2.10e-3 / 1.96e-4 | 2.70e-4 / 1.55e-4 | 1.96e-4 / 2.00e-4 | 1.71e-4 / 1.83e-4 | — | — |
+
+Findings **[E, one seed per arm]**:
+- **A large part of the low-noise floor is optimisation noise** from the constant lr 1e-3 with the short EMA (0.99 averages about 100 steps).
+  With lr 1e-4:
+  - C's low-noise spread halves (0.062 → 0.027) and its mean error halves (0.027 → 0.013);
+  - C's MMD²_u at NFE 5–100 drops 2–7×, to 5e-5–1.6e-4, at or below the paper's distributional column;
+  - A improves where it is not sampler-bound (NFE 50–100: 7–9e-4 → 4.3e-4);
+  - A at NFE 5–10 does not move, because it is at the exact-mean oracle floor (§5.1).
+- So the few-step gap between C and A grows (A / C ≈ 500× at NFE 5).
+- NFE 1000 improves (A 3.7e-3 → 2.5e-3, C 1.65e-3 → 7.5e-4) but still degrades relative to NFE 100. The networks remain coarser than the
+  posterior at t ≈ 0.01, whose std is 0.010.
+- We did **not** apply this to the paper runs. The paper specifies a constant lr 1e-3 with EMA 0.99 (App. I.1), and Table 2 must keep the
+  paper's configuration. The diagnostic shows that our C's distance from the paper's distributional column is mostly a convergence matter **[G
+  for the paper's own runs]**.
 
 ## 6. Seed variability (task spec §8)
 - At NFE 5 and 10, the A-vs-C ordering is the same for every seed. Over all 9 (A seed, C seed) pairs the factor A / C is 61–156 at NFE 5 and 15–31 at NFE 10. The per-seed values are in
