@@ -300,7 +300,7 @@ def fig4(run_suffix="s0"):
              plt.Line2D([], [], ls="", marker="x", color="orange", ms=10, mew=2, label=r"$x_0$"),
              plt.Line2D([], [], ls="", marker="x", color="black", ms=10, mew=2, label=r"$x_t|x_0$")]
         fig.legend(handles=h, loc="lower center", ncol=5, fontsize=12, frameon=True)
-        fig.suptitle(f"Fig. 4 reproduction, training seed {s} (EMA weights). Same x_t and same axes (x in [-6, 6], y in [-1.5, 6.5]) in every panel; "
+        fig.suptitle(f"Fig. 4 reproduction, training seed {s} (EMA weights). Same x_t for every arm and the same axes in every panel; "
                      "rows follow the task spec (top: x0 = (3, 3)).", fontsize=10)
         fig.tight_layout(rect=(0, 0.07, 1, 0.97))
         save(fig, f"fig4_seed{s}")
