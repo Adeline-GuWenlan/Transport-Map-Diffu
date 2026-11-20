@@ -214,7 +214,7 @@ def table():
                               "per_seed_mmd2_b": [float(np.mean([b for _, b in v[s]])) for s in sorted(v)]} for k, v in big.items()}
     (EV / "table2_summary.json").write_text(json.dumps(summ, indent=1) + "\n")
     # markdown Table 2
-    L = ["| NFE | arm | MMD²_u seed 0 / 1 / 2 | MMD²_u mean (sd over seeds) | MMD²_b mean | in-support frac | paper Table 2 | paper − ours (MMD²_u) |",
+    L = ["| NFE | arm | MMD²_u seed 0 / 1 / 2 | MMD²_u mean (sd over seeds) | MMD²_b mean | in-support frac | paper Table 2 (NOT ours) | numeric comparison |",
          "|---|---|---|---|---|---|---|---|"]
     for nfe in TABLE_NFE:
         for arm in "ABC":

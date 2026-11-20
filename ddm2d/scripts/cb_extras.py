@@ -11,8 +11,11 @@
   scale   Data-scale hypothesis for Table 2: the oracles (exact posterior mean / draw) on a checkerboard rescaled by c in {0.25, 0.5, 1}
           (c = 0.5: support [-2, 2]^2, FFJORD without its final x2), the same sampler, RBF sigma = 1 against a reference set rescaled by c.
           The ideal arm A at NFE 5 / 10 shows which scale is consistent with the paper's Diffusion column (no training involved).
+  dnerr   Denoiser accuracy vs t for all 9 runs: x0 = eval set 400+i, x_t from the forward process (seed 8e6+i); the exact posterior mean
+          m(x_t) (posterior_cb). Arm A: RMS ||x_hat - m||. Arms B, C: RMS ||mean of 32 draws - m|| and the mean per-coordinate std of the
+          draws (vs the exact posterior std, from 32 exact draws). Shows how accurate each network is at low noise.
 
-Usage: python scripts/cb_extras.py oracle|churn0|grid|scale [--repeats 5] [--threads 2]
+Usage: python scripts/cb_extras.py oracle|churn0|grid|scale|dnerr [--repeats 5] [--threads 2]
 """
 import argparse
 import json
@@ -29,7 +32,7 @@ TABLE_NFE = [5, 10, 50, 100, 1000]
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("part", choices=["oracle", "churn0", "grid", "scale"])
+    ap.add_argument("part", choices=["oracle", "churn0", "grid", "scale", "dnerr"])
     ap.add_argument("--repeats", type=int, default=5)
     ap.add_argument("--threads", type=int, default=2)
     a = ap.parse_args()
@@ -88,6 +91,34 @@ def main():
                 print("scale", c, kind, [(n, f"{np.mean([q['mmd2_u'] for q in rows if q['nfe'] == n and q['who'] == kind and q['scale'] == c]):.2e}")
                                          for n in TABLE_NFE], flush=True)
         (OUT / "scale_oracle_mmd.json").write_text(json.dumps(rows, indent=0) + "\n")
+    elif a.part == "dnerr":
+        from ddm2d import data as D
+        from ddm2d.samplers import posterior_draws
+        from ddm2d.schedule import forward_sample
+        ts = [0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9, 0.99]
+        prep = []
+        for i, t in enumerate(ts):
+            x0 = torch.from_numpy(D.eval_set("checkerboard", 4096, k=400 + i))
+            g = torch.Generator().manual_seed(8_000_000 + i)
+            xt = forward_sample(x0, torch.tensor(t), torch.randn(x0.shape, generator=g))
+            m = posterior_mean(xt.double().numpy(), t)
+            ex = sample_posterior(xt.double().numpy(), t, 32, np.random.default_rng(9_000_000 + i))
+            prep.append((t, xt, m, float(ex.std(1).mean()), float(np.sqrt(((ex.mean(1) - m) ** 2).sum(1).mean()))))
+        for arm in "ABC":
+            for s_ in range(3):
+                run = f"cb_{arm}_s{s_}"
+                model = load_ema_model(ROOT / "runs" / "paper" / run)
+                for i, (t, xt, m, ex_std, ex_mc) in enumerate(prep):
+                    tin = min(max(t, 0.01), 0.99)                          # the sampler's clamp (training range [0.01, 0.99])
+                    for tname, tq in (("clamped", tin), ("raw", t)):
+                        if tname == "raw" and t >= 0.01:
+                            continue
+                        d = posterior_draws(model, tq, xt, 32, generator=torch.Generator().manual_seed(8_500_000 + i)).double().numpy()
+                        rows.append(dict(run=run, t=t, t_input=tq, which=tname, rms_err_mean=float(np.sqrt(((d.mean(1) - m) ** 2).sum(1).mean())),
+                                         draw_std=float(d.std(1).mean()), exact_std_32=ex_std, exact_mc_err_32=ex_mc,
+                                         rms_xt_over_alpha_minus_m=float(np.sqrt(((xt.double().numpy() / (1 - t) - m) ** 2).sum(1).mean()))))
+                print(run, [(q["t"], f"{q['rms_err_mean']:.3f}") for q in rows if q["run"] == run and q["which"] == "clamped"], flush=True)
+        (OUT / "denoiser_err.json").write_text(json.dumps(rows, indent=0) + "\n")
     elif a.part == "grid":
         from ddm2d import data as D
         from ddm2d.evaluate import sampler_seed

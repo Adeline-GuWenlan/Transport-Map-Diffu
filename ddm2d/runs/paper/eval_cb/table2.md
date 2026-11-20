@@ -1,4 +1,4 @@
-| NFE | arm | MMD²_u seed 0 / 1 / 2 | MMD²_u mean (sd over seeds) | MMD²_b mean | in-support frac | paper Table 2 | paper − ours (MMD²_u) |
+| NFE | arm | MMD²_u seed 0 / 1 / 2 | MMD²_u mean (sd over seeds) | MMD²_b mean | in-support frac | paper Table 2 (NOT ours) | numeric comparison |
 |---|---|---|---|---|---|---|---|
 | 5 | A | 2.83e-02 / 3.14e-02 / 3.16e-02 | 3.04e-02 (1.8e-03) | 3.08e-02 | 0.889 | 7.00e-03 | unverified |
 | 5 | B | 3.74e-02 / 3.46e-02 / 3.12e-02 | 3.44e-02 (3.1e-03) | 3.49e-02 | 0.877 | — | — |
