@@ -178,6 +178,14 @@ def fig3left():
         axes[1].fill_between(nfes, lo, hi, color=COL[arm], alpha=0.18, lw=0)
         px, py = zip(*paper[PAPER_KEY[arm]])
         axes[2].plot(px, py, "-o", color=COL[arm], ms=5, lw=1.8, label="paper: " + LAB[arm])
+    orc_path = EV / "oracle_mmd.json"
+    if orc_path.exists():
+        orc = json.loads(orc_path.read_text())
+        for kind, ls, lab in [("oracle_mean", "--", "oracle: exact E[X0|x_t] in the same sampler (ideal A/B)"),
+                              ("oracle_draw", ":", "oracle: exact draw from p(X0|x_t) (ideal C)")]:
+            y = [np.mean([r["mmd2_u"] for r in orc if r["who"] == kind and r["churn"] == 1.0 and r["nfe"] == n]) for n in nfes]
+            for ax in axes[:2]:
+                ax.plot(nfes, y, ls, color="#333333", lw=1.2, label=lab)
     nu = [q["mmd2_u"] for q in null]
     for ax in axes[:2]:
         ax.axhspan(min(nu), max(nu), color="#888888", alpha=0.25, lw=0, label=f"p0 vs p0 null, {len(nu)} draws (MMD²_u)")
@@ -193,7 +201,7 @@ def fig3left():
         ax.axhline(0, color="#bbbbbb", lw=0.8)
         ax.grid(alpha=0.25)
     axes[0].set_ylabel("Squared MMD [generated | target], RBF σ=1, n=m=4096")
-    axes[0].legend(fontsize=7)
+    axes[0].legend(fontsize=6.5)
     axes[2].legend(fontsize=7)
     fig.tight_layout()
     save(fig, "fig3_left")

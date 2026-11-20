@@ -1,0 +1,10 @@
+gmm_A_s0 125s
+gmm_A_s1 240s
+gmm_A_s2 356s
+gmm_B_s0 479s
+gmm_B_s1 605s
+gmm_B_s2 726s
+gmm_C_s0 844s
+gmm_C_s1 955s
+gmm_C_s2 1067s
+total 1067s
