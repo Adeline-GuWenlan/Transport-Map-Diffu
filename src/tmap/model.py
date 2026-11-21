@@ -71,8 +71,12 @@ class TransportMap(nn.Module):
 
 
 def build_model(cfg: dict) -> TransportMap:
-    """Build from a full config dict (keys model.*, data.num_classes), as configs/*.yaml."""
+    """Build from a full config dict (keys model.*, data.num_classes), as configs/*.yaml.
+    model.backbone: dit (default) or unet (tmap.unet.UNetTransportMap, same interface)."""
     m = cfg["model"]
+    if m.get("backbone", "dit") == "unet":          # unet chain: De Bortoli et al. App. I.2 U-Net (src/tmap/unet.py)
+        from .unet import build_unet
+        return build_unet(cfg)
     if m.get("backbone", "dit") != "dit":
         raise ValueError(m["backbone"])
     if m.get("timestep_mode", "constant") != "constant" or m.get("output", "direct") != "direct":
