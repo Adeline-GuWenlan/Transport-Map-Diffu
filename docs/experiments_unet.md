@@ -158,3 +158,37 @@ DiT bench predicted the real DiT runs within 2%:
   (`sinfo`: infinite). `scripts/exp_gpu.slurm` requeues safely if a limit is hit anyway.
 - **Wall time is not a like-for-like backbone cost.** UNet A runs one pass, while DiT A used chunk 128 and paid the
   extra forward. At the same chunk (256), UNet A costs 1.297 s/step against DiT A's 1.494 s/step in the DiT bench.
+
+## Training runs (S2, submitted 2026-11-21 09:18 EST)
+Submitted with `scripts/exp_gpu.slurm` (unchanged), in the DiT pattern from `docs/experiments_AB.md`
+[E: `claude_jobs/unet/jobids/S2.txt`]:
+
+| run | job | config | seed | `TRAIN_SET` | `--time` |
+|---|---|---|---|---|---|
+| `runs/unetA_s0` | 23968737 | `configs/expA_cifar10_unet_pixel.yaml` | 0 | `seed=0 train.grad_chunk=256` | 14:00:00 |
+| `runs/unetB_s0` | 23968738 | `configs/expB_cifar10_unet_pixel-dinov2.yaml` | 0 | `seed=0` | 20:00:00 |
+| `runs/unetA_s1` | 23968739 | `configs/expA_cifar10_unet_pixel.yaml` | 1 | `seed=1 train.grad_chunk=256` | 14:00:00 |
+| `runs/unetB_s1` | 23968740 | `configs/expB_cifar10_unet_pixel-dinov2.yaml` | 1 | `seed=1` | 20:00:00 |
+
+```bash
+CONFIG=configs/expA_cifar10_unet_pixel.yaml RUN=runs/unetA_s0 TRAIN_SET="seed=0 train.grad_chunk=256" \
+  sbatch --job-name=tmap_uA_s0 --time=14:00:00 scripts/exp_gpu.slurm
+CONFIG=configs/expB_cifar10_unet_pixel-dinov2.yaml RUN=runs/unetB_s0 TRAIN_SET="seed=0" \
+  sbatch --job-name=tmap_uB_s0 --time=20:00:00 scripts/exp_gpu.slurm
+# and the same for seed 1
+```
+
+**`grad_chunk` = 256 for all 4 runs.** The S2 prompt asks for one value for all 4 runs. B does not fit at 512 (bench OOM), so the value
+is 256. The A config still says 512, so the A runs override it in `TRAIN_SET`. Each run's own `config.yaml` records the value used.
+The gradient is exact at any chunk size, so this only changes speed. With it, UNet A runs two-pass like DiT A did (DiT used
+chunk 128), so the A wall times are closer to like-for-like. The cost is about +2.2 GPU-h per A run.
+
+**Projection at the chosen chunk** [G: bench s/step × 30000 × 1.03, plus 0.28 h for evaluation, same method as above]:
+
+| run | bench s/step | training | + eval | per run | `--time` = ⌈1.2 × training + eval⌉ |
+|---|---|---|---|---|---|
+| UNet A (chunk 256) | 1.297 | 11.13 h | 0.28 h | 11.41 GPU-h | ⌈13.64⌉ = 14 h |
+| UNet B (chunk 256) | 1.906 | 16.36 h | 0.28 h | 16.64 GPU-h | ⌈19.91⌉ = 20 h |
+| total, 4 runs | | | | **56.1 GPU-h** | |
+
+Every run is below the 30 GPU-h stop line, and the total is below the 120 GPU-h chain budget (S1 used 0.13).
