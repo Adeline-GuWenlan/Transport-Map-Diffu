@@ -1,0 +1,5 @@
+feature term: encoder dinov2_vits14 (384-d), lambda = 0.6595 ({'scale': 0.6595136583963134, 'pixel_mean_dist': 37.062942436338105, 'feature_mean_dist': 56.197384185281464, 'n_per_class': 200, 'weight': 1.0, 'lambda': 0.6595136583963134})
+model 140.013 M params; train 50000 images, classes [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; batch 8 x 64 (r = 1); device cuda, threads 8, bf16 True; out /scratch/wg2381/transport_map/runs/bench_gpu_unet_23951657/B_c256
+[eval] step 0: held-out D1 raw 18.0391  ema 18.0391  diversity raw 0.000 ema 0.000
+[eval] step 60: held-out D1 raw 17.8513  ema 18.0387  diversity raw 0.004 ema 0.000
+done: step 60, 2.0 min; checkpoint /scratch/wg2381/transport_map/runs/bench_gpu_unet_23951657/B_c256/ckpt/latest.pt

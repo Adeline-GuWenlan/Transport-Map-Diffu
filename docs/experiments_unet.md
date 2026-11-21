@@ -99,7 +99,62 @@ Notes:
   plus about 2.8 GB of weights, EMA, gradients and AdamW state (140 M × 20 bytes). The GPU bench checks it.
 
 ## CPU smoke (not a result)
-SMOKE_PLACEHOLDER
+[E: `runs/smoke_unet_cpu/` (`command.txt`, `metrics.jsonl`, `eval.jsonl`, `samples/`)]. This is a code check only; it is never
+compared with anything.
+- Setup: `configs/smoke_cpu_cifar10.yaml` (CIFAR-10, batch 8 × 8, lr 2e-4, fp32, CPU, 7 threads) with a small UNet
+  model block: base 64, multipliers (1, 2, 2), 1 block per level, attention at 16 px plus the bottleneck, 4 heads,
+  emb 256. That gives 3.98 M params.
+- Run: 1737 steps in 18.5 min of training, in two segments. Segment 1 was stopped by SIGTERM at step 897 (the agent
+  tool's time limit), checkpointed, and resumed exactly.
+- Training loss: 26.70 (mean of steps 1–50) → 18.66 (steps 1651–1700).
+- Held-out pixel D1 (500/class): 17.80 at step 0 (F ≡ 0, the "zero" baseline) → 0.678 at 1000 → **0.621** at 1737
+  (raw). EMA: 1.138. Raw diversity ratio: 1.015.
+- Output: all finite. On the fixed grid noise, mean |x| = 0.45.
 
 ## GPU bench
-BENCH_PLACEHOLDER
+Job 23951657, 1 × L40S (46068 MiB), gl042, 7.9 min, commit dc12830, `scripts/bench_gpu_unet.slurm`
+[E: `runs/slurm-tmap_bench_unet-23951657.out`, `runs/bench_gpu_unet_23951657/`]. 60 steps each; the median s/step is
+taken over steps 30–60. This is a bench result only, not a training result.
+
+| UNet run | grad_chunk | s/step | peak mem | loss step 10 → 60 |
+|---|---|---|---|---|
+| A | **512** (one pass) | **1.012** | 30.6 GiB | 27.283 → 27.064 |
+| A | 256 | 1.297 | 17.1 GiB | 27.283 → 27.064 |
+| B | **256** | **1.906** | 23.9 GiB | 69.536 → 65.437 |
+| B | 512 | OOM: 42.9 GiB allocated by PyTorch, out of 44.4 | – | – |
+
+- The two A chunk sizes give the same losses, as the exact gradient should.
+- At the first logged step, UNet A starts at the same loss as DiT A's bench (27.283). F ≡ 0 for both and the batch is
+  the same.
+- B: λ = 0.6595, the same scale as DiT B's runs (fixed per run from the first 200 train images per class).
+- Evaluation path (`tmap.evaluate` at 100/class, FID-2k, Inception and DINOv2 D1, nn grid, then `tmap.sample` for EMA
+  and raw): exit 0 in 57 s.
+- **Chosen (configs unchanged):** `grad_chunk` 512 for A and 256 for B.
+
+For calibration [E: `runs/slurm-tmap_bench-22605880.out`, `runs/expA_s*/metrics.jsonl`, `runs/expB_s*/metrics.jsonl`], the
+DiT bench predicted the real DiT runs within 2%:
+
+| DiT run | bench s/step | real run (median of `steps_per_s`) |
+|---|---|---|
+| A (chunk 128) | 1.463 | 1/0.673 = 1.486 |
+| B (chunk 128) | 1.982 | 1/0.5046 = 1.982 |
+
+### Projection per 30k-step run [G, from the measurements above]
+- **Training:** 30000 × s/step × 1.03. The 3% covers startup, in-loop pixel D1 every 5k, checkpoints and one requeue.
+  DiT A s0's measured overhead was 0.5%: 44817 s of training wall against 30000 / 0.673 = 44577 s.
+- **Evaluation:** post-training evaluation of the 4 snapshots took 15.8–16.7 min in the DiT runs (`runs/slurm-tmap_*.out`:
+  "tmap.train exited with 0" → "done"). It is dominated by FID-10k and feature D1, and should not depend much on the
+  backbone. Assume 0.28 h.
+
+| run | s/step | training | + eval | per run | × 2 seeds |
+|---|---|---|---|---|---|
+| UNet A | 1.012 | 8.69 h | 0.28 h | **8.97 GPU-h** | 17.9 |
+| UNet B | 1.906 | 16.36 h | 0.28 h | **16.64 GPU-h** | 33.3 |
+| total, 4 runs | | | | | **51.2 GPU-h** |
+
+- Every run is under the 30 GPU-h stop rule, and the total is within the 120 GPU-h budget. GPU-h used by S1: 0.13
+  (the bench).
+- Suggested `--time` for S2: A 10:00:00 and B 18:00:00 (about 10% margin). `l40s_public` has no wall limit
+  (`sinfo`: infinite). `scripts/exp_gpu.slurm` requeues safely if a limit is hit anyway.
+- **Wall time is not a like-for-like backbone cost.** UNet A runs one pass, while DiT A used chunk 128 and paid the
+  extra forward. At the same chunk (256), UNet A costs 1.297 s/step against DiT A's 1.494 s/step in the DiT bench.

@@ -1,0 +1,13 @@
+model 3.975 M params; train 50000 images, classes [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; batch 8 x 8 (r = 1); device cpu, threads 7, bf16 False; out /scratch/wg2381/transport_map/runs/smoke_unet_cpu
+[eval] step 0: held-out D1 raw 17.8038  ema 17.8038  diversity raw 0.000 ema 0.000
+step 500  loss 18.6340  conf 36.1225  inter 34.9769  |g| 33.48  lr 2.00e-04  1.72 it/s  4.8 min
+signal 15: checkpointing at step 897 and exiting
+done: step 897, 8.7 min; checkpoint /scratch/wg2381/transport_map/runs/smoke_unet_cpu/ckpt/latest.pt
+resumed from /scratch/wg2381/transport_map/runs/smoke_unet_cpu/ckpt/latest.pt at step 897
+model 3.975 M params; train 50000 images, classes [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; batch 8 x 8 (r = 1); device cpu, threads 7, bf16 False; out /scratch/wg2381/transport_map/runs/smoke_unet_cpu
+step 1000  loss 18.6493  conf 36.3383  inter 35.3780  |g| 26.19  lr 2.00e-04  1.69 it/s  1.0 min
+[eval] step 1000: held-out D1 raw 0.6775  ema 3.7091  diversity raw 0.902 ema 0.497
+step 1500  loss 18.5742  conf 36.4165  inter 35.6846  |g| 18.68  lr 2.00e-04  1.75 it/s  6.7 min
+time limit 9.0 min reached at step 1737
+[eval] step 1737: held-out D1 raw 0.6206  ema 1.1385  diversity raw 1.015 ema 0.735
+done: step 1737, 9.8 min; checkpoint /scratch/wg2381/transport_map/runs/smoke_unet_cpu/ckpt/latest.pt

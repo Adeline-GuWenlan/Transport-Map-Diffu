@@ -1,0 +1,81 @@
+feature term: encoder dinov2_vits14 (384-d), lambda = 0.6595 ({'scale': 0.6595136583963134, 'pixel_mean_dist': 37.062942436338105, 'feature_mean_dist': 56.197384185281464, 'n_per_class': 200, 'weight': 1.0, 'lambda': 0.6595136583963134})
+model 140.013 M params; train 50000 images, classes [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; batch 8 x 64 (r = 1); device cuda, threads 8, bf16 True; out /scratch/wg2381/transport_map/runs/bench_gpu_unet_23951657/B_c512
+[eval] step 0: held-out D1 raw 18.0391  ema 18.0391  diversity raw 0.000 ema 0.000
+[W1121 04:27:01.867877360 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 536870912 bytes (free: 35782656, total: 47695921152).
+[W1121 04:27:03.982361501 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 304087040 bytes (free: 100794368, total: 47695921152).
+[W1121 04:27:03.982439597 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 304087040 bytes (free: 100794368, total: 47695921152).
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/scratch/wg2381/transport_map/src/tmap/train.py", line 358, in <module>
+    main()
+  File "/scratch/wg2381/transport_map/src/tmap/train.py", line 353, in main
+    res = train(cfg, a.out, resume=not a.no_resume)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/transport_map/src/tmap/train.py", line 299, in train
+    loss, parts = forward_backward(model, enc, z, xl, y, yl, lc, lam, bf16, chunk)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/transport_map/src/tmap/train.py", line 111, in forward_backward
+    fx = enc_fwd(x) if enc is not None else None
+         ^^^^^^^^^^
+  File "/scratch/wg2381/transport_map/src/tmap/train.py", line 101, in enc_fwd
+    return enc(xc)
+           ^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/transport_map/src/tmap/features.py", line 52, in forward
+    return self.enc((u - self.mean) / self.std)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/timm/models/vision_transformer.py", line 1350, in forward
+    x = self.forward_features(x, attn_mask=attn_mask, is_causal=is_causal)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/timm/models/vision_transformer.py", line 1300, in forward_features
+    x = self.blocks(x)
+        ^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/nn/modules/container.py", line 259, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/timm/models/vision_transformer.py", line 250, in forward
+    x = x + self.drop_path1(self.ls1(self.attn(self.norm1(x), attn_mask=attn_mask, is_causal=is_causal)))
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/timm/layers/attention.py", line 119, in forward
+    qkv = self.qkv(x).reshape(B, N, 3, self.num_heads, self.head_dim).permute(2, 0, 3, 1, 4)
+          ^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/nn/modules/linear.py", line 134, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 290.00 MiB. GPU 0 has a total capacity of 44.42 GiB of which 96.12 MiB is free. Including non-PyTorch memory, this process has 44.32 GiB memory in use. Of the allocated memory 42.89 GiB is allocated by PyTorch, and 930.11 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)

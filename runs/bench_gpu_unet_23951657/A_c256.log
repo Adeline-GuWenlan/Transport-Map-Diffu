@@ -1,0 +1,4 @@
+model 140.013 M params; train 50000 images, classes [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; batch 8 x 64 (r = 1); device cuda, threads 8, bf16 True; out /scratch/wg2381/transport_map/runs/bench_gpu_unet_23951657/A_c256
+[eval] step 0: held-out D1 raw 18.0391  ema 18.0391  diversity raw 0.000 ema 0.000
+[eval] step 60: held-out D1 raw 17.3086  ema 18.0381  diversity raw 0.007 ema 0.000
+done: step 60, 1.4 min; checkpoint /scratch/wg2381/transport_map/runs/bench_gpu_unet_23951657/A_c256/ckpt/latest.pt
