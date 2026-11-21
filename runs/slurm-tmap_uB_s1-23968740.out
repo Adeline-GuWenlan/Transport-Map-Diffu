@@ -1,0 +1,3 @@
+[Sat Nov 21 09:26:20 EST 2026] job 23968740 restart 0 on gl029.hpc.nyu.edu; config /scratch/wg2381/transport_map/configs/expB_cifar10_unet_pixel-dinov2.yaml; run /scratch/wg2381/transport_map/runs/unetB_s1; set: seed=1
+name, driver_version, memory.total [MiB]
+NVIDIA L40S, 610.43.02, 46068 MiB

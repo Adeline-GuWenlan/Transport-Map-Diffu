@@ -1,0 +1,17 @@
+model 140.013 M params; train 50000 images, classes [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; batch 8 x 64 (r = 1); device cuda, threads 8, bf16 True; out /scratch/wg2381/transport_map/runs/unetA_s1
+[eval] step 0: held-out D1 raw 17.8513  ema 17.8513  diversity raw 0.000 ema 0.000
+step 1000  loss 18.5008  conf 36.1953  inter 35.3891  |g| 51.80  lr 2.00e-05  0.77 it/s  21.7 min
+step 2000  loss 18.4230  conf 36.1577  inter 35.4694  |g| 34.77  lr 4.00e-05  0.77 it/s  43.5 min
+step 3000  loss 18.3773  conf 36.1441  inter 35.5337  |g| 31.45  lr 6.00e-05  0.77 it/s  65.3 min
+step 4000  loss 18.3804  conf 36.2132  inter 35.6656  |g| 25.49  lr 8.00e-05  0.77 it/s  87.0 min
+step 5000  loss 18.3945  conf 36.1989  inter 35.6089  |g| 22.00  lr 1.00e-04  0.77 it/s  108.8 min
+[eval] step 5000: held-out D1 raw 0.1038  ema 8.3549  diversity raw 0.997 ema 0.249
+step 6000  loss 18.3506  conf 36.2994  inter 35.8977  |g| 15.94  lr 1.00e-04  0.77 it/s  130.8 min
+step 7000  loss 18.2797  conf 36.3260  inter 36.0927  |g| 13.43  lr 1.00e-04  0.77 it/s  152.5 min
+step 8000  loss 18.2842  conf 36.3522  inter 36.1360  |g| 11.27  lr 1.00e-04  0.77 it/s  174.2 min
+step 9000  loss 18.2749  conf 36.3434  inter 36.1371  |g| 9.91  lr 1.00e-04  0.77 it/s  195.9 min
+step 10000  loss 18.2952  conf 36.4480  inter 36.3057  |g| 10.28  lr 1.00e-04  0.77 it/s  217.7 min
+[eval] step 10000: held-out D1 raw 0.1158  ema 3.0206  diversity raw 0.984 ema 0.545
+step 11000  loss 18.2574  conf 36.3543  inter 36.1937  |g| 8.69  lr 1.00e-04  0.77 it/s  239.6 min
+step 12000  loss 18.2433  conf 36.3292  inter 36.1717  |g| 7.39  lr 1.00e-04  0.77 it/s  261.3 min
+step 13000  loss 18.3329  conf 36.4400  inter 36.2143  |g| 7.89  lr 1.00e-04  0.77 it/s  283.0 min

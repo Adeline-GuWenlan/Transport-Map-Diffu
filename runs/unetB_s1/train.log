@@ -1,0 +1,12 @@
+feature term: encoder dinov2_vits14 (384-d), lambda = 0.6595 ({'scale': 0.6595136583963134, 'pixel_mean_dist': 37.062942436338105, 'feature_mean_dist': 56.197384185281464, 'n_per_class': 200, 'weight': 1.0, 'lambda': 0.6595136583963134})
+model 140.013 M params; train 50000 images, classes [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; batch 8 x 64 (r = 1); device cuda, threads 8, bf16 True; out /scratch/wg2381/transport_map/runs/unetB_s1
+[eval] step 0: held-out D1 raw 17.8513  ema 17.8513  diversity raw 0.000 ema 0.000
+step 1000  loss 37.8373  conf 35.8459  inter 34.6061  |g| 88.86  lr 2.00e-05  0.52 it/s  32.0 min
+step 2000  loss 37.2426  conf 36.1766  inter 35.5288  |g| 52.15  lr 4.00e-05  0.52 it/s  64.2 min
+step 3000  loss 37.1874  conf 36.2606  inter 35.7123  |g| 44.11  lr 6.00e-05  0.52 it/s  96.4 min
+step 4000  loss 37.1392  conf 36.2798  inter 35.7431  |g| 34.19  lr 8.00e-05  0.52 it/s  128.7 min
+step 5000  loss 37.1144  conf 36.3614  inter 35.8986  |g| 29.01  lr 1.00e-04  0.52 it/s  160.9 min
+[eval] step 5000: held-out D1 raw 0.1533  ema 10.1870  diversity raw 0.981 ema 0.203
+step 6000  loss 37.0507  conf 36.3125  inter 35.8729  |g| 21.02  lr 1.00e-04  0.52 it/s  193.4 min
+step 7000  loss 37.0155  conf 36.1992  inter 35.7771  |g| 20.65  lr 1.00e-04  0.51 it/s  225.6 min
+step 8000  loss 37.0103  conf 36.3033  inter 35.9869  |g| 17.69  lr 1.00e-04  0.52 it/s  257.8 min

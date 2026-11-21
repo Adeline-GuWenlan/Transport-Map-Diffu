@@ -192,3 +192,23 @@ chunk 128), so the A wall times are closer to like-for-like. The cost is about +
 | total, 4 runs | | | | **56.1 GPU-h** | |
 
 Every run is below the 30 GPU-h stop line, and the total is below the 120 GPU-h chain budget (S1 used 0.13).
+
+### Health check (S2, 2026-11-21 14:14 EST)
+[E: `runs/unet*/metrics.jsonl`, `runs/unet*/eval.jsonl`, `runs/slurm-tmap_u*-*.out`, snapshots committed with this section; `sacct`:
+all 4 RUNNING, restart count 0.] The s/step is the median of `1/steps_per_s` from the 6th log line on. The finish time is
+[G]: remaining steps at that speed, plus 0.28 h of evaluation.
+
+| run | job | node | step | s/step (bench) | max_mem | loss at 1k → now | grad norm at 1k → now | held-out pixel D1 raw / EMA at 5k, 10k | projected finish (EST) |
+|---|---|---|---|---|---|---|---|---|---|
+| unetA_s0 | 23968737 | gl055 | 13400 | 1.308 (1.297) | 17.1 GiB | 18.475 → 18.347 | 46.2 → 8.3 | 0.132 / 8.991, 0.125 / 3.663 | ≈ 20:30 Nov 21 |
+| unetA_s1 | 23968739 | gl035 | 13300 | 1.301 (1.297) | 17.1 GiB | 18.501 → 18.344 | 51.8 → 6.9 | 0.104 / 8.355, 0.116 / 3.021 | ≈ 20:30 Nov 21 |
+| unetB_s0 | 23968738 | gl037 | 9000 | 1.929 (1.906) | 23.9 GiB | 37.804 → 37.068 | 88.2 → 15.2 | 0.291 / 9.702 (5k only) | ≈ 01:45 Nov 22 |
+| unetB_s1 | 23968740 | gl029 | 8800 | 1.930 (1.906) | 23.9 GiB | 37.837 → 37.025 | 88.9 → 16.1 | 0.153 / 10.187 (5k only) | ≈ 01:55 Nov 22 |
+
+- All losses and grad norms are finite. The loss drops fast in the first 1k steps, then slowly. The grad norm falls steadily.
+  Real speed is within 1.3% of the bench. Memory equals the bench peak (A chunk 256: 17.1 GiB, B: 23.9 GiB).
+- Every finish falls well inside its `--time` (A ends at about 11.2 h of 14 h, B at about 16.5 h of 20 h), so no requeue is expected.
+- Projected GPU-h for the 4 runs: about 55 [G]. Used by 14:14 EST: about 19.4 (4 jobs × about 4.85 h).
+- One observation, not a result: at matched steps the UNet's grad norm is about 2–3× DiT-B/2's (for example DiT A s0 at
+  13.4k: 3.2 [E: `runs/expA_s0/metrics.jsonl`]). It falls steadily, and clip 2 is the same for both backbones. S3 compares the
+  finished runs.
