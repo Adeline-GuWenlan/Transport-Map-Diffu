@@ -132,3 +132,15 @@ def test_checkpoint_round_trip(tmp_path):
         rebuilt.load_state_dict(ck["ema"])
         with torch.no_grad():
             assert torch.equal(rebuilt.eval()(z, c), xe)
+
+
+def test_configs_differ_from_dit_only_in_model_name_and_grad_chunk():
+    """Fairness contract (prompts/_task.md): a UNet config equals its DiT twin apart from name, the model block and
+    train.grad_chunk (comments aside)."""
+    for dit, unet in (("configs/expA_cifar10_dit-b2_pixel.yaml", CFG_A),
+                      ("configs/expB_cifar10_dit-b2_pixel-dinov2.yaml", CFG_B)):
+        a, b = load_config(dit), load_config(unet)
+        assert a["model"]["backbone"] == "dit" and b["model"]["backbone"] == "unet"
+        for c in (a, b):
+            c.pop("name"), c.pop("model"), c["train"].pop("grad_chunk")
+        assert a == b, (dit, unet)

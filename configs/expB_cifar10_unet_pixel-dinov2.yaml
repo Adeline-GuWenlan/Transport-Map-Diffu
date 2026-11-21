@@ -42,7 +42,8 @@ model:
   timestep_value: 999               # as the DiT map
   output: direct                    # last conv zero-initialised, F == 0 at step 0 (assumption, as DiT's adaLN-Zero)
   patch_size: 2                     # not used by the UNet: grid of tmap.evaluate's blockiness metric, = DiT-B/2's patch
-  # measured: 140.0 M params, 20.0 GMACs/sample forward (DiT-B/2: 129.7 M, 23.0)
+  # measured (runs/cost_unet_S1.json, torch.utils.flop_counter): 140.0 M params, 20.0 GMACs/sample forward;
+  # DiT-B/2 with the same counter: 129.7 M, 21.8 GMACs (its config quotes 23.0, the DiT paper count)
 
 loss:
   beta: 1.0
@@ -78,7 +79,7 @@ optim:
 train:
   max_steps: 30000                  # exp: ~300 epochs of CIFAR-10 at N = 512; requeue-safe via resume
   snapshot_steps: [5000, 10000, 20000, 30000]   # exp: weights-only copies, evaluated after training
-  grad_chunk: 128                   # exp: exact two-pass gradient, activations of 128 samples at a time
+  grad_chunk: 256                   # unet: exact two-pass gradient; UNet + DINOv2 save 81.3 MiB/sample under bf16 -> 20.3 GiB at 256 (runs/cost_unet_S1.json)
   precision: bf16                   # autocast for the network only
   tf32: true
   compile: false                    # optional; turn on after the first run works

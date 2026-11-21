@@ -1,0 +1,100 @@
+# unet chain S1, 2026-11-21T09:13:48Z. Fairness contract (prompts/_task.md): only name, comments, the model block and
+# train.grad_chunk may differ between a UNet config and its DiT twin. Also checked by tests/test_unet.py.
+
+$ diff configs/expA_cifar10_dit-b2_pixel.yaml configs/expA_cifar10_unet_pixel.yaml
+0a1,2
+> # UNet twin of Experiment A (unet chain, docs/experiments_unet.md). Identical to configs/expA_cifar10_dit-b2_pixel.yaml
+> # except name, these comments and the model block (fairness contract: docs/unet_config_diff.txt). DiT header below.
+8c10
+< name: expA_cifar10_dit-b2_pixel
+---
+> name: expA_cifar10_unet_pixel
+25c27
+<   backbone: dit                     # third_party/DiT/models.py (commit ed81ce2), unmodified
+---
+>   backbone: unet                    # src/tmap/unet.py: De Bortoli et al. 2025 (arXiv 2502.02483) App. I.2 U-Net
+27,28c29
+<   patch_size: 2                     # 16x16 = 256 tokens, the same token count as DiT-*/2 on 256px latents
+<   in_channels: 3
+---
+>   in_channels: 3                    # z ~ N(0, I), 3x32x32 only (one-step map: no x_t concat)
+30,35c31,38
+<   depth: 12                         # DiT-B
+<   hidden_size: 768
+<   num_heads: 12
+<   mlp_ratio: 4.0
+<   learn_sigma: false
+<   class_dropout_prob: 0.0
+---
+>   base_channels: 256                # App. I.2
+>   channel_mult: [1, 2, 2, 2]        # App. I.2: 256/512/512/512 at 32/16/8/4 px
+>   num_res_blocks: 2                 # App. I.2, per level (down and up path)
+>   attention_resolutions: [16]       # App. I.2: attention at the second level (16 px for CIFAR-10)
+>   mid_attention: true               # App. I.2: attention in the bottleneck
+>   num_heads: 8                      # App. I.2
+>   dropout: 0.0                      # assumption: App. I.2 gives no rate; DiT uses none
+>   emb_dim: 1024                     # assumption: 4 x base channels (paper silent)
+37,40c40,44
+<   timestep_value: 999
+<   output: direct
+<   # measured: 129.7 M params, 23.0 GMACs/sample forward (matches DiT paper Table 4: 23.01 for DiT-B/2)
+<   # cheaper fallback: DiT-S/2 (depth 12, hidden 384, heads 6): 32.6 M params, 6.05 GMACs
+---
+>   timestep_value: 999               # as the DiT map
+>   output: direct                    # last conv zero-initialised, F == 0 at step 0 (assumption, as DiT's adaLN-Zero)
+>   patch_size: 2                     # not used by the UNet: grid of tmap.evaluate's blockiness metric, = DiT-B/2's patch
+>   # measured (runs/cost_unet_S1.json, torch.utils.flop_counter): 140.0 M params, 20.0 GMACs/sample forward;
+>   # DiT-B/2 with the same counter: 129.7 M, 21.8 GMACs (its config quotes 23.0, the DiT paper count)
+70c74
+<   grad_chunk: 128                   # exp: exact two-pass gradient, activations of 128 samples at a time
+---
+>   grad_chunk: 512                   # unet: = N, i.e. one pass; UNet saves 53.4 MiB/sample under bf16 -> 26.7 GiB at 512 (runs/cost_unet_S1.json). Exact either way (tests/test_unet.py)
+
+$ diff configs/expB_cifar10_dit-b2_pixel-dinov2.yaml configs/expB_cifar10_unet_pixel-dinov2.yaml
+0a1,2
+> # UNet twin of Experiment B (unet chain, docs/experiments_unet.md). Identical to configs/expB_cifar10_dit-b2_pixel-dinov2.yaml
+> # except name, these comments and the model block (fairness contract: docs/unet_config_diff.txt). DiT header below.
+10c12
+< name: expB_cifar10_dit-b2_pixel-dinov2
+---
+> name: expB_cifar10_unet_pixel-dinov2
+27c29
+<   backbone: dit                     # third_party/DiT/models.py (commit ed81ce2), unmodified
+---
+>   backbone: unet                    # src/tmap/unet.py: De Bortoli et al. 2025 (arXiv 2502.02483) App. I.2 U-Net
+29,30c31
+<   patch_size: 2                     # 16x16 = 256 tokens, the same token count as DiT-*/2 on 256px latents
+<   in_channels: 3
+---
+>   in_channels: 3                    # z ~ N(0, I), 3x32x32 only (one-step map: no x_t concat)
+32,37c33,40
+<   depth: 12                         # DiT-B
+<   hidden_size: 768
+<   num_heads: 12
+<   mlp_ratio: 4.0
+<   learn_sigma: false
+<   class_dropout_prob: 0.0
+---
+>   base_channels: 256                # App. I.2
+>   channel_mult: [1, 2, 2, 2]        # App. I.2: 256/512/512/512 at 32/16/8/4 px
+>   num_res_blocks: 2                 # App. I.2, per level (down and up path)
+>   attention_resolutions: [16]       # App. I.2: attention at the second level (16 px for CIFAR-10)
+>   mid_attention: true               # App. I.2: attention in the bottleneck
+>   num_heads: 8                      # App. I.2
+>   dropout: 0.0                      # assumption: App. I.2 gives no rate; DiT uses none
+>   emb_dim: 1024                     # assumption: 4 x base channels (paper silent)
+39,42c42,46
+<   timestep_value: 999
+<   output: direct
+<   # measured: 129.7 M params, 23.0 GMACs/sample forward (matches DiT paper Table 4: 23.01 for DiT-B/2)
+<   # cheaper fallback: DiT-S/2 (depth 12, hidden 384, heads 6): 32.6 M params, 6.05 GMACs
+---
+>   timestep_value: 999               # as the DiT map
+>   output: direct                    # last conv zero-initialised, F == 0 at step 0 (assumption, as DiT's adaLN-Zero)
+>   patch_size: 2                     # not used by the UNet: grid of tmap.evaluate's blockiness metric, = DiT-B/2's patch
+>   # measured (runs/cost_unet_S1.json, torch.utils.flop_counter): 140.0 M params, 20.0 GMACs/sample forward;
+>   # DiT-B/2 with the same counter: 129.7 M, 21.8 GMACs (its config quotes 23.0, the DiT paper count)
+78c82
+<   grad_chunk: 128                   # exp: exact two-pass gradient, activations of 128 samples at a time
+---
+>   grad_chunk: 256                   # unet: exact two-pass gradient; UNet + DINOv2 save 81.3 MiB/sample under bf16 -> 20.3 GiB at 256 (runs/cost_unet_S1.json)

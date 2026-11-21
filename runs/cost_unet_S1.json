@@ -1,0 +1,53 @@
+{
+ "threads": 7,
+ "torch": "2.14.1+cu126",
+ "limit_gib": 30.0,
+ "cap": 512,
+ "cpu": "\t: INTEL(R) XEON(R) PLATINUM 8592+",
+ "slurm_job": "23926771",
+ "unet": {
+  "config": "configs/expA_cifar10_unet_pixel.yaml",
+  "params_M": 140.012547,
+  "gmacs_per_sample": 20.03959808,
+  "act_mib_per_sample_bf16": 53.38031768798828,
+  "act_raw_mib_b2_b6": [
+   373.16200256347656,
+   586.6832733154297
+  ],
+  "cpu_s_per_step_b64": [
+   10.045047521591187,
+   9.873946189880371
+  ],
+  "cpu_grad_chunk": 16,
+  "cpu_s_per_step_b64_mean": 9.959496855735779,
+  "grad_chunk_A": 512,
+  "act_mib_per_sample_bf16_B": 81.26896667480469,
+  "grad_chunk_B": 256
+ },
+ "dit-b2": {
+  "config": "configs/expA_cifar10_dit-b2_pixel.yaml",
+  "params_M": 129.732876,
+  "gmacs_per_sample": 21.792423936,
+  "act_mib_per_sample_bf16": 110.23780059814453,
+  "act_raw_mib_b2_b6": [
+   466.88575744628906,
+   907.8369598388672
+  ],
+  "cpu_s_per_step_b64": [
+   14.81217074394226,
+   14.959719181060791
+  ],
+  "cpu_grad_chunk": 16,
+  "cpu_s_per_step_b64_mean": 14.885944962501526,
+  "grad_chunk_A": 256,
+  "act_mib_per_sample_bf16_B": 138.12644958496094,
+  "grad_chunk_B": 128
+ },
+ "dinov2_vits14_224": {
+  "act_mib_per_sample_bf16": 27.888648986816406,
+  "act_raw_mib_b2_b6": [
+   96.81637191772461,
+   208.37096786499023
+  ]
+ }
+}
