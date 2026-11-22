@@ -266,6 +266,26 @@ dataset, **not** the real run (that is DiT-B/2, patch 2, on GPU).
   past this is the open question for the GPU run.
 
 
+## Backbone comparison: UNet vs DiT-B/2 (GPU, 2026-11-22)
+Full write-up: [`docs/experiments_unet.md`](docs/experiments_unet.md). A UNet after De Bortoli et al. 2025 App. I.2
+(`src/tmap/unet.py`, 140.0 M params) was trained exactly like the DiT-B/2 Experiments A/B: same configs apart from the
+`model:` block, same seeds 0/1, data order, noise, optimizer, 30k steps, L40S and evaluation.
+
+30k EMA FID-10k, mean ± half-range of 2 seeds (`runs/backbone_summary_ema.md`, written by `scripts/summarize_backbones.py`):
+
+| loss | DiT-B/2 | UNet |
+|---|---|---|
+| A: pixel ES | 321.6 ± 27.4 | 158.1 ± 17.9 |
+| B: pixel + DINOv2 ES | 60.4 ± 8.6 | 26.9 ± 1.9 |
+
+- The UNet removes DiT A's 2×2 mosaics, but pixel ES alone still gives no objects at 30k.
+- UNet B makes clean, mostly class-correct objects, about half DiT B's FID, at the same cost (16.3 vs 16.9 GPU-h per run).
+
+```bash
+CONFIG=configs/expB_cifar10_unet_pixel-dinov2.yaml RUN=runs/unetB_s0 TRAIN_SET="seed=0" \
+    sbatch --job-name=tmap_uB_s0 --time=20:00:00 scripts/exp_gpu.slurm
+python scripts/summarize_backbones.py   # 8-run tables, runs/backbone_metrics_ema.png, runs/backbone_samples_ema.png
+```
 
 ## Licences
 - `third_party/DiT`: CC-BY-NC 4.0, so this project's code is research-only.
