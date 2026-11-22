@@ -15,3 +15,25 @@ step 10000  loss 18.3123  conf 36.4532  inter 36.2816  |g| 9.98  lr 1.00e-04  0.
 step 11000  loss 18.2885  conf 36.4270  inter 36.2769  |g| 9.37  lr 1.00e-04  0.77 it/s  240.9 min
 step 12000  loss 18.3430  conf 36.5350  inter 36.3839  |g| 8.67  lr 1.00e-04  0.77 it/s  262.7 min
 step 13000  loss 18.2621  conf 36.3421  inter 36.1601  |g| 7.92  lr 1.00e-04  0.77 it/s  284.5 min
+step 14000  loss 18.3118  conf 36.4618  inter 36.3000  |g| 7.81  lr 1.00e-04  0.77 it/s  306.3 min
+step 15000  loss 18.2994  conf 36.5158  inter 36.4328  |g| 7.15  lr 1.00e-04  0.77 it/s  328.0 min
+[eval] step 15000: held-out D1 raw 0.0926  ema 3.0641  diversity raw 1.008 ema 0.652
+step 16000  loss 18.3032  conf 36.4759  inter 36.3454  |g| 7.39  lr 1.00e-04  0.77 it/s  350.0 min
+step 17000  loss 18.3066  conf 36.5352  inter 36.4573  |g| 6.70  lr 1.00e-04  0.77 it/s  371.8 min
+step 18000  loss 18.2614  conf 36.3733  inter 36.2237  |g| 5.67  lr 1.00e-04  0.77 it/s  393.5 min
+step 19000  loss 18.3055  conf 36.5144  inter 36.4178  |g| 6.39  lr 1.00e-04  0.77 it/s  415.3 min
+step 20000  loss 18.3247  conf 36.5409  inter 36.4324  |g| 6.13  lr 1.00e-04  0.77 it/s  437.0 min
+[eval] step 20000: held-out D1 raw 0.1082  ema 3.1828  diversity raw 1.001 ema 0.702
+step 21000  loss 18.2914  conf 36.4711  inter 36.3593  |g| 6.63  lr 1.00e-04  0.77 it/s  459.0 min
+step 22000  loss 18.2993  conf 36.4525  inter 36.3064  |g| 6.19  lr 1.00e-04  0.77 it/s  480.8 min
+step 23000  loss 18.2726  conf 36.4251  inter 36.3051  |g| 5.99  lr 1.00e-04  0.77 it/s  502.5 min
+step 24000  loss 18.2700  conf 36.4407  inter 36.3413  |g| 6.30  lr 1.00e-04  0.77 it/s  524.3 min
+step 25000  loss 18.2432  conf 36.3838  inter 36.2812  |g| 6.50  lr 1.00e-04  0.77 it/s  546.0 min
+[eval] step 25000: held-out D1 raw 0.0933  ema 2.3301  diversity raw 0.971 ema 0.718
+step 26000  loss 18.2890  conf 36.4290  inter 36.2802  |g| 6.41  lr 1.00e-04  0.77 it/s  568.0 min
+step 27000  loss 18.3070  conf 36.5308  inter 36.4477  |g| 7.01  lr 1.00e-04  0.77 it/s  589.6 min
+step 28000  loss 18.3683  conf 36.6483  inter 36.5598  |g| 6.91  lr 1.00e-04  0.77 it/s  611.3 min
+step 29000  loss 18.3157  conf 36.5516  inter 36.4718  |g| 6.39  lr 1.00e-04  0.77 it/s  633.0 min
+step 30000  loss 18.3001  conf 36.4615  inter 36.3228  |g| 7.25  lr 1.00e-04  0.77 it/s  654.7 min
+[eval] step 30000: held-out D1 raw 0.0898  ema 1.6019  diversity raw 0.977 ema 0.801
+done: step 30000, 655.0 min; checkpoint /scratch/wg2381/transport_map/runs/unetA_s0/ckpt/latest.pt
