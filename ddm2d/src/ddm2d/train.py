@@ -28,7 +28,7 @@ import numpy as np
 import torch
 
 from . import data as D
-from .losses import diffusion_loss, energy_loss
+from .losses import POWER_RHOS, RHOS, diffusion_loss, energy_loss, rho_loss
 from .model import build_model, n_params
 from .runinfo import environment, git_commit, peak_rss_mb
 from .schedule import forward_sample, sample_train_times, sigmoid_weight
@@ -38,14 +38,28 @@ DEFAULTS = dict(dataset="gmm", arm="C", steps=100_000, batch=128, lr=1e-3, b1=0.
                 ckpt_every=5000, log_every=100, keep_ckpts=2, ema_snap_every=0)
 
 
+# ddm2dx (E4): optional keys, absent from DEFAULTS so that every existing config resolves to exactly the same dict as before.
+# "rho" (losses.RHOS; absent = "l2", the existing energy_loss path) and "rho_c" (its parameter, see losses.py).
+EXT_KEYS = {"rho", "rho_c"}
+
+
 def resolve_config(cfg: dict) -> dict:
     out = dict(DEFAULTS)
-    unknown = set(cfg) - set(DEFAULTS) - {"_comment", "name"}
+    unknown = set(cfg) - set(DEFAULTS) - {"_comment", "name"} - EXT_KEYS
     if unknown:
         raise ValueError(f"unknown config keys {sorted(unknown)}")
     out.update(cfg)
     if out["arm"] == "A":
         out["m"], out["beta"], out["lam"] = 1, 2.0, 0.0     # Eq. (6); m, beta, lam unused
+    if "rho" in out:
+        if out["rho"] not in RHOS:
+            raise ValueError(f"unknown rho {out['rho']!r}")
+        if out["arm"] == "A" and out["rho"] != "l2":
+            raise ValueError("rho applies to the energy arms (B, C) only")
+        if out["rho"] not in POWER_RHOS and out["beta"] != 1.0:
+            raise ValueError(f"beta is unused for rho={out['rho']}; set it to 1.0")
+        if out["rho"] in ("pseudo_huber", "imq", "rbf", "laplace") and not out.get("rho_c", 0) > 0:
+            raise ValueError(f"rho={out['rho']} needs rho_c > 0")
     return out
 
 
@@ -104,7 +118,9 @@ class Trainer:
         if c["arm"] == "A":
             return diffusion_loss(x0, self.model(t, xt), w)
         xi = torch.randn((n, c["m"], x0.shape[1]), generator=g)
-        return energy_loss(x0, self.model(t, xt, xi), w, c["beta"], c["lam"])
+        if c.get("rho", "l2") == "l2":
+            return energy_loss(x0, self.model(t, xt, xi), w, c["beta"], c["lam"])
+        return rho_loss(x0, self.model(t, xt, xi), w, c["rho"], c["beta"], c["lam"], c.get("rho_c", 0.0))
 
     def train_step(self):
         c = self.cfg
