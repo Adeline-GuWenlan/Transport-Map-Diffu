@@ -21,7 +21,7 @@ def load_cifar(split: str = "train", root: str = CIFAR_ROOT, n: int | None = Non
     y = np.load(os.path.join(root, f"{split}_labels.npy"))
     if n is not None:
         x, y = x[:n], y[:n]
-    x = torch.from_numpy(np.ascontiguousarray(x)).float().div_(127.5).sub_(1.0)
+    x = torch.from_numpy(np.array(x, copy=True)).float().div_(127.5).sub_(1.0)
     return x, torch.from_numpy(np.asarray(y, dtype=np.int64))
 
 
