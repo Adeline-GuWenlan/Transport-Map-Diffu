@@ -47,6 +47,42 @@ def in_checkerboard(x: np.ndarray) -> np.ndarray:
 SAMPLERS = {"gmm": sample_gmm, "checkerboard": sample_checkerboard}
 
 
+# ---------------------------------------------------------------- ddm2dx extension (E2): GMMs with unequal weights / per-component stds
+# Spec: claude_jobs/ddm2dx/prompts/_task.md, E2. The paper GMM path above is unchanged (sample_gmm draws components with rng.integers).
+GMM2W_MEANS = GMM_MEANS.copy()
+GMM2W_STDS = np.array([0.5, 0.5])
+GMM2W_WEIGHTS = np.array([0.8, 0.2])
+
+GMM9W_MEANS = np.array([[-4.0 + 4.0 * (k % 3), 4.0 - 4.0 * (k // 3)] for k in range(9)])   # 3x3 grid, row-major from (-4, 4)
+GMM9W_STDS = np.array([0.5, 0.3, 0.4, 0.3, 0.6, 0.3, 0.4, 0.5, 0.3])
+GMM9W_WEIGHTS = np.array([0.30, 0.02, 0.15, 0.05, 0.20, 0.03, 0.10, 0.07, 0.08])
+
+# name -> (means [K, 2], stds [K], weights [K]); "gmm" is the paper GMM expressed in the same form (for the general posterior)
+GMM_SPECS = {
+    "gmm": (GMM_MEANS, np.full(2, GMM_STD), GMM_WEIGHTS),
+    "gmm2w": (GMM2W_MEANS, GMM2W_STDS, GMM2W_WEIGHTS),
+    "gmm9w": (GMM9W_MEANS, GMM9W_STDS, GMM9W_WEIGHTS),
+}
+
+
+def sample_weighted_gmm(n: int, rng: np.random.Generator, means, stds, weights, return_comp: bool = False):
+    """Isotropic GMM with per-component weights and stds. Component by inverse CDF of one uniform per point, then Gaussian noise."""
+    cdf = np.cumsum(weights)
+    cdf[-1] = 1.0
+    comp = np.searchsorted(cdf, rng.random(n), side="right").clip(max=len(weights) - 1)
+    x = means[comp] + stds[comp][:, None] * rng.standard_normal((n, means.shape[1]))
+    return (x, comp) if return_comp else x
+
+
+def _spec_sampler(name: str):
+    means, stds, weights = GMM_SPECS[name]
+    return lambda n, rng: sample_weighted_gmm(n, rng, means, stds, weights)
+
+
+SAMPLERS["gmm2w"] = _spec_sampler("gmm2w")
+SAMPLERS["gmm9w"] = _spec_sampler("gmm9w")
+
+
 def generate(name: str, n: int, seed: int) -> np.ndarray:
     rng = np.random.default_rng(seed)
     return SAMPLERS[name](n, rng).astype(np.float32)
