@@ -1,0 +1,16 @@
+[Thu Nov 26 13:16:05 EST 2026] job 24750418 on gl031.hpc.nyu.edu; git 8e2939f
+name, driver_version, memory.total [MiB]
+NVIDIA L40S, 610.43.02, 46068 MiB
+{"run": "cifar_A", "grad_chunk": 0, "s_per_step": 0.25043115615844724, "peak_mem_gib": 9.456578254699707, "peak_reserved_gib": 11.048828125, "status": "ok", "feat": null}
+{"run": "cifar_B", "grad_chunk": 0, "s_per_step": 0.9918817162513733, "peak_mem_gib": 30.60432767868042, "peak_reserved_gib": 37.865234375, "status": "ok", "feat": null}
+{"run": "cifar_B", "grad_chunk": 256, "s_per_step": 1.2924606561660767, "peak_mem_gib": 18.107189178466797, "peak_reserved_gib": 20.166015625, "status": "ok", "feat": null}
+{"run": "cifar_C", "grad_chunk": 0, "s_per_step": 0.998455810546875, "peak_mem_gib": 31.663719654083252, "peak_reserved_gib": 36.6171875, "status": "ok", "feat": null}
+{"run": "cifar_B_pH", "grad_chunk": 0, "s_per_step": 1.008400297164917, "peak_mem_gib": 31.663719654083252, "peak_reserved_gib": 36.6171875, "status": "ok", "feat": null}
+[W1126 13:21:16.378819657 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 404750336 bytes (free: 19005440, total: 47695921152).
+[W1126 13:21:16.378912838 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 404750336 bytes (free: 19005440, total: 47695921152).
+{"run": "cifar_C_dino", "grad_chunk": 0, "status": "OOM", "error": "CUDA out of memory. Tried to allocate 386.00 MiB. GPU 0 has a total capacity of 44.42 GiB of which 18.12 MiB is free. Including non-PyTorch memory, this process has 44.39 GiB memory in use. Of the allocated memory 43.54 GiB is allocated by PyTorch, and 339.80 MiB is reserved by PyTorch but unallocat", "peak_mem_gib": 43.543160915374756}
+{"run": "cifar_C_dino", "grad_chunk": 256, "s_per_step": 1.8161035060882569, "peak_mem_gib": 25.03281307220459, "peak_reserved_gib": 26.048828125, "status": "ok", "feat": {"scale": 0.025465176340521728, "pixel_mean_dist_pow": 1.4310762981542395, "feature_mean_dist_pow": 56.197384185281464, "n_per_class": 200, "beta_pixel": 0.1, "beta_feat": 1.0, "weight": 1.0, "lambda_f": 0.025465176340521728}}
+{"run": "cifar_C_dino", "grad_chunk": 128, "s_per_step": 1.672047460079193, "peak_mem_gib": 14.612574577331543, "peak_reserved_gib": 15.2890625, "status": "ok", "feat": {"scale": 0.025465176340521728, "pixel_mean_dist_pow": 1.4310762981542395, "feature_mean_dist_pow": 56.197384185281464, "n_per_class": 200, "beta_pixel": 0.1, "beta_feat": 1.0, "weight": 1.0, "lambda_f": 0.025465176340521728}}
+{"nfe": 10, "n": 10000, "sample_s": 70.69881224632263, "fid_call_s": 19.414849519729614, "total_s": 90.1136622428894, "fid_untrained_meaningless": 239.23824162542257, "peak_mem_gib": 15.406110763549805}
+{"nfe": 100, "n": 10000, "sample_s": 669.4579811096191, "fid_call_s": 15.839168310165405, "total_s": 685.2971501350403, "fid_untrained_meaningless": 284.7444282494836, "peak_mem_gib": 13.111847877502441}
+[Thu Nov 26 13:35:49 EST 2026] bench exit 0

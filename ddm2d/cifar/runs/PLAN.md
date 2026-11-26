@@ -46,5 +46,42 @@ Prior (before the bench), from transport_map's UNet bench (`claude_jobs/standups
 30.6 GiB on an L40S): B / C ≈ 1 s/step → 8.3 h per 30k; A ≈ 0.3 s/step → 2.5 h; C_dino ≈ 2 s/step → 17 h. Evaluation ≈ 0.5–1 h per run.
 Total ≈ 55–60 GPU-h. **The bench (`bench_<jobid>/bench.json`) replaces these numbers; see the section below once it is in.**
 
-## Bench result and final plan
-(pending: bench job 24750418)
+## Bench result (job 24750418, L40S 46 GB, 20 min = 0.34 GPU-h; `bench_24750418/bench.json`) [E]
+Full-size model, batch 128, 5 warm-up + 20 timed steps, real data, bf16.
+
+| case | grad_chunk | s/step | peak allocated GiB |
+|---|---|---|---|
+| A | 0 (one pass) | 0.250 | 9.5 |
+| B (β = 2) | 0 | 0.992 | 30.6 |
+| B (β = 2) | 256 | 1.292 | 18.1 |
+| C (β = 0.1, λ = 1) | 0 | 0.998 | 31.7 |
+| B_pH | 0 | 1.008 | 31.7 |
+| C_dino | 0 | OOM (> 43.5) | – |
+| C_dino | 256 | 1.816 | 25.0 |
+| C_dino | 128 | 1.672 | 14.6 |
+
+FID-10k (sampling 10k images in batches of 1000 + clean-fid call): NFE 10: 70.7 + 19.4 = 90 s; NFE 100: 669.5 + 15.8 = 685 s.
+So sampling costs ≈ 6.7 s per NFE per 10k images, and one FID call ≈ 18 s. λ_f for C_dino from the `auto` rule: s = 0.02547
+(pixel mean ‖y − y′‖^0.1 = 1.431, DINOv2 mean ‖φ − φ′‖ = 56.2).
+
+## Final plan (no cuts)
+- grad_chunk: 0 for A, B, B_b1, B_pH, C; **128 for C_dino** (exact two-pass gradient; one pass does not fit). grad_chunk only changes
+  memory, not the loss or its gradient (tests/test_cifar.py::test_chunked_gradient_exact). It is the one config field, besides the
+  intended ones, that differs between runs.
+- Steps: 30k for every run (no reduction needed).
+- Evaluation per run: snapshots 10k, 20k at NFE 10 + 100: 2 × (90 + 685) s = 1550 s; final at NFE {2, 4, 8, 10, 15, 30, 100}: 169 × 6.7 s
+  + 7 × 18 s = 1257 s; ξ-spread ≈ 20 s. Total ≈ 0.79 GPU-h per run.
+
+| run | s/step (bench) | train GPU-h | eval GPU-h | + overhead | total | `--time` (×1.25) |
+|---|---|---|---|---|---|---|
+| cifar_A | 0.250 | 2.09 | 0.79 | 0.1 | 2.98 | 03:45:00 |
+| cifar_B | 0.992 | 8.27 | 0.79 | 0.1 | 9.16 | 11:40:00 |
+| cifar_B_b1 | 0.992 (as B) | 8.27 | 0.79 | 0.1 | 9.16 | 11:40:00 |
+| cifar_B_pH | 1.008 | 8.40 | 0.79 | 0.1 | 9.29 | 11:40:00 |
+| cifar_C | 0.998 | 8.32 | 0.79 | 0.1 | 9.21 | 11:40:00 |
+| cifar_C_dino | 1.672 | 13.93 | 0.79 | 0.1 | 14.82 | 18:30:00 |
+| **sum** | | 49.3 | 4.7 | 0.6 | **54.6** | |
+
+With the bench (0.34) the chain projects **≈ 55 GPU-h of 75**, leaving ≈ 20 GPU-h for X4 (relaunches, at most two eval-only jobs).
+Overhead = checkpoint writes (latest.pt ≈ 2.2 GB every 1000 steps) and start-up [G]. The jobs are requeue-safe, so `--time` only
+bounds a single segment.

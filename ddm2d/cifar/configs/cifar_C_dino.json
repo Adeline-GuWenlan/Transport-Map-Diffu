@@ -14,7 +14,7 @@
  "hflip": true,
  "bf16": true,
  "tf32": true,
- "grad_chunk": 0,
+ "grad_chunk": 128,
  "snapshots": [
   10000,
   20000,

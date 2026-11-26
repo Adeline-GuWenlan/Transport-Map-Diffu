@@ -23,7 +23,7 @@ cd "$ROOT" || exit 1
 for v in $(env | grep -oE '^(CLAUDECODE|CLAUDE_CODE_[A-Z_]*)='); do unset "${v%=}"; done
 export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-8} MKL_NUM_THREADS=${SLURM_CPUS_PER_TASK:-8}
 source /scratch/wg2381/transport_map/env/activate.sh || exit 1    # not under `set -u`
-export HF_HUB_OFFLINE=1 PYTHONPATH="$ROOT/src:$ROOT/cifar/src:$PYTHONPATH"
+export HF_HUB_OFFLINE=1 PYTHONPATH="$ROOT/src:$ROOT/cifar/src:$PYTHONPATH" PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 set -o pipefail
 OUT=cifar/runs/$RUN
 mkdir -p "$OUT/eval"
