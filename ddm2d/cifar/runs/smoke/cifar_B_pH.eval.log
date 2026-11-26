@@ -1,0 +1,5 @@
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+{"run": "cifar_B_pH", "ckpt": "final", "nfe": 2, "fid": 396.78308863395137, "sample_seconds": 0.3190884590148926}
+/scratch/wg2381/tmap-ddm2d/ddm2d/cifar/src/ddmcifar/data.py:24: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_numpy.cpp:213.)
+  x = torch.from_numpy(np.ascontiguousarray(x)).float().div_(127.5).sub_(1.0)

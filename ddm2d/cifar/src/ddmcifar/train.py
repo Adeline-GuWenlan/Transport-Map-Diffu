@@ -83,6 +83,8 @@ class Trainer:
         self.out = Path(out) if out is not None else None
         self.device = torch.device(c["device"] if (c["device"] != "cuda" or torch.cuda.is_available()) else "cpu")
         self.bf16 = bool(c["bf16"]) and self.device.type == "cuda"
+        if self.device.type == "cuda":
+            torch.backends.cudnn.benchmark = True
         if c["tf32"] and self.device.type == "cuda":
             torch.backends.cuda.matmul.allow_tf32 = True
             torch.backends.cudnn.allow_tf32 = True

@@ -1,0 +1,31 @@
+{
+ "name": "cifar_C",
+ "_comment": "ddm2dx E3 (prompts/_task.md). Identical across the 6 runs except arm, beta, lam, rho, ph_c, m (A: 1) and feature.",
+ "seed": 0,
+ "steps": 30000,
+ "batch": 128,
+ "m": 4,
+ "lr": 0.0001,
+ "warmup": 100,
+ "clip": 1.0,
+ "ema": 0.9999,
+ "safety": 0.01,
+ "w_bias": 0.0,
+ "hflip": true,
+ "bf16": true,
+ "tf32": true,
+ "grad_chunk": 0,
+ "snapshots": [
+  10000,
+  20000,
+  30000
+ ],
+ "ckpt_every": 1000,
+ "log_every": 50,
+ "model": {},
+ "device": "cuda",
+ "arm": "C",
+ "beta": 0.1,
+ "lam": 1.0,
+ "rho": "l2pow"
+}
