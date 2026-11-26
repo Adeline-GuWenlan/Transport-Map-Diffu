@@ -1,6 +1,6 @@
 # Health of the 2D training runs (ddm2dx X1)
 
-Check at 2026-11-26 13:42–13:45 EST, 20 min after the first jobs started (`python scripts/ext_health.py --md runs/ext/HEALTH_table.md`;
+Check at 2026-11-26 13:41–13:42 EST, 20 min after the first jobs started (`python scripts/ext_health.py --md runs/ext/HEALTH_table.md`;
 table in `HEALTH_table.md`). All 11 jobs (24751248–24751261) were RUNNING. tr01/tr02 started 13:21, tr03–tr11 at 13:30, once the
 per-user CPU cap allowed. Nodes: cs647, cs672, cs662, cs686, cs693 (tr05, tr06, tr07), cs703 (tr08, tr09), cs719 (tr10, tr11).
 
