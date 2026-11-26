@@ -1,0 +1,7 @@
+# config out_dir seed (ddm2dx X1; scripts/ext_make_runlists.py)
+configs/ext/gmm_C_b1.5.json runs/ext/gmm_C_b1.5_s0 0
+configs/ext/gmm_C_b1.5.json runs/ext/gmm_C_b1.5_s1 1
+configs/ext/gmm_C_b1.99.json runs/ext/gmm_C_b1.99_s0 0
+configs/ext/gmm_C_b1.99.json runs/ext/gmm_C_b1.99_s1 1
+configs/ext/gmm_C_b2.json runs/ext/gmm_C_b2_s0 0
+configs/ext/gmm_C_b2.json runs/ext/gmm_C_b2_s1 1
