@@ -1,0 +1,5 @@
+# checkpoints, sample buffers (sha256 manifests are committed instead)
+runs/**/ckpt/
+*.pt
+runs/**/samples_*.npz
+__pycache__/
