@@ -14,3 +14,13 @@ with the App. I.2 U-Net (copied from transport_map `src/tmap/unet.py`, commit 4b
 | `tests/` | CPU tests with a tiny U-Net |
 
 Tests (from `ddm2d/`): `PYTHONPATH=src:cifar/src /scratch/wg2381/.conda/envs/tmap/bin/python -m pytest cifar/tests -q`.
+
+## Runs (E3)
+Plan, decisions and the bench-based cost: `runs/PLAN.md`. Job ids and health checks: `runs/JOBS.md`.
+
+- Train + evaluate one run on an L40S: `RUN=cifar_B sbatch --export=ALL,RUN=cifar_B --job-name=ddmx_cifar_B --time=11:40:00 scripts/train_gpu.slurm`
+  (requeue-safe; evaluation follows training in the same job, finished evaluations are skipped on restart).
+- Evaluate by hand (GPU): `python -m ddmcifar.evaluate --run cifar/runs/cifar_B --ckpt snap_0030000 --nfe 2,4,8,10,15,30,100 --grid-nfe 10,100 --spread`.
+- Bench: `sbatch --job-name=ddmx_cifar_bench scripts/bench_gpu.slurm` → `runs/bench_<jobid>/bench.json`.
+- CPU smoke (tiny U-Net, proves the path only): `bash cifar/scripts/smoke_cpu.sh` from `ddm2d/` → `runs/smoke/`.
+- Health: `python cifar/scripts/health.py` (log summary), `python cifar/scripts/snapshot_peek.py <run> snap_0010000` (CPU grid).

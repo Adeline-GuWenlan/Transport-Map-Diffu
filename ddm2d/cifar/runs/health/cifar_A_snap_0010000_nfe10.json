@@ -1,0 +1,10 @@
+{
+ "run": "cifar_A",
+ "snap": "snap_0010000",
+ "step": 10000,
+ "nfe": 10,
+ "pixel_mean": -0.05720493197441101,
+ "pixel_std": 0.3102229833602905,
+ "frac_outside_pm1": 3.2552084121562075e-06,
+ "finite": true
+}
