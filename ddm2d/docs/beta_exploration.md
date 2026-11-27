@@ -16,14 +16,21 @@ and the overall summary. Labels: **[E]** evidence in a committed file, **[G]** g
   1.8e-2 for β = 2. It costs at many steps for β = 0.1, and badly for β > 2 at every NFE. On the 9-mode GMM with unequal weights, a
   β = 1 denoiser over-weights the heaviest mode and under-weights the rare ones. It stays the deterministic denoiser it is in theory:
   ξ does nothing.
-- **λ = 1 (energy score, arm C family).** Every β in (0, 2) gives the same quality at few steps: MMD² 0.9–2.7e-4 at NFE 5, all
-  within about 2× and within the seed spread and the null floor. That matches theory: they share the same minimiser, the exact
-  posterior.
-  - The edge breaks things. **β = 2 with λ = 1 is only proper**, so the loss does not see the spread of x̂.
-    - Both seeds were poor from the first EMA snapshot on: MMD² 5e-3 to 1e-1 at NFE 5 from 10k steps.
-    - Late in training the spread ran away (posterior std 1e5–1e8), and the samples overflowed.
-  - β = 1.99 is strictly proper but nearly degenerate. One seed collapsed to a constant output, and the other ended under-dispersed
-    (MMD² 2.4e-3).
+- **λ = 1 (energy score, arm C family).**
+  - On the paper GMM every β in (0, 2) gives the same quality: MMD² 0.6–4e-4 at NFE 5 over 2–3 seeds, all inside the seed spread and
+    near the null floor. That matches theory: they share the same minimiser, the exact posterior.
+  - **On the 9-mode GMM β does matter:** β = 1.5 beats the paper's β = 0.1 (2 seeds each, seed ranges disjoint).
+    - MMD² at NFE 5: 2.3e-4 vs 7.8e-4.
+    - Final mode-weight TV: 0.022 vs 0.036 (null p95 0.024).
+    - Conditional mode-weight TV at t = 0.99: 0.18 vs 0.30.
+
+    The optimum is the same, so this is a finite-training effect of β [G].
+  - The edge breaks things. **β = 2 with λ = 1 is only proper**, so the loss does not see the spread of x̂. It fails in 3 of 3 seeds:
+    - seeds 0 and 1 were poor from the first EMA snapshot (MMD² 5e-3 to 1e-1 at NFE 5 from 10k steps), and late in training their
+      spread ran away (posterior std 1e5–1e8) until the samples overflowed;
+    - seed 2 stayed finite but learned the wrong spread (std 0.67 at t = 0.01 vs exact 0.01; MMD² 4.4e-2).
+  - β = 1.99 is strictly proper but nearly degenerate, and poor in 3 of 3 seeds. One collapsed to a constant output. The others
+    ended at MMD² 2.4e-3 and 9.3e-3 with the wrong spread.
 - **Other distances.**
   - L1 at β = 1 is only proper (Lyons 2013). The loss then sees only the coordinate marginals, and C's posterior draws collapse onto
     1-D curves: 20× worse at NFE 5 (3.4e-3 vs 1.7e-4).
@@ -148,7 +155,8 @@ Figures: `figures/ext/mmd_vs_beta.png` (orange line), `mmd_vs_nfe_beta.png` (rig
 **Does β matter for λ = 1 within (0, 2)? Not measurably at few or many steps [E].**
 - At NFE 5–20 the four strictly proper settings span 0.3–2.7e-4. That is within ≈ 2 null standard deviations of a two-seed mean.
 - β = 1.5 has the lowest NFE-5 value. Its two seeds (6.4e-5, 1.1e-4) lie below the two seeds of β = 0.1 (1.4e-4, 1.9e-4), but the gap
-  (≈ 8e-5) is at the noise floor (sd of a 10-repeat mean 5.8e-5). Not called real. A third seed is running (§6).
+  (≈ 8e-5) is at the noise floor (sd of a 10-repeat mean 5.8e-5). Not called real. **The third seed confirms this:** β = 1.5 seed 2
+  gives 1.7e-4, and β = 0.1 seed 2 gives 2.2e-4. Over three seeds the ranges overlap (6.4e-5–1.7e-4 vs 1.4–2.2e-4; §6).
 - Posterior std vs t is the same for all β ∈ {0.1, 0.5, 1, 1.5} at t ≥ 0.23 (e.g. 0.38–0.39 at t = 0.45, exact 0.43). All are
   under-dispersed at t ≥ 0.66 (1.39–1.46 vs 1.65 at t = 0.88). All are over-dispersed at t = 0.01 (0.04–0.11 vs 0.01).
 - **High-noise mode weights depend on β [E]** (`tables.md`, conditional mode weights). At t = 0.99 the exact posterior puts 0.49 of its
@@ -190,6 +198,7 @@ Figures: `figures/ext/mode_weights_gmm2w.png`, `mode_weights_gmm9w.png`, `fig4_g
 | gmm9w B | 4.7e-2 [4.6e-2, 4.7e-2] | 1.1e-2 [9.8e-3, 1.1e-2] | 2.1e-3 [2.1e-3, 2.1e-3] | 6.8e-4 [5.1e-4, 8.5e-4] | 8.9e-4 [5.3e-4, 1.2e-3] |
 | gmm9w C | 7.8e-4 [5.4e-4, 1.0e-3] | 4.3e-4 [3.7e-4, 4.8e-4] | 5.7e-4 [4.3e-4, 7.2e-4] | 6.9e-4 [4.5e-4, 9.2e-4] | 9.6e-4 [6.3e-4, 1.3e-3] |
 | gmm9w B β = 1 (extra, n = 1) | 4.0e-2 | 1.1e-2 | 3.6e-3 | 3.9e-3 | 4.1e-3 |
+| gmm9w C β = 1.5 (extra) | 2.3e-4 [2.3e-4, 2.3e-4] | 1.7e-4 [1.4e-4, 2.0e-4] | 4.4e-4 [3.1e-4, 5.6e-4] | 5.9e-4 [5.8e-4, 6.0e-4] | 8.2e-4 [6.9e-4, 9.5e-4] |
 
 Final-sample mode weights (TV = ½Σ|p̂_k − π_k|; null TV p95: gmm2w 0.011, gmm9w 0.024):
 
@@ -202,6 +211,7 @@ Final-sample mode weights (TV = ½Σ|p̂_k − π_k|; null TV p95: gmm2w 0.011, 
 | gmm9w B | 0.272 [0.267, 0.277] | 0.127 [0.120, 0.134] | 0.019 [0.018, 0.019] | 0.54 / 0.19 |
 | gmm9w C | 0.036 [0.028, 0.043] | 0.030 [0.030, 0.030] | 0.033 [0.028, 0.037] | 0.17 / 0.15 |
 | gmm9w B β = 1 (n = 1) | 0.189 | 0.107 | 0.063 | 0.48 / 0.57 |
+| gmm9w C β = 1.5 (extra) | 0.022 [0.021, 0.023] | 0.022 [0.021, 0.022] | 0.023 [0.023, 0.024] | 0.17 / 0.15 |
 
 **Does each arm get the mode weights right?**
 - **Final samples, few steps:**
@@ -240,7 +250,9 @@ Final-sample mode weights (TV = ½Σ|p̂_k − π_k|; null TV p95: gmm2w 0.011, 
     (0.166), then Laplace (0.209), L1^0.5 (0.215) and IMQ (0.218). Euclidean β = 0.1 has 0.297 over 2 seeds, and seed 0 alone
     is 0.30.
   - The final TV of those variants is 0.021–0.028 vs 0.030–0.036.
-  - The E2 extra C β = 1.5 on `gmm9w` is in training (§6).
+  - **The E2 extra C β = 1.5 on `gmm9w` (2 seeds) is the best C setting measured with 2 seeds** (§6): final TV 0.022 [0.021, 0.023]
+    vs 0.036 [0.028, 0.043] for β = 0.1, and conditional TV at t = 0.99 0.181 vs 0.297. Its per-mode fractions at NFE 100 are all
+    within 0.013 of π_k.
   - **λ = 0 with β = 1 on `gmm9w` is worse.** It over-weights the heaviest mode (k = 0: 0.35 vs 0.30 at NFE 100) and halves the rarest
     (k = 1: 0.009 vs 0.020). This is the mode-seeking bias of §2 hurting, as `_task.md` anticipated.
 
@@ -301,21 +313,47 @@ from 10k steps on: no trend with training length, as for the ddm2d paper runs.
 These are inside or next to the seed 0/1 ranges. They are used only for the seed-2 extras below, and the main tables stay on seeds
 0, 1.
 
-**Extra runs (pending: job 24786603)**
-Launched by X3 (`runs/ext/runs_x3.tsv`, `runs/ext/runlists/x3_list12.txt`, job 24786603, ≈ 27 CPU-h):
-- `gmm9w_C_b1.5_s{0,1}`: the E2 extra "C on gmm9w with the best E1b β". β = 1.5 had the lowest seed-mean MMD² at NFE 5 in E1b, though
-  inside the noise;
-- seed 2 of `gmm_C_b1.99`, `gmm_C_b2`, `gmm_C_b1.5` and `gmm_B_b1`. These are the surprising or best-looking E1 settings. The reference
-  runs `runs/paper/gmm_{A,B,C}_s2` are evaluated with the same protocol for the 3-seed comparison.
+**Extra runs [E]** (`runs/ext/runs_x3.tsv`, `runs/ext/runlists/x3_list12.txt`, job 24786603: 4 h 46 min × 6 CPUs = 28.6 CPU-h; all 6 at
+100k, `STATUS.md`). Same protocol.
+- `gmm9w_C_b1.5_s{0,1}` is the E2 extra "C on `gmm9w` with the best E1b β". β = 1.5 had the lowest seed-mean MMD² at NFE 5 in E1b, though
+  inside the noise.
+- Seed 2 of `gmm_C_b1.99`, `gmm_C_b2`, `gmm_C_b1.5` and `gmm_B_b1`: the surprising or best-looking E1 settings.
 
-Diagnostic (not part of the protocol; never used to pick a run): MMD² of the EMA snapshots at 10k–100k steps for the whole λ = 1 family
-(`runs/ext/eval/snaps/`).
+Seed 2 next to seeds 0 / 1 (MMD²_u; `tables.md`, "Seed 2"):
+
+| setting | NFE 5: s0 / s1 / s2 | NFE 10 | NFE 100 | reading |
+|---|---|---|---|---|
+| A (reference) | 1.8e-2 / 1.5e-2 / 1.6e-2 | 5.0e-3 / 4.1e-3 / 5.1e-3 | 6.3e-4 / 5.0e-4 / 7.2e-4 | – |
+| B β = 2 (reference) | 1.8e-2 / 1.7e-2 / 1.6e-2 | 5.1e-3 / 6.1e-3 / 5.5e-3 | 8.2e-4 / 1.3e-3 / 8.5e-4 | – |
+| **B β = 1** | 8.7e-3 / 8.5e-3 / **9.7e-3** | 4.1e-3 / 3.8e-3 / 4.9e-3 | 8.0e-4 / 4.7e-4 / 1.3e-3 | few-step gain confirmed: all 3 seeds below all A and B seeds at NFE 5 |
+| C β = 0.1 (reference) | 1.4e-4 / 1.9e-4 / 2.2e-4 | 5.3e-5 / 2.9e-4 / 5.9e-4 | 5.7e-4 / 4.8e-4 / 3.3e-4 | – |
+| C β = 1.5 | 6.4e-5 / 1.1e-4 / **1.7e-4** | 4.8e-5 / 2.1e-4 / 6.5e-5 | 4.6e-4 / 6.9e-4 / 3.8e-4 | ranges now overlap with β = 0.1: no real difference on the paper GMM |
+| C β = 1.99 | 2.4e-3 / 1.3 / **9.3e-3** | 2.6e-3 / 1.3 / 9.4e-3 | 1.1e-2 / 1.3 / 1.9e-2 | poor in 3/3 seeds |
+| C β = 2 | 0.33 / 0.33 / **4.4e-2** | 0.33 / NaN / 7.5e-2 | NaN / NaN / 0.11 | fails in 3/3 seeds. Seed 2 has no overflow (interaction term ≤ 46 over training), but its spread is wrong at every t (std 0.67 at t = 0.01, exact 0.01; 0.28 at t = 0.99, exact 1.77). Snapshots 2e-2 to 7e-2 at NFE 5 from 10k steps |
+
+`gmm9w`, C with β = 1.5 vs the paper's β = 0.1 (2 seeds each; seed mean [min, max]):
+
+| metric | C β = 0.1 | C β = 1.5 | null |
+|---|---|---|---|
+| MMD² NFE 5 | 7.8e-4 [5.4e-4, 1.0e-3] | **2.3e-4 [2.3e-4, 2.3e-4]** | sd of a 10-repeat mean 3.8e-5 |
+| MMD² NFE 10 | 4.3e-4 [3.7e-4, 4.8e-4] | **1.7e-4 [1.4e-4, 2.0e-4]** | |
+| MMD² NFE 100 | 9.6e-4 [6.3e-4, 1.3e-3] | 8.2e-4 [6.9e-4, 9.5e-4] | |
+| final mode TV, NFE 5 / 10 / 100 | 0.036 / 0.030 / 0.033 | **0.022 / 0.022 / 0.023** | 0.016 mean, 0.024 p95 |
+| conditional mode TV, t = 0.99 / 0.88 / 0.7 | 0.297 / 0.132 / 0.035 | **0.181 / 0.081** / 0.039 | 0.016 / 0.015 / 0.009 |
+| posterior std at t = 0.88 / 0.99 (exact 3.00 / 3.31) | 2.38 / 2.39 | 2.67 / 2.87 | |
+
+On `gmm9w`, β = 1.5 is better at few steps and in the mode weights, with seed ranges disjoint. At NFE 100 it ties. Its single-seed
+competitors among the ρ variants (pseudo-Huber c = 0.1: conditional TV 0.162 at t = 0.99, NFE-5 MMD² 2.5e-4; L1^0.5: 1.3e-4) are in
+the same range. So on this dataset the paper's β = 0.1 is the outlier, not the other distances [G].
+
+**EMA-snapshot diagnostic of the seed-2 runs:** C β = 1.5 seed 2 sits at the noise level from 10k steps on. β = 1.99 seed 2 stays at
+1e-3 to 9e-3, and β = 2 seed 2 at 2e-2 to 7e-2 at NFE 5 throughout.
 
 ## 7. Theory (`_task.md` "What theory says about β") vs what happened
 | prediction | held? | evidence |
 |---|---|---|
-| λ = 1, β ∈ (0, 2): strictly proper, same minimiser (Gneiting & Raftery 2007; Lyons 2013 Remark 3.19 for ‖·‖^β) → similar results | **yes** at NFE 5–100 (0.3–2.7e-4 at NFE 5–20; all ≈ 5e-4 at NFE 100). β changes the high-t conditional mode weights (TV 0.10–0.17) | §3 |
-| λ = 1, β = 2: only proper, any distribution with the right mean is optimal | **yes, dramatically**: the spread is unconstrained and diverged in both seeds | §3, logs |
+| λ = 1, β ∈ (0, 2): strictly proper, same minimiser (Gneiting & Raftery 2007; Lyons 2013 Remark 3.19 for ‖·‖^β) → similar results | **on the paper GMM, yes** (NFE 5–100, 3 seeds for β = 0.1 and 1.5). **On `gmm9w`, no:** β = 1.5 is 3× better than β = 0.1 at NFE 5 and has better mode weights (seeds disjoint). The same optimum does not mean the same finite-training result. β also changes the high-t conditional mode weights on the paper GMM (TV 0.10–0.17) | §3, §6 |
+| λ = 1, β = 2: only proper, any distribution with the right mean is optimal | **yes, dramatically**: the spread is not learned. 3/3 seeds fail (2 overflow, 1 with the wrong spread at every t). β = 1.99 is also poor in 3/3 | §3, §6, logs |
 | λ = 0: β = 2 → posterior mean, β = 1 → geometric median, β → 0 → near the heaviest mode | **yes** (closest-point shares 0.99 mean / 0.71 median / 0.95 mode at t = 0.88). "Heaviest" is in practice "nearest" or most responsible: with two modes they coincide | §2 |
 | λ = 0, β < 2: mode-seeking may help at few steps, hurt mode weights | **both**: 2× better MMD² at NFE 5 (paper GMM), wrong heavy/rare mode weights on `gmm9w` at NFE 100 | §2, §4 |
 | β < 1 unstable (gradient ‖d‖^(β−1) at d → 0) | **no**: β ≤ 0.5 had the fewest gradient spikes; spikes grow with β | §2 |
@@ -335,6 +373,7 @@ Sources:
 - Paper: `third_party/arxiv_src/x/main.tex`.
 
 ## 8. What to try next (2D)
-- Second seeds for the promising `gmm9w` variants: C with pseudo-Huber c = 0.1, L1^0.5 and Laplace. Cheap (≈ 5 CPU-h each).
+- Second seeds for the promising `gmm9w` variants: C with pseudo-Huber c = 0.1, L1^0.5 and Laplace. Cheap (≈ 5 CPU-h each). Plus
+  C with β ∈ {0.5, 1} on `gmm9w`, to see where the β gain on that dataset peaks.
 - λ between 0 and 1 with β = 1 (the paper's image sweep has λ ∈ {0.1, 0.5}). It may combine B β = 1's few-step gain with C's weights.
 - Do not use β ≥ 1.99 with λ = 1, or L1^1 with λ = 1.
