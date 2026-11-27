@@ -1,0 +1,7 @@
+# config out_dir seed (ddm2dx X3 extras: E2 extra with the best E1b beta, and seed 2 for surprising E1 results)
+configs/ext/x3/gmm9w_C_b1.5.json runs/ext/gmm9w_C_b1.5_s0 0
+configs/ext/x3/gmm9w_C_b1.5.json runs/ext/gmm9w_C_b1.5_s1 1
+configs/ext/gmm_C_b1.99.json runs/ext/gmm_C_b1.99_s2 2
+configs/ext/gmm_C_b2.json runs/ext/gmm_C_b2_s2 2
+configs/ext/gmm_C_b1.5.json runs/ext/gmm_C_b1.5_s2 2
+configs/ext/gmm_B_b1.json runs/ext/gmm_B_b1_s2 2

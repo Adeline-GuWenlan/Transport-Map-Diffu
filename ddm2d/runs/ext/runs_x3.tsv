@@ -1,0 +1,7 @@
+experiment	config	seed	out_dir
+E2x	configs/ext/x3/gmm9w_C_b1.5.json	0	runs/ext/gmm9w_C_b1.5_s0
+E2x	configs/ext/x3/gmm9w_C_b1.5.json	1	runs/ext/gmm9w_C_b1.5_s1
+E1s2	configs/ext/gmm_C_b1.99.json	2	runs/ext/gmm_C_b1.99_s2
+E1s2	configs/ext/gmm_C_b2.json	2	runs/ext/gmm_C_b2_s2
+E1s2	configs/ext/gmm_C_b1.5.json	2	runs/ext/gmm_C_b1.5_s2
+E1s2	configs/ext/gmm_B_b1.json	2	runs/ext/gmm_B_b1_s2
