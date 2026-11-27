@@ -1,0 +1,78 @@
+# Completeness of the 2D runs (ddm2dx X3, step 1)
+
+`python scripts/ext_status.py`. 70 / 70 runs complete (64 ext runs from `runs.tsv` + 6 reference runs `runs/paper/gmm_{A,B,C}_s{0,1}`).
+
+Checks: `DONE.json` steps = 100000; sha256 of `ckpt/final.pt` equals `DONE.json`; the EMA weights of `final.pt` load (`train.load_ema_model`) and are all finite; no `FAILED.txt`.
+
+| exp | run | steps | segments | sha256 ok | loads | finite | FAILED.txt | status |
+|---|---|---|---|---|---|---|---|---|
+| E1a | `runs/ext/gmm_B_b0.1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1a | `runs/ext/gmm_B_b0.1_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1a | `runs/ext/gmm_B_b0.5_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1a | `runs/ext/gmm_B_b0.5_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1a | `runs/ext/gmm_B_b1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1a | `runs/ext/gmm_B_b1_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1a | `runs/ext/gmm_B_b1.5_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1a | `runs/ext/gmm_B_b1.5_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1a | `runs/ext/gmm_B_b1.99_s0` | 100000 | 2 | yes | yes | yes | no | OK |
+| E1a | `runs/ext/gmm_B_b1.99_s1` | 100000 | 2 | yes | yes | yes | no | OK |
+| E1a | `runs/ext/gmm_B_b3_s0` | 100000 | 2 | yes | yes | yes | no | OK |
+| E1a | `runs/ext/gmm_B_b3_s1` | 100000 | 2 | yes | yes | yes | no | OK |
+| E1a | `runs/ext/gmm_B_b3.5_s0` | 100000 | 2 | yes | yes | yes | no | OK |
+| E1a | `runs/ext/gmm_B_b3.5_s1` | 100000 | 2 | yes | yes | yes | no | OK |
+| E1b | `runs/ext/gmm_C_b0.5_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1b | `runs/ext/gmm_C_b0.5_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1b | `runs/ext/gmm_C_b1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1b | `runs/ext/gmm_C_b1_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1b | `runs/ext/gmm_C_b1.5_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1b | `runs/ext/gmm_C_b1.5_s1` | 100000 | 2 | yes | yes | yes | no | OK |
+| E1b | `runs/ext/gmm_C_b1.99_s0` | 100000 | 2 | yes | yes | yes | no | OK |
+| E1b | `runs/ext/gmm_C_b1.99_s1` | 100000 | 2 | yes | yes | yes | no | OK |
+| E1b | `runs/ext/gmm_C_b2_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1b | `runs/ext/gmm_C_b2_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E2 | `runs/ext/gmm2w_A_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E2 | `runs/ext/gmm2w_A_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E2 | `runs/ext/gmm2w_B_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E2 | `runs/ext/gmm2w_B_s1` | 100000 | 2 | yes | yes | yes | no | OK |
+| E2 | `runs/ext/gmm2w_C_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E2 | `runs/ext/gmm2w_C_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E2 | `runs/ext/gmm9w_A_s0` | 100000 | 2 | yes | yes | yes | no | OK |
+| E2 | `runs/ext/gmm9w_A_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E2 | `runs/ext/gmm9w_B_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E2 | `runs/ext/gmm9w_B_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E2 | `runs/ext/gmm9w_C_s0` | 100000 | 2 | yes | yes | yes | no | OK |
+| E2 | `runs/ext/gmm9w_C_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_C_L1b1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_C_L1b1_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_C_L1b0.5_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_C_L1b0.5_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_B_L1b1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_B_L1b1_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_C_pH0.1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_C_pH0.1_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_C_pH1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_C_pH1_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_B_pH0.1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_B_pH0.1_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_C_imq_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_C_imq_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_C_rbf_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_C_rbf_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_C_lap_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm_C_lap_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm9w_C_L1b1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm9w_C_L1b0.5_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm9w_B_L1b1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm9w_C_pH0.1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm9w_C_pH1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm9w_B_pH0.1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm9w_C_imq_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm9w_C_rbf_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E4 | `runs/ext/gmm9w_C_lap_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E2x | `runs/ext/gmm9w_B_b1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| ref | `runs/paper/gmm_A_s0` | 100000 | 2 | yes | yes | yes | no | OK |
+| ref | `runs/paper/gmm_A_s1` | 100000 | 2 | yes | yes | yes | no | OK |
+| ref | `runs/paper/gmm_B_s0` | 100000 | 2 | yes | yes | yes | no | OK |
+| ref | `runs/paper/gmm_B_s1` | 100000 | 2 | yes | yes | yes | no | OK |
+| ref | `runs/paper/gmm_C_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| ref | `runs/paper/gmm_C_s1` | 100000 | 1 | yes | yes | yes | no | OK |
