@@ -9,3 +9,6 @@ and checkerboard (App. K.1, Table 2) experiments: standard diffusion vs. distrib
   `CLAUDE.md` one level up. In particular, this chain may submit its own `cpu_short` training jobs within the budget in its rules, and its
   standups live in `ddm2d/standups/` and `/scratch/wg2381/claude_jobs/logs/ddm2d_*_done.md`, not in `claude_jobs/standups/`.
 - Nothing outside `ddm2d/` is changed on this branch except the one-line pointer in the root `CLAUDE.md`.
+- **ddm2dx (2026-11-26/27):** a β / distance exploration on top of this replica (chain `/scratch/wg2381/claude_jobs/ddm2dx/`, rules
+  `prompts/_rules.md` there). The answer is in `docs/beta_exploration.md`, with 2D in `runs/ext/` and CIFAR-10 in `cifar/`. The ddm2d
+  paper paths (`runs/paper/`, `configs/paper/`, the existing docs) stay unchanged.

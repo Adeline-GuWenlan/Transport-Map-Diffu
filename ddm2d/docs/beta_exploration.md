@@ -4,6 +4,39 @@ Exploration on top of the finished ddm2d replica of De Bortoli et al. 2025 (arXi
 `/scratch/wg2381/claude_jobs/ddm2dx/prompts/_task.md`. Stage X3 wrote the 2D sections (E1, E2, E4). Stage X4 adds the CIFAR-10 section (E3)
 and the overall summary. Labels: **[E]** evidence in a committed file, **[G]** guess or assumption.
 
+## Answer across E1–E4 (X4)
+**Yes, β and the distance change the results, but how much depends on λ, and λ matters more than β [E].**
+- **λ = 1 (energy score, arm C), β inside (0, 2):** every β has the same optimum, and on the paper's two-mode GMM they are
+  indistinguishable. On the 9-mode GMM with unequal weights, β = 1.5 beats the paper's β = 0.1 (2 seeds, disjoint ranges).
+- **The edge breaks training:** β = 2 with λ = 1 is only proper. The spread is not learned, and it fails in 3 of 3 seeds; β = 1.99 is
+  poor in 3 of 3.
+- **λ = 0 (regression, arm B):** β chooses the point the deterministic denoiser sits at: near a mode, the geometric median, or the
+  mean.
+  - In 2D, β = 1 halves MMD² at few steps but skews the mode weights on the 9-mode GMM.
+  - On CIFAR-10, β = 1 (and pseudo-Huber, which at iCT's c is the same thing) changes nothing at few steps. It is ≈ 15 % better in
+    FID at 100 steps than β = 2, but with one training seed.
+- **Other distances:** "only proper" choices fail: L1 with λ = 1 collapses the posterior onto curves. The strictly proper ones (L1^0.5,
+  pseudo-Huber, IMQ, Laplace) behave like Euclidean on the paper GMM, and RBF with a median bandwidth is worse.
+- **DINOv2 feature term (CIFAR-10):** it gives by far the best 2–4-step FID, but the images are visibly textured, and FID gets worse
+  as steps are added.
+- **λ is the bigger lever:** going from λ = 0 to λ = 1 (B → C) is worth about 100× in MMD² at few steps in 2D, and 2× in FID at 8–30
+  steps on CIFAR-10. At 2–4 steps on CIFAR-10 it hurts, unlike in the paper (30k steps vs 1e6).
+
+| change | paper GMM, MMD²_u at NFE 5 [seed range] (§2, §3, §5) | `gmm9w`, 9 unequal modes (§4, §5, §6) | CIFAR-10, FID-10k, 1 seed (§9) |
+|---|---|---|---|
+| λ = 0 → 1 (B → C, Euclidean) | 1.8e-2 → 1.7e-4 | NFE 5: 4.7e-2 → 7.8e-4 | NFE 10: 34.3 → 15.9; NFE 100: 14.0 → 10.5; NFE 2: 118 → 201 |
+| λ = 1: β 0.1 → 1.5 | 1.7e-4 → 8.8e-5, inside noise | 7.8e-4 → 2.3e-4; mode TV 0.036 → 0.022 (seeds disjoint) | not run |
+| λ = 1: β = 2 or 1.99 | fails in 3/3 seeds each (2 overflow at β = 2) | not run | not run |
+| λ = 0: β 2 → 1 | 1.8e-2 → 8.6e-3 [8.5e-3, 8.7e-3]; ties at NFE 100 | NFE 5: 4.7e-2 → 4.0e-2; NFE 100: 8.9e-4 → 4.1e-3 (n = 1; heavy mode over-weighted) | NFE 10: 34.3 → 33.7; NFE 100: 14.0 → 11.8 |
+| λ = 0: β 2 → 3, 3.5 | 1.8e-2 → 3.3e-2, 5.2e-2 (worse at every NFE) | not run | not run |
+| λ = 0: pseudo-Huber | 8.8e-3 (= β 1) | 3.3e-2 (n = 1) | = β 1 within 0.7 FID |
+| λ = 1: L1 (only proper) | 3.4e-3 (20× worse) | 1.6e-2 (n = 1) | not run |
+| λ = 1: L1^0.5, pseudo-Huber, IMQ, Laplace | 1.3e-4 to 2.2e-4 (= Euclidean) | 1.3e-4 to 8.0e-4 (n = 1) | not run |
+| λ = 1: RBF, median bandwidth | 6.3e-4 (4× worse) | 2.7e-3 (n = 1) | not run |
+| λ = 1 + DINOv2 energy term | not run | not run | NFE 2: 201 → 49; NFE 100: 10.5 → 62; textured images |
+
+Null floors: 2D in §1 (MMD²_u sd of a 10-repeat mean 4–7e-5); CIFAR-10 in §9.2. Next steps: §10.
+
 ## 2D answer (X3)
 **Yes, β matters, but differently for the two families, and the edges matter most [E].**
 - **λ = 0 (regression loss, arm B family).** β decides *where* the deterministic denoiser sits:
@@ -377,3 +410,124 @@ Sources:
   C with β ∈ {0.5, 1} on `gmm9w`, to see where the β gain on that dataset peaks.
 - λ between 0 and 1 with β = 1 (the paper's image sweep has λ ∈ {0.1, 0.5}). It may combine B β = 1's few-step gain with C's weights.
 - Do not use β ≥ 1.99 with λ = 1, or L1^1 with λ = 1.
+
+## 9. E3: CIFAR-10 trial (X4)
+Six class-conditional pixel-space runs with the paper's App. I.2 U-Net (140 M parameters), 30k steps at batch 128, one training seed
+each. Plan, shared settings and cost: `cifar/runs/PLAN.md`. Jobs: `cifar/runs/JOBS.md`. Code: `cifar/src/ddmcifar/` (X2).
+
+### 9.1 Protocol (identical for every run)
+- FID-10k: clean-fid `legacy_tensorflow` against the CIFAR-10 *train* statistics. Every JSON records the stats file's sha256, which
+  equals transport_map's file.
+- Samples: labels i mod 10 (1000 per class), sampler seed 0, EMA weights (0.9999 with warm-up), Algorithm 2 sampler (churn 1). A
+  uses x̂ = x_t + t·v̂. One NFE is one network call.
+- Snapshots 10k / 20k / 30k at NFE 10 and 100 for every arm. The spec asked for NFE 10 for B/C and NFE 100 for A; X2 ran both for every
+  arm. Final (30k) EMA at NFE {2, 4, 8, 10, 15, 30, 100}. Grids at NFE 10 and 100.
+- ξ-spread: per-pixel std of x̂(t, x_t, ξ) over 8 ξ draws, averaged over 256 test images.
+- Raw JSON: `cifar/runs/<run>/eval/`. Tables: `cifar/runs/eval/fid_summary.md` and `fid_table.csv`, from
+  `cifar/scripts/x4_report.py`. Figures: `cifar/figures/`.
+- Noise floor: see §9.2 and `cifar/runs/eval/real_floor.json`.
+
+### 9.2 Results [E]
+Final EMA, FID-10k, sampler seed 0, one training seed per run. Lower is better. Best per column in bold.
+
+| run | ρ, β, λ | NFE 2 | NFE 4 | NFE 8 | NFE 10 | NFE 15 | NFE 30 | NFE 100 |
+|---|---|---|---|---|---|---|---|---|
+| `cifar_A` | diffusion, v-target | 102.86 | 56.01 | 33.61 | 29.03 | 22.58 | 15.43 | **9.20** |
+| `cifar_B` | ‖·‖², λ = 0 | 117.98 | 63.29 | 39.51 | 34.30 | 27.31 | 19.41 | 13.99 |
+| `cifar_B_b1` | ‖·‖¹, λ = 0 | 112.68 | 63.06 | 38.86 | 33.69 | 26.62 | 18.29 | 11.83 |
+| `cifar_B_pH` | pseudo-Huber c = 0.030, λ = 0 | 113.07 | 62.44 | 38.55 | 33.24 | 26.11 | 18.10 | 11.73 |
+| `cifar_C` | ‖·‖^0.1, λ = 1 | 201.27 | 72.08 | **23.01** | **15.91** | **9.29** | **7.75** | 10.49 |
+| `cifar_C_dino` | C + DINOv2 energy term | **49.35** | **42.57** | 44.37 | 46.75 | 49.71 | 54.91 | 62.43 |
+
+Training progress (EMA snapshots, sampler seed 0):
+
+| run | 10k / 20k / 30k at NFE 10 | 10k / 20k / 30k at NFE 100 |
+|---|---|---|
+| `cifar_A` | 34.24 / 30.77 / 29.03 | 14.40 / 10.30 / 9.20 |
+| `cifar_B` | 41.20 / 36.58 / 34.30 | 20.16 / 15.83 / 13.99 |
+| `cifar_B_b1` | 38.87 / 36.15 / 33.69 | 16.92 / 13.17 / 11.83 |
+| `cifar_B_pH` | 39.59 / 36.11 / 33.24 | 17.50 / 13.33 / 11.73 |
+| `cifar_C` | 43.68 / 23.92 / 15.91 | 14.20 / 10.39 / 10.49 |
+| `cifar_C_dino` | 71.36 / 63.68 / 46.75 | 108.36 / 107.58 / 62.43 |
+
+ξ-spread (`cifar/figures/xi_spread.png`, `cifar/runs/<run>/eval/xi_spread_snap_0030000_ema.json`), in pixel units on [−1, 1]:
+
+| run | t = 0.02 | t = 0.1 | t = 0.5 | t = 0.9 | t = 0.98 |
+|---|---|---|---|---|---|
+| `cifar_B` | 0.0021 | 0.0015 | 0.0017 | 0.0024 | 0.0018 |
+| `cifar_B_b1` | 0.0013 | 0.0011 | 0.0016 | 0.0029 | 0.0027 |
+| `cifar_B_pH` | 0.0013 | 0.0011 | 0.0016 | 0.0028 | 0.0026 |
+| `cifar_C` | 0.0111 | 0.0400 | 0.1516 | 0.3614 | 0.4008 |
+| `cifar_C_dino` | 0.0194 | 0.0510 | 0.2346 | 0.3860 | 0.3172 |
+
+Figures:
+- `cifar/figures/fid_vs_nfe.png`: our runs (left) and the paper's App. table (right). The paper's numbers are FID-50k after 1e6 steps,
+  so they are context only.
+- `cifar/figures/fid_vs_step.png`
+- `cifar/figures/xi_spread.png`
+- `cifar/figures/grids_nfe10.png`, `grids_nfe100.png`: one row per class.
+
+{{FLOOR}}
+
+### 9.3 Answers
+**Does the DDM train on CIFAR-10 in a short run? Yes [E].**
+- All six runs reached 30k steps with finite losses. FID at NFE 10 and 100 fell from the 10k to the 30k snapshot for every run. Two
+  exceptions: C at NFE 100 between 20k and 30k (10.39 → 10.49), and C + DINOv2 at NFE 100, flat at 108 from 10k to 20k.
+- C (β = 0.1, λ = 1) learned a real conditional spread. Its ξ-spread rises from 0.011 at t = 0.02 to 0.40 at t = 0.98. For
+  comparison, the pixel std of CIFAR-10 in [−1, 1] is ≈ 0.5 [G: standard value, not measured here].
+- C is the best run at NFE 8–30. At NFE 15 it gives FID 9.29 against A's 22.58, and at NFE 30 7.75 against 15.43: about 2× better.
+  This matches the paper's claim that the distributional loss helps at few steps.
+- At NFE 2 and 4 C is *worse* than A (201 vs 103; 72 vs 56). This is unlike the paper, where the distributional model is best at
+  NFE 2 (29 vs 81, FID-50k after 1e6 steps). Two guesses [G]:
+  - at NFE 2 the first step starts at t = 0.99, where C's spread is largest and probably least converged after 30k steps;
+  - the paper picks the best (β, λ) for each NFE, and we have one setting.
+- At NFE 100, A is best (9.20), C is close (10.49), and B β = 2 is worse (13.99).
+
+**B (β = 2) vs B (β = 1) vs B (pseudo-Huber): does β or ρ change FID?**
+- **At many steps, slightly yes [E, one training seed].** At NFE 100, β = 1 gives 11.83 and pseudo-Huber 11.73, against 13.99 for
+  β = 2. The gap is about 15 %, and it appears at all three snapshots (10k: 16.9 / 17.5 vs 20.2; 20k: 13.2 / 13.3 vs 15.8). At NFE 30 the
+  gap is 1.1–1.3 FID.
+- **At few steps, no [E].** At NFE 4–15, the three B variants are within 1.2 FID of each other. That is smaller than the gap between
+  B and A. At NFE 2, β = 1 is 5 FID better (113 vs 118), on a scale where all three are far from usable.
+- This is the opposite of the paper GMM, where β = 1 helped at few steps (2× at NFE 5) and tied at many (§2). On CIFAR-10 the B
+  denoiser is a near-deterministic regression in 3072 dimensions. There the geometric median and the mean are close, and β mostly
+  changes the per-sample weighting of the loss (‖d‖^(β−1)) [G].
+- ξ does nothing in any B variant, as theory says for λ = 0. Its spread stays at 0.001–0.003 for every t, 5× (t = 0.02) to 220×
+  (t = 0.98) below C's. That level is about what bf16 rounding alone would give [G].
+- **Pseudo-Huber = β = 1 here [E].** B_pH and B_b1 differ by at most 0.7 FID at every NFE and snapshot, and their ξ-spreads agree to
+  1e-4. With c = 0.00054·√3072 = 0.030 and ‖x̂ − x_0‖ ≫ c over 3072 pixels, √(‖d‖² + c²) − c ≈ ‖d‖ − c. iCT's c was tuned for the
+  gap between two consistency-model outputs, which is much smaller than a denoising residual [G].
+- **B never beats A, not even B β = 2, which has the same minimiser (the posterior mean) [E].** Candidate causes, not tested [G]:
+  - A's loss is ‖v̂ − v‖² = ‖x̂ − x_0‖²/t², because x̂ − x_0 = t(v̂ − v). Under the same sigmoid weight, A weights small t by an extra
+    1/t².
+  - B spends 4 particles per image on a ξ it ignores, and it has 6 input channels.
+  - With clip 1, A and every B variant clip on 100 % of steps, so the effective step is a normalised gradient. Its direction differs
+    between loss forms.
+
+**C and C + DINOv2 vs A at few steps.**
+- **C + DINOv2 has the best FID at NFE 2 and 4 by far [E]:** 49.4 and 42.6, against A's 102.9 / 56.0 and C's 201.3 / 72.1.
+- **But its FID gets *worse* with more steps** (44 at NFE 8, 62 at NFE 100; 108 at NFE 100 for the 10k and 20k snapshots). Its grids
+  show strong high-frequency texture at every NFE (`cifar/figures/grids_nfe10.png`, `grids_nfe100.png`). Plain C's samples have none.
+- So the DINOv2 term helps FID at 2–4 steps but makes the images visibly wrong. This is the risk the task named, after iCT: a feature
+  loss can move FID for reasons other than image quality. DINOv2 is not the FID network, but both are ImageNet-trained feature
+  extractors [G].
+- Probable mechanism [G]: the feature term rewards matching DINOv2 features, and the network learns textures that do that. More
+  sampler steps at small t apply the denoiser more often, and add more of that texture. C + DINOv2's ξ-spread at t = 0.02 is 1.7× C's.
+  Its gradient clipping also rose from 37 % of steps (first 5k) to 99 % (last 5k), against 0 % for C (`cifar/runs/*/log.jsonl`).
+- This differs from transport_map's one-step generator, where the same DINOv2 term helped a lot (`/scratch/wg2381/transport_map/docs/experiments_unet.md`).
+  There the network takes one step. Here the term is applied at every t, including t ≈ 0, where x̂ must equal x_t to pixel precision
+  [G].
+
+### 9.4 Caveats
+- 30k steps at batch 128 against the paper's 1e6 at 256: about 1.5 % of the paper's training images. Every run is far from
+  converged, and rankings can change with more training.
+- One training seed per run. All runs share the data order, the t draws and X_1 (seed 0), so arm differences are not inflated by data
+  noise. But the training-seed spread is unknown. In 2D, seed ranges were often tens of percent of the mean
+  (§2–§5 tables). So the ≈ 15 % β gap at NFE 100 is suggestive, not established.
+- FID-10k, not FID-50k. FID-10k is biased upward against FID-50k, by a roughly constant amount for a given model quality [G], so
+  compare within this table only.
+- A feature loss (C + DINOv2) can move FID for reasons other than quality, as seen in the grids. LPIPS was rejected for this reason
+  and because it is not of negative type (`_task.md` E4).
+- Gradient clipping at 1 binds on every step for A and B, never for C, and on 37–99 % of steps for C + DINOv2. The shared setting acts
+  differently per arm.
+- The sigmoid weighting with bias 0 was not tuned. The paper sweeps the bias from −2 to 2.

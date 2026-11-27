@@ -24,3 +24,11 @@ Plan, decisions and the bench-based cost: `runs/PLAN.md`. Job ids and health che
 - Bench: `sbatch --job-name=ddmx_cifar_bench scripts/bench_gpu.slurm` → `runs/bench_<jobid>/bench.json`.
 - CPU smoke (tiny U-Net, proves the path only): `bash cifar/scripts/smoke_cpu.sh` from `ddm2d/` → `runs/smoke/`.
 - Health: `python cifar/scripts/health.py` (log summary), `python cifar/scripts/snapshot_peek.py <run> snap_0010000` (CPU grid).
+
+## Evaluation summary (X4)
+- Results and their interpretation: `../docs/beta_exploration.md` §9. Tables: `runs/eval/fid_summary.md`, `runs/eval/fid_table.csv`.
+  Figures: `figures/`.
+- Sampler-seed spread (seeds 1, 2 at NFE 2, 4, 10, 100 on the final EMA) and the real-data FID-10k floor:
+  `scripts/eval_seeds.py`, run on the GPU by `scripts/eval_seeds_gpu.slurm` (`RUNS=cifar_A,cifar_B REAL=1 sbatch ...`). Outputs go to
+  `runs/eval/seeds/` and `runs/eval/real_floor.json`. The protocol files of `ddmcifar.evaluate` (seed 0) are never overwritten.
+- Tables and figures: `PYTHONPATH=src:cifar/src python cifar/scripts/x4_report.py` (from `ddm2d/`, CPU, seconds).

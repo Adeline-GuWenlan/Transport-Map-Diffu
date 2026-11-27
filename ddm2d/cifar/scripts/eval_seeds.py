@@ -39,6 +39,7 @@ def real_floor(device):
         idx = perm[i * 10_000:(i + 1) * 10_000]
         recs.append({"set": f"train randperm(seed 0)[{i * 10000}:{(i + 1) * 10000}]", **fid_of_uint8(to_uint8(xtr[idx]), device)})
     for r in recs:
+        r["device"] = str(device)
         print(json.dumps({"set": r["set"], "fid": r["fid"]}), flush=True)
     out.write_text(json.dumps(recs, indent=1) + "\n")
 

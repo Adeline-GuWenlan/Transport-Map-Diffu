@@ -116,3 +116,28 @@ The extraction of the paper's Fig. 3 values from the arXiv source (`scripts/extr
 - **Evaluation.** Always the EMA weights of `final.pt`, with the same seeds for every arm.
 - **Paper values** live only in `docs/paper_values/` and in columns labelled "paper".
 - **Deviations from the paper:** every one is a row in `docs/paper_vs_implementation.md` (49 rows).
+
+## ddm2dx: does β (or the distance) matter? (2026-11-26/27)
+An exploration on top of this replica, not part of the reproduction. The question, answer and every table are in
+`docs/beta_exploration.md`; the spec is `/scratch/wg2381/claude_jobs/ddm2dx/prompts/_task.md`.
+- 2D (E1 β sweep, E2 unequal-weight GMMs `gmm2w` / `gmm9w`, E4 other distances ρ): new code is additive (`src/ddm2d/` new
+  datasets, `posterior_gmm.py`, loss option `rho`), configs `configs/ext/`, runs `runs/ext/`, evaluation `runs/ext/eval/`, figures
+  `figures/ext/`.
+- CIFAR-10 (E3, 30k-step trial on an L40S): the separate package `cifar/` (see `cifar/README.md`), runs `cifar/runs/`, figures
+  `cifar/figures/`.
+
+```bash
+PY=/scratch/wg2381/.conda/envs/tmap/bin/python; cd ddm2d
+# 2D: configs, run lists, training (cpu_short jobs, 6 one-thread runs each, ~5 CPU-h per 100k-step run)
+PYTHONPATH=src $PY scripts/ext_make_configs.py && $PY scripts/ext_make_runlists.py
+sbatch --export=ALL,RUNLIST=runs/ext/runlists/list01.txt,JOBIDS=<file>,JOBLOG=runs/ext/joblog.tsv scripts/train_job.sbatch   # per list
+# 2D: completeness, evaluation (resumable; each part writes runs/ext/eval/<part>/), tables, figures
+PYTHONPATH=src $PY scripts/ext_status.py
+for p in null mmd std fig4 den condw snaps; do PYTHONPATH=src $PY scripts/ext_eval.py $p --threads 7; done
+PYTHONPATH=src $PY scripts/ext_eval.py summary && $PY scripts/ext_tables.py && $PY scripts/ext_plot.py && $PY scripts/ext_check_pseudohuber.py
+# CIFAR-10: train + full evaluation protocol per run (GPU, requeue-safe), see cifar/runs/JOBS.md for the exact submissions
+RUN=cifar_B sbatch --export=ALL,RUN=cifar_B --job-name=ddmx_cifar_B --time=11:40:00 cifar/scripts/train_gpu.slurm
+# CIFAR-10: sampler-seed spread (seeds 1, 2) and the real-data FID floor (GPU), then tables and figures (CPU, seconds)
+RUNS=cifar_A,cifar_B,cifar_B_b1 REAL=1 sbatch --job-name=ddmx_evseed1 cifar/scripts/eval_seeds_gpu.slurm
+source /scratch/wg2381/transport_map/env/activate.sh; PYTHONPATH=src:cifar/src python cifar/scripts/x4_report.py
+```
