@@ -476,7 +476,11 @@ Figures:
 
 - A perfect generator scores ≈ 2.1 in this protocol (finite-sample bias of FID-10k).
 - Redrawing 10k real images moves FID-10k by only ≈ 0.01.
-- Generated sets far from the data have a larger sampling spread [G]. {{CPUSEED}}
+- Generated sets far from the data have a larger sampling spread [G]. One direct check (`cifar/runs/eval/seeds_cpu/`, CPU, fp32): `cifar_B_b1` at NFE 4 with sampler seeds 1 and 2 gives 64.20 and
+  63.46, against 63.06 for the protocol's seed 0 (GPU, bf16). That is a range of 1.1 and an sd of ≈ 0.6 at FID ≈ 63.
+  - So the three B variants at NFE 4 (≤ 0.85 apart) are inside sampler noise, which confirms "no β effect at few steps".
+  - The 2.2-FID gap at NFE 100 is about 4× that sd, at a lower FID level where the noise is presumably smaller [G]. It is beyond
+    sampler noise, but not shown to be beyond training-seed noise.
 - **Not measured:** the training-seed spread. The planned GPU check (sampler seeds 1 and 2 at NFE 2 / 4 / 10 / 100 for every run;
   `cifar/scripts/eval_seeds_gpu.slurm`, jobs 24821915 / 24821916) was cancelled before it started. `l40s_public` was mostly draining,
   with an estimated start 12 h later. Running it is a ready next step (§10).
@@ -499,7 +503,8 @@ Figures:
 - **At many steps, slightly yes [E, one training seed].** At NFE 100, β = 1 gives 11.83 and pseudo-Huber 11.73, against 13.99 for
   β = 2. The gap is about 15 %, and it appears at all three snapshots (10k: 16.9 / 17.5 vs 20.2; 20k: 13.2 / 13.3 vs 15.8). At NFE 30 the
   gap is 1.1–1.3 FID.
-- **At few steps, no [E].** At NFE 4–15, the three B variants are within 1.2 FID of each other. That is smaller than the gap between
+- **At few steps, no [E].** At NFE 4–15, the three B variants are within 1.2 FID of each other. At NFE 4 that is inside the
+  sampler-seed range (1.1, §9.2). That is smaller than the gap between
   B and A. At NFE 2, β = 1 is 5 FID better (113 vs 118), on a scale where all three are far from usable.
 - This is the opposite of the paper GMM, where β = 1 helped at few steps (2× at NFE 5) and tied at many (§2). On CIFAR-10 the B
   denoiser is a near-deterministic regression in 3072 dimensions. There the geometric median and the mean are close, and β mostly

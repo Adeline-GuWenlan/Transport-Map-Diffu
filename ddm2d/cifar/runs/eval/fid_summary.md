@@ -20,6 +20,14 @@ EMA snapshots (checkpoint selection), FID-10k, sampler seed 0.
 | C (β=0.1, λ=1) | 43.68 | 23.92 | 15.91 | 14.20 | 10.39 | 10.49 |
 | C + DINOv2 term | 71.36 | 63.68 | 46.75 | 108.36 | 107.58 | 62.43 |
 
+Sampler-seed check on CPU (fp32; the protocol's seed 0 ran on the GPU in bf16), final EMA. Separate from the protocol.
+
+| run | NFE | seed | device / precision | FID-10k |
+|---|---|---|---|---|
+| B (β=1, λ=0) | 4 | 0 | GPU / bf16 (protocol) | 63.06 |
+| B (β=1, λ=0) | 4 | 1 | CPU / fp32 | 64.20 |
+| B (β=1, λ=0) | 4 | 2 | CPU / fp32 | 63.46 |
+
 Real-data FID-10k floor (real CIFAR-10 images vs the same train statistics).
 
 | set | FID-10k |

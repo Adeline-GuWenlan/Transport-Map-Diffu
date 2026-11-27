@@ -155,5 +155,20 @@
    "device": "cpu"
   }
  ],
- "cpu_seed_check": []
+ "cpu_seed_check": [
+  {
+   "run": "cifar_B_b1",
+   "nfe": 4,
+   "seed": 1,
+   "fid": 64.19793789846108,
+   "bf16": false
+  },
+  {
+   "run": "cifar_B_b1",
+   "nfe": 4,
+   "seed": 2,
+   "fid": 63.456226208777935,
+   "bf16": false
+  }
+ ]
 }

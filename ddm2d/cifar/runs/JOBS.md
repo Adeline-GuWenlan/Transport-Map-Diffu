@@ -44,3 +44,12 @@ C 22:05, B_b1 / B_pH 22:15, C_dino 03:40 on Nov 27.
   3072 pixels (even at t = 0.01 the noise alone gives ‖d‖ ≈ 0.55), √(‖d‖² + c²) − c ≈ ‖d‖ − c, i.e. the β = 1 loss. iCT's c was set
   for the gap between two consecutive consistency-model outputs, which is much smaller. Expect B_pH and B_b1 to end up close; that is
   a finding about this c, not a bug.
+
+### X4, 2026-11-27 04:30 EST: final state [E]
+- All six training jobs COMPLETED (`sacct`): A 2:55:47, B 9:01:48, C 9:10:18, B_b1 9:06:48, B_pH 9:10:36, C_dino 14:36:18 elapsed.
+  With the bench, the chain used 54.4 GPU-h of 75.
+- Each run's `DONE.json` is at step 30000. The protocol evaluation finished inside each job (`<run>/eval/`). Checkpoint hashes are in
+  `<run>/ckpt_sha256.txt`.
+- Eval-only jobs 24821915 / 24821916 (`scripts/eval_seeds_gpu.slurm`, sampler seeds 1, 2) were submitted at 04:31 and cancelled at
+  04:45 before they started, using 0 GPU-h. `l40s_public` had 35 nodes draining, and Slurm estimated a 17:00 start. The real-data FID
+  floor and a sampler-seed check were run on CPU instead (`eval/real_floor.json`, `eval/seeds_cpu/`).
