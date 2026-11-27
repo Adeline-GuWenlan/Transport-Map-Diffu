@@ -1,0 +1,35 @@
+run | windows with gnorm_max>100 after step 1000 | max gnorm_max | median gnorm_mean (last 50k) | any non-finite
+gmm_B_b0.1_s0 | 0 | 2.83 | 0.4 | False
+gmm_B_b0.1_s1 | 0 | 7.21 | 0.408 | False
+gmm_B_b0.5_s0 | 1 | 169 | 0.718 | False
+gmm_B_b0.5_s1 | 0 | 68.2 | 0.772 | False
+gmm_B_b1_s0 | 5 | 2.58e+05 | 0.571 | False
+gmm_B_b1_s1 | 4 | 3.73e+04 | 0.605 | False
+gmm_B_b1.5_s0 | 7 | 1.65e+07 | 0.476 | False
+gmm_B_b1.5_s1 | 6 | 2.15e+06 | 0.499 | False
+gmm_B_b1.99_s0 | 9 | 8.21e+05 | 0.484 | False
+gmm_B_b1.99_s1 | 10 | 1.33e+08 | 0.478 | False
+gmm_B_b3_s0 | 21 | 2.47e+14 | 1.42 | False
+gmm_B_b3_s1 | 12 | 1.36e+14 | 1.28 | False
+gmm_B_b3.5_s0 | 22 | 1.02e+16 | 2.75 | False
+gmm_B_b3.5_s1 | 24 | 5.01e+09 | 2.91 | False
+gmm_C_b0.5_s0 | 1 | 199 | 0.476 | False
+gmm_C_b0.5_s1 | 1 | 265 | 0.417 | False
+gmm_C_b1_s0 | 6 | 6.83e+03 | 0.365 | False
+gmm_C_b1_s1 | 3 | 338 | 0.346 | False
+gmm_C_b1.5_s0 | 1 | 894 | 0.364 | False
+gmm_C_b1.5_s1 | 4 | 1.38e+04 | 0.363 | False
+gmm_C_b1.99_s0 | 7 | 7.87e+06 | 0.418 | False
+gmm_C_b1.99_s1 | 27 | 2.8e+09 | 0.46 | False
+gmm_C_b2_s0 | 100 | 2.07e+16 | 0.449 | False
+gmm_C_b2_s1 | 33 | 5.86e+13 | 0.468 | False
+gmm_C_L1b0.5_s0 | 0 | 12 | 0.413 | False
+gmm_C_L1b0.5_s1 | 1 | 163 | 0.443 | False
+gmm_C_L1b1_s0 | 2 | 9.52e+03 | 0.434 | False
+gmm_C_L1b1_s1 | 11 | 1.52e+05 | 0.465 | False
+gmm_B_L1b1_s0 | 2 | 7.21e+03 | 0.717 | False
+gmm_B_L1b1_s1 | 6 | 2.31e+04 | 0.766 | False
+paper gmm_B_s0 | 13 | 1.69e+10 | 0.466 | False
+paper gmm_C_s0 | 0 | 5.52 | 0.162 | False
+paper gmm_B_s1 | 17 | 1.29e+05 | 0.475 | False
+paper gmm_C_s1 | 0 | 2.5 | 0.166 | False
