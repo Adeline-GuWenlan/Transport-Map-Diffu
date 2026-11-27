@@ -1,6 +1,7 @@
 """X4: E3 tables and figures from the committed evaluation JSONs (no model calls; CPU, seconds).
 
 Inputs:  cifar/runs/<run>/eval/snap_*_ema_nfe*.json (protocol, sampler seed 0), xi_spread_snap_0030000_ema.json,
+         cifar/runs/eval/seeds_cpu/*.json (CPU fp32 sampler-seed check; reported separately),
          cifar/runs/eval/seeds/*.json (sampler seeds 1, 2; scripts/eval_seeds.py), cifar/runs/eval/real_floor.json.
 Outputs: cifar/runs/eval/fid_table.csv, fid_summary.json, fid_summary.md; cifar/figures/{fid_vs_nfe,fid_vs_step,xi_spread}.{png,pdf},
          cifar/figures/grids_nfe{10,100}.{png,pdf}.
@@ -101,6 +102,16 @@ def main():
     for r in RUNS:
         s = summ["snapshots_seed0"][r]
         L.append(f"| {LABEL[r]} | " + " | ".join(f"{s[f'{st}_nfe{k}']:.2f}" for k in (10, 100) for st in SNAPS) + " |")
+    cpu = [json.load(open(f)) for f in sorted(glob.glob(str(EV / "seeds_cpu" / "*.json")))]
+    summ["cpu_seed_check"] = [{k: d[k] for k in ("run", "nfe", "seed", "fid", "bf16")} for d in cpu]
+    (EV / "fid_summary.json").write_text(json.dumps(summ, indent=1) + "\n")
+    if cpu:
+        L += ["", "Sampler-seed check on CPU (fp32; the protocol's seed 0 ran on the GPU in bf16), final EMA. Separate from the protocol.", "",
+              "| run | NFE | seed | device / precision | FID-10k |", "|---|---|---|---|---|"]
+        for r in sorted({d["run"] for d in cpu}):
+            for k in sorted({d["nfe"] for d in cpu if d["run"] == r}):
+                L.append(f"| {LABEL[r]} | {k} | 0 | GPU / bf16 (protocol) | {summ['final_seed0'][r][k]:.2f} |")
+                L += [f"| {LABEL[r]} | {k} | {d['seed']} | CPU / fp32 | {d['fid']:.2f} |" for d in cpu if d["run"] == r and d["nfe"] == k]
     if real:
         L += ["", "Real-data FID-10k floor (real CIFAR-10 images vs the same train statistics).", "", "| set | FID-10k |", "|---|---|"]
         L += [f"| {x['set']} | {x['fid']:.2f} |" for x in real]
@@ -117,19 +128,16 @@ def main():
         ax[0].plot(NFES, y, color=COLOR[r], marker=MARK[r], ms=5, lw=2, label=LABEL[r])
         for k, s in summ["final_seeds"][r].items():
             ax[0].vlines(k, s["min"], s["max"], color=COLOR[r], lw=3, alpha=0.5)
-        end = {"cifar_A": "A", "cifar_B": "B β=2", "cifar_B_b1": "B β=1 / pH", "cifar_C": "C", "cifar_C_dino": "C+DINOv2"}
-        if r in end:   # B_pH ends on top of B_b1: one shared end label
-            ax[0].annotate(end[r], (NFES[-1], y[-1]), xytext=(4, 0), textcoords="offset points", va="center", fontsize=8,
-                           color="#333333")
+        # six series: legend + distinct markers, no end labels (they collide at NFE 100)
     if real:
         fl = min(x["fid"] for x in real)
         ax[0].axhline(fl, color="#777777", lw=1, ls="--")
         ax[0].text(2, fl * 1.08, f"real-data FID-10k floor ({fl:.1f})", fontsize=7.5, color="#555555")
-    ax[0].set_xlim(1.8, 140)
+    ax[0].set_xlim(1.8, 115)
     ax[0].set(xscale="log", yscale="log", xlabel="NFE", ylabel="FID-10k (final EMA, 30k steps)",
               title="This trial: 30k steps, batch 128, one training seed")
     ax[0].set_xticks(NFES, [str(k) for k in NFES])
-    ax[0].legend(fontsize=7.5, frameon=False, loc="upper right")
+    ax[0].legend(fontsize=7.5, frameon=False, loc="lower left", bbox_to_anchor=(0.0, 0.07))
     for name, c, m in (("Diffusion", "#257de0", "o"), ("Distributional", "#ee7fac", "D")):
         ax[1].plot(PAPER["nfe"], PAPER[name], color=c, marker=m, ms=5, lw=2, label=name)
     ax[1].set(xscale="log", yscale="log", xlabel="NFE", ylabel="FID-50k",
@@ -138,7 +146,7 @@ def main():
     for a in ax:
         a.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
         a.yaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
-    ax[0].set_yticks([7, 10, 20, 30, 50, 100, 200], ["7", "10", "20", "30", "50", "100", "200"])
+    ax[0].set_yticks([2, 3, 5, 10, 20, 30, 50, 100, 200], ["2", "3", "5", "10", "20", "30", "50", "100", "200"])
     ax[1].set_yticks([3, 5, 10, 20, 30, 50, 80], ["3", "5", "10", "20", "30", "50", "80"])
     ax[1].legend(fontsize=7.5, frameon=False)
     fig.tight_layout()

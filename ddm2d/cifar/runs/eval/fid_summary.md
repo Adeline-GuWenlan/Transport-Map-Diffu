@@ -19,3 +19,12 @@ EMA snapshots (checkpoint selection), FID-10k, sampler seed 0.
 | B (pseudo-Huber, λ=0) | 39.59 | 36.11 | 33.24 | 17.50 | 13.33 | 11.73 |
 | C (β=0.1, λ=1) | 43.68 | 23.92 | 15.91 | 14.20 | 10.39 | 10.49 |
 | C + DINOv2 term | 71.36 | 63.68 | 46.75 | 108.36 | 107.58 | 62.43 |
+
+Real-data FID-10k floor (real CIFAR-10 images vs the same train statistics).
+
+| set | FID-10k |
+|---|---|
+| test[0:10000] | 3.15 |
+| train randperm(seed 0)[0:10000] | 2.10 |
+| train randperm(seed 0)[10000:20000] | 2.11 |
+| train randperm(seed 0)[20000:30000] | 2.11 |

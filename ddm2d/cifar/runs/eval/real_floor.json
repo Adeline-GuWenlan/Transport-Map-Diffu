@@ -1,0 +1,42 @@
+[
+ {
+  "set": "test[0:10000]",
+  "fid": 3.1508413912778224,
+  "n": 10000,
+  "mode": "legacy_tensorflow",
+  "ref": "cifar10 train 32",
+  "stats_sha256": "8e2ddeabe3515e74058f52218e93f0c87adb935cd1352f4cff883bac0c4eaa9a",
+  "stats_tmap_sha256": "8e2ddeabe3515e74058f52218e93f0c87adb935cd1352f4cff883bac0c4eaa9a",
+  "device": "cpu"
+ },
+ {
+  "set": "train randperm(seed 0)[0:10000]",
+  "fid": 2.095827463609112,
+  "n": 10000,
+  "mode": "legacy_tensorflow",
+  "ref": "cifar10 train 32",
+  "stats_sha256": "8e2ddeabe3515e74058f52218e93f0c87adb935cd1352f4cff883bac0c4eaa9a",
+  "stats_tmap_sha256": "8e2ddeabe3515e74058f52218e93f0c87adb935cd1352f4cff883bac0c4eaa9a",
+  "device": "cpu"
+ },
+ {
+  "set": "train randperm(seed 0)[10000:20000]",
+  "fid": 2.1104915130112545,
+  "n": 10000,
+  "mode": "legacy_tensorflow",
+  "ref": "cifar10 train 32",
+  "stats_sha256": "8e2ddeabe3515e74058f52218e93f0c87adb935cd1352f4cff883bac0c4eaa9a",
+  "stats_tmap_sha256": "8e2ddeabe3515e74058f52218e93f0c87adb935cd1352f4cff883bac0c4eaa9a",
+  "device": "cpu"
+ },
+ {
+  "set": "train randperm(seed 0)[20000:30000]",
+  "fid": 2.107937823614634,
+  "n": 10000,
+  "mode": "legacy_tensorflow",
+  "ref": "cifar10 train 32",
+  "stats_sha256": "8e2ddeabe3515e74058f52218e93f0c87adb935cd1352f4cff883bac0c4eaa9a",
+  "stats_tmap_sha256": "8e2ddeabe3515e74058f52218e93f0c87adb935cd1352f4cff883bac0c4eaa9a",
+  "device": "cpu"
+ }
+]

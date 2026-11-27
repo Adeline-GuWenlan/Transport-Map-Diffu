@@ -467,7 +467,19 @@ Figures:
 - `cifar/figures/xi_spread.png`
 - `cifar/figures/grids_nfe10.png`, `grids_nfe100.png`: one row per class.
 
-{{FLOOR}}
+**Noise floor [E]** (`cifar/runs/eval/real_floor.json`: real images through the same clean-fid call, on CPU):
+
+| real set | FID-10k vs train stats |
+|---|---|
+| CIFAR-10 test, first 10k | 3.15 |
+| 3 disjoint random 10k train subsets | 2.10 / 2.11 / 2.11 |
+
+- A perfect generator scores ≈ 2.1 in this protocol (finite-sample bias of FID-10k).
+- Redrawing 10k real images moves FID-10k by only ≈ 0.01.
+- Generated sets far from the data have a larger sampling spread [G]. {{CPUSEED}}
+- **Not measured:** the training-seed spread. The planned GPU check (sampler seeds 1 and 2 at NFE 2 / 4 / 10 / 100 for every run;
+  `cifar/scripts/eval_seeds_gpu.slurm`, jobs 24821915 / 24821916) was cancelled before it started. `l40s_public` was mostly draining,
+  with an estimated start 12 h later. Running it is a ready next step (§10).
 
 ### 9.3 Answers
 **Does the DDM train on CIFAR-10 in a short run? Yes [E].**
@@ -531,3 +543,22 @@ Figures:
 - Gradient clipping at 1 binds on every step for A and B, never for C, and on 37–99 % of steps for C + DINOv2. The shared setting acts
   differently per arm.
 - The sigmoid weighting with bias 0 was not tuned. The paper sweeps the bias from −2 to 2.
+
+## 10. What to try next (overall)
+In order of information per GPU-hour:
+1. **Is the CIFAR β effect real?**
+   - Run the sampler-seed check that was cancelled: two `cifar/scripts/eval_seeds_gpu.slurm` jobs, ≈ 3 GPU-h in total.
+   - Train a second seed of `cifar_B` and `cifar_B_b1` (≈ 9 GPU-h each).
+
+   This is the only β effect measured on images, and it rests on one training seed. The chain used 54.4 of its 75 GPU-h.
+2. **Does the 2D C winner transfer?** Train `cifar_C` with β = 1.5, which beat β = 0.1 on `gmm9w`, and one λ between 0 and 1
+   (e.g. 0.5, β = 1). The paper's image sweep has both.
+3. **A vs B confound:** B β = 2 with an extra 1/t² weight, which makes its loss equal to A's velocity loss up to the ξ input and
+   m = 4. If it then matches A, the B–A gap is the weighting, not the energy loss.
+4. **DINOv2 term without textures:** apply it only at large t (e.g. t > 0.3), or anneal it. Score with a second metric besides
+   Inception FID (e.g. KID, or precision/recall), to check that the few-step gain is not just in feature space.
+5. **Pseudo-Huber with a scale that matters:** c of the order of a typical ‖x̂ − x_0‖ over 3072 pixels (≈ 5–20 here [G]). At iCT's c
+   it is just β = 1.
+6. **Longer training for the few-step regime:** C loses to A at NFE 2–4 after 30k steps. The paper's 1e6-step C wins there. A 100k–200k
+   run of A and C would show whether the crossing moves.
+7. 2D items are in §8.
