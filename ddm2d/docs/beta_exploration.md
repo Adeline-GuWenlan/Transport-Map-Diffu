@@ -19,8 +19,9 @@ and the overall summary. Labels: **[E]** evidence in a committed file, **[G]** g
 - **λ = 1 (energy score, arm C family).** Every β in (0, 2) gives the same quality at few steps: MMD² 0.9–2.7e-4 at NFE 5, all
   within about 2× and within the seed spread and the null floor. That matches theory: they share the same minimiser, the exact
   posterior.
-  - The edge breaks things. **β = 2 with λ = 1 is only proper**, so the loss does not see the spread of x̂. In both seeds the spread
-    ran away late in training (posterior std 1e5–1e8) and the samples overflowed.
+  - The edge breaks things. **β = 2 with λ = 1 is only proper**, so the loss does not see the spread of x̂.
+    - Both seeds were poor from the first EMA snapshot on: MMD² 5e-3 to 1e-1 at NFE 5 from 10k steps.
+    - Late in training the spread ran away (posterior std 1e5–1e8), and the samples overflowed.
   - β = 1.99 is strictly proper but nearly degenerate. One seed collapsed to a constant output, and the other ended under-dispersed
     (MMD² 2.4e-3).
 - **Other distances.**
@@ -161,7 +162,8 @@ Figures: `figures/ext/mmd_vs_beta.png` (orange line), `mmd_vs_nfe_beta.png` (rig
   is right (TV ≈ 0.01). Because Algorithm 2 re-noises, this high-t error barely shows in the final MMD².
 
 **Is β = 2 with λ = 1 visibly different? Yes, it fails [E].**
-- Both seeds diverged. The interaction term grew without bound late in training: inter ≈ 1e3 at 91k steps and 1e16 at 100k (seed 0);
+- **Both seeds fail.** The EMA snapshots (diagnostic, §6) are already poor at 10k steps: MMD² 5e-3 to 1e-1 at NFE 5, against ≈ 1e-4
+  for every β < 2. Late in training the interaction term then grows without bound: inter ≈ 1e3 at 91k steps and 1e16 at 100k (seed 0);
   1e14 at 100k (seed 1) (`runs/ext/gmm_C_b2_s*/log.jsonl`).
 - The posterior std of x̂ at 100k is 1e5–1e8, and sampling overflows.
 - Mechanism: at β = 2, E‖X − y‖² − ½E‖X − X'‖² = ‖E X − y‖² + const. The variance terms cancel exactly, so only the mean is learned and
@@ -172,7 +174,8 @@ Figures: `figures/ext/mmd_vs_beta.png` (orange line), `mmd_vs_nfe_beta.png` (rig
   - Seed 0: finished, but under-dispersed at high t (std 0.34–0.49 at t ≥ 0.66 vs 0.81–1.77 exact) and over-dispersed at low t (0.26 at t = 0.01 vs 0.01); MMD² 2.4e-3 at NFE 5.
   - The restoring force on the spread scales like (2 − β) [G]. At 1.99 it is too weak to hold against gradient noise and the
     clipped spikes.
-  - EMA-snapshot diagnostic (10k–100k steps): `runs/ext/eval/snaps/`, summarised in §6.
+  - EMA-snapshot diagnostic (10k–100k steps): `runs/ext/eval/snaps/`, §6. Seed 0 was at 1–4e-3 from 10k steps on, so β = 1.99 never
+    trained well.
 
 ## 4. E2: unequal mode weights (`gmm2w` 0.8 / 0.2; `gmm9w` 9 modes, π from 0.02 to 0.30)
 Figures: `figures/ext/mode_weights_gmm2w.png`, `mode_weights_gmm9w.png`, `fig4_gmm2w_x{0,1}.png`, `fig4_gmm9w_x{0,1}.png`,
@@ -280,7 +283,25 @@ Seed ranges are shown where they matter. All cells are in `runs/ext/eval/tables.
   - The exact posterior is among the minimisers (it is even a product on the paper GMM), but the trained network found another one.
   - With β = 0.5 the score is strictly proper again (Lyons 2013, Remark 3.19), and the clusters are round.
 
-## 6. Extra runs and diagnostics (pending, added by X3 when job 24786603 ends)
+## 6. Extra runs and diagnostics
+**EMA-snapshot diagnostic [E]** (`runs/ext/eval/snaps/`, table at the end of `tables.md`). Not the protocol: 2 repeats; only used to
+understand the failures, never to pick a checkpoint. MMD² at NFE 5 of the EMA weights every 10k steps, λ = 1 family:
+
+| run | 10k–70k | 80k–100k |
+|---|---|---|
+| β ∈ {0.1, 0.5, 1, 1.5}, all seeds | −2e-4 … 1e-3 (noise around ≈ 1e-4) | same |
+| β = 1.99, seed 0 | 1e-3 … 4e-3 | 1e-3 … 2e-3 |
+| β = 1.99, seed 1 | 2e-3 … 5e-3 | 1.3 (collapsed to a constant) |
+| β = 2, seeds 0, 1 | 5e-3 … 1e-1 | 5e-2 … 3e-1, NaN at NFE 100 at 100k |
+
+So β ≥ 1.99 with λ = 1 never learned the posterior well, at any point of training. The late blow-up adds to that. All β < 2 are flat
+from 10k steps on: no trend with training length, as for the ddm2d paper runs.
+
+**Seed-2 reference runs** `runs/paper/gmm_{A,B,C}_s2`, same protocol (`tables.md`, "Seed 2"). At NFE 5: A 1.6e-2, B 1.6e-2, C 2.2e-4.
+These are inside or next to the seed 0/1 ranges. They are used only for the seed-2 extras below, and the main tables stay on seeds
+0, 1.
+
+**Extra runs (pending: job 24786603)**
 Launched by X3 (`runs/ext/runs_x3.tsv`, `runs/ext/runlists/x3_list12.txt`, job 24786603, ≈ 27 CPU-h):
 - `gmm9w_C_b1.5_s{0,1}`: the E2 extra "C on gmm9w with the best E1b β". β = 1.5 had the lowest seed-mean MMD² at NFE 5 in E1b, though
   inside the noise;
