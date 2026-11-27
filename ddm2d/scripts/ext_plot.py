@@ -70,19 +70,30 @@ def main():
         for fam, col, lab in [(LAM0, CAT[0], "λ = 0 (B family)"), (LAM1, CAT[1], "λ = 1 (C family)")]:
             bs = [b for _, b in fam]
             v = [pm[(g, nfe)] for g, _ in fam]
-            ax.plot(bs, [np.mean(x) for x in v], "-o", color=col, ms=5, label=lab)
-            for b, x in zip(bs, v):
-                ax.plot([b, b], [min(x), max(x)], color=col, lw=1)
-                ax.plot([b] * len(x), x, "_", color=col, ms=8, mew=1.2)
+            TOP = 0.1
+            mv = [np.mean(x) for x in v]
+            ok = [np.isfinite(m) and m < TOP for m in mv]
+            ax.plot([b for b, o in zip(bs, ok) if o], [m for m, o in zip(mv, ok) if o], "-o", color=col, ms=5, label=lab)
+            for b, x, o in zip(bs, v, ok):
+                xs = [min(q, TOP * 0.8) if np.isfinite(q) else TOP * 0.8 for q in x]
+                if o:
+                    ax.plot([b, b], [min(xs), max(xs)], color=col, lw=1)
+                ax.plot([b] * len(xs), xs, "_", color=col, ms=8, mew=1.2)
+                if not o:
+                    ax.plot([b], [TOP * 0.8], "^", color=col, ms=7)
+                    ax.annotate("β = 1.99 / 2, λ = 1:\ndiverged or collapsed ▲", (b, TOP * 0.8), textcoords="offset points", xytext=(-4, -4),
+                                ha="right", va="top", fontsize=6, color=INK2)
+            ax.set_ylim(3e-5, TOP)
         ax.set_xscale("log")
-        ax.set_yscale("symlog", linthresh=1e-5)
+        ax.set_yscale("log")
         ax.set_xticks([0.1, 0.5, 1, 2, 3.5])
         ax.set_xticklabels(["0.1", "0.5", "1", "2", "3.5"])
         ax.set_title(f"NFE {nfe}", color=INK)
         ax.set_xlabel("β")
     axs[0].set_ylabel("MMD²_u (RBF σ=1), mean of 10 repeats\nline = seed mean, ticks = seeds 0, 1")
-    axs[0].legend(loc="upper left", fontsize=7)
-    fig.suptitle("Paper GMM: MMD² vs β (symlog y; linear below 1e-5)", color=INK)
+    h, l = axs[0].get_legend_handles_labels()
+    fig.legend(h, l, loc="lower center", ncol=4, fontsize=7.5, bbox_to_anchor=(0.5, -0.06))
+    fig.suptitle("Paper GMM: MMD² vs β (log y)", color=INK)
     save(fig, "mmd_vs_beta")
 
     # F2: MMD^2 vs NFE per beta
@@ -96,6 +107,7 @@ def main():
         ax.axhline(floor, color=INK2, ls=":", lw=1)
         ax.set_xscale("log")
         ax.set_yscale("symlog", linthresh=1e-5)
+        ax.set_ylim(-1e-5, 0.1)
         ax.set_xticks(nfes)
         ax.set_xticklabels([str(n) for n in nfes])
         ax.set_xlabel("NFE")
@@ -118,10 +130,11 @@ def main():
         ax.plot(ts, [exact[t] for t in ts], color=INK, lw=2.5, label="exact posterior")
         for (g, b), col in zip(fam, np.linspace(1, len(BLUE_RAMP) - 1, len(fam)).astype(int)):
             ax.plot(ts, [np.mean(curves[g][t]) for t in ts], color=BLUE_RAMP[col], lw=1.6, label=f"β = {b:g}")
+        ax.set_ylim(0, 2.2)
         ax.set_xlabel("t")
         ax.set_title(title, color=INK)
         ax.legend(fontsize=7)
-    axs[0].set_ylabel("std of x̂ over 8 ξ draws (mean of seeds 0, 1)")
+    axs[0].set_ylabel("std of x̂ over 8 ξ draws (seed mean)\nβ = 2, λ = 1 is off scale (1e5–1e8)")
     save(fig, "posterior_std_beta")
 
     # F3b: posterior std vs t, E2 and E4
@@ -164,7 +177,8 @@ def main():
                     ax.set_title(f"t = {T[j]}", fontsize=8, color=INK)
                 if j == 0:
                     ax.set_ylabel("exact" if run is None else run.split("_", 1)[1], fontsize=7, color=INK)
-        fig.suptitle(title, color=INK, fontsize=9)
+        fig.tight_layout(rect=(0, 0, 1, 0.97), h_pad=0.3, w_pad=0.3)
+        fig.suptitle(title, color=INK, fontsize=9, y=0.995)
         save(fig, name)
 
     grid("fig4_gmm_lambda0", "gmm", [g for g, _ in LAM0], 0, "Paper GMM, x0 = (3, 3): λ = 0 family (seed 0), 1024 of 4096 draws per panel")
@@ -201,7 +215,8 @@ def main():
             ax.set_xlabel("mode k / weight π_k")
             ax.set_title(f"NFE {nfe}", color=INK)
         axs[0].set_ylabel("(p̂_k − π_k) / π_k\nmean of seeds × 10 repeats")
-        axs[0].legend(fontsize=7)
+        h, l = axs[0].get_legend_handles_labels()
+        fig.legend(h, l, loc="lower center", ncol=len(l), fontsize=7.5, bbox_to_anchor=(0.5, -0.08))
         fig.suptitle(f"{ds}: relative error of final-sample mode weights", color=INK)
         save(fig, f"mode_weights_{ds}")
 

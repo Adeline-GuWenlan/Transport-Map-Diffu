@@ -291,8 +291,11 @@ def summary(np):
         f = OUT / "mmd" / f"{name}.json"
         if f.exists():
             for r in json.loads(f.read_text())["rows"]:
-                mm.append(dict(m, nfe=r["nfe"], repeat=r["repeat"], mmd2_u=r["mmd2_u"], tv=r["tv"], rare_max_rel_err=r["rare_max_rel_err"],
-                               off_mode=r["off_mode"], n_finite=r["n_finite"], frac=" ".join(f"{v:.5f}" for v in r["frac"])))
+                ok = r["n_finite"] == 4096          # mode statistics are undefined when some samples overflowed (C beta = 2): NaN
+                nan = float("nan")
+                mm.append(dict(m, nfe=r["nfe"], repeat=r["repeat"], mmd2_u=r["mmd2_u"], tv=r["tv"] if ok else nan,
+                               rare_max_rel_err=r["rare_max_rel_err"] if ok else nan, off_mode=r["off_mode"] if ok else nan, n_finite=r["n_finite"],
+                               frac=" ".join(f"{v:.5f}" for v in r["frac"]) if ok else " ".join(["nan"] * len(r["frac"]))))
     write("mmd_raw.csv", mm)
     # per-run means over repeats, then per-group mean and seed spread (min, max of the per-seed means)
     per_run = {}
@@ -300,9 +303,9 @@ def summary(np):
         per_run.setdefault((r["run"], r["nfe"]), []).append(r)
     pr = []
     for (run, nfe), rs in per_run.items():
-        pr.append(dict(meta[run], nfe=nfe, mmd2_u=st.mean(x["mmd2_u"] for x in rs), mmd2_u_sd_rep=st.pstdev(x["mmd2_u"] for x in rs),
-                       tv=st.mean(x["tv"] for x in rs), rare_max_rel_err=st.mean(x["rare_max_rel_err"] for x in rs),
-                       off_mode=st.mean(x["off_mode"] for x in rs), n_rep=len(rs)))
+        pr.append(dict(meta[run], nfe=nfe, mmd2_u=float(np.mean([x["mmd2_u"] for x in rs])), mmd2_u_sd_rep=float(np.std([x["mmd2_u"] for x in rs])),
+                       tv=float(np.mean([x["tv"] for x in rs])), rare_max_rel_err=float(np.mean([x["rare_max_rel_err"] for x in rs])),
+                       off_mode=float(np.mean([x["off_mode"] for x in rs])), n_rep=len(rs)))
     write("mmd_per_run.csv", pr)
     grp = {}
     for r in pr:
@@ -311,9 +314,9 @@ def summary(np):
     for (ds, g, nfe), rs in sorted(grp.items()):
         v = [x["mmd2_u"] for x in rs]
         gr.append(dict(dataset=ds, group=g, arm=rs[0]["arm"], beta=rs[0]["beta"], lam=rs[0]["lam"], rho=rs[0]["rho"], rho_c=rs[0]["rho_c"], nfe=nfe,
-                       n_seeds=len(rs), mmd2_u_mean=st.mean(v), mmd2_u_min_seed=min(v), mmd2_u_max_seed=max(v),
-                       tv_mean=st.mean(x["tv"] for x in rs), tv_min_seed=min(x["tv"] for x in rs), tv_max_seed=max(x["tv"] for x in rs),
-                       rare_max_rel_err_mean=st.mean(x["rare_max_rel_err"] for x in rs), off_mode_mean=st.mean(x["off_mode"] for x in rs)))
+                       n_seeds=len(rs), mmd2_u_mean=float(np.mean(v)), mmd2_u_min_seed=float(np.min(v)), mmd2_u_max_seed=float(np.max(v)),
+                       tv_mean=float(np.mean([x["tv"] for x in rs])), tv_min_seed=float(np.min([x["tv"] for x in rs])), tv_max_seed=float(np.max([x["tv"] for x in rs])),
+                       rare_max_rel_err_mean=float(np.mean([x["rare_max_rel_err"] for x in rs])), off_mode_mean=float(np.mean([x["off_mode"] for x in rs]))))
     write("mmd_groups.csv", gr)
     nulls = {}
     for ds in ["gmm", "gmm2w", "gmm9w"]:

@@ -1,0 +1,3 @@
+gmm_C_s0 snaps 193s
+gmm_C_b0.5_s0 snaps 197s
+gmm_C_s2 snaps 204s
