@@ -16,6 +16,7 @@ Parts (each writes runs/ext/eval/<part>/<run>.json, resumable: an existing outpu
           nearest component mean; plus the spread of x_hat over xi.
   condw   conditional mode weights at t in {0.99,0.88,0.7,0.45}: 256 x_t (x0 = eval set 400, x_t seed 7e6+j), 4096 draws per x_t, assigned
           to modes, vs the exact responsibilities r_k(x_t); null = 4096 exact posterior draws per x_t through the same assignment.
+  snaps   DIAGNOSTIC: EMA snapshots 10k..100k, MMD^2 at NFE 5/10/100, 2 repeats (non-finite samples dropped, count kept).
   null    per dataset: MMD^2 null (eval set 50+r vs r, r < 10) and the multinomial mode-weight null (100 sets of 4096 true samples,
           eval sets 1000+r).
   summary merge everything into runs/ext/eval/*.csv / *.json.
@@ -36,7 +37,7 @@ sys.path.insert(0, str(ROOT / "src"))
 OUT = ROOT / "runs" / "ext" / "eval"
 NFES = [5, 10, 20, 30, 50, 100]
 REPEATS = 10
-REFS = [f"gmm_{a}_s{s}" for a in "ABC" for s in (0, 1)]
+REFS = [f"gmm_{a}_s{s}" for a in "ABC" for s in (0, 1, 2)]           # s2 added by X3 to match the seed-2 extras
 FIG4_T = [0.99, 0.88, 0.45, 0.23, 0.01]
 DEN_T = [0.99, 0.88, 0.45]
 CONDW_T = [0.99, 0.88, 0.7, 0.45]
@@ -44,8 +45,10 @@ RARE = {"gmm": [0, 1], "gmm2w": [1], "gmm9w": [1, 3, 5]}          # modes for "l
 
 
 def ext_runs():
+    """runs.tsv (X1) + runs_x3.tsv (X3 extras, only once they have DONE.json)."""
     rows = list(csv.DictReader(open(ROOT / "runs/ext/runs.tsv"), delimiter="\t"))
-    return [Path(r["out_dir"]).name for r in rows]
+    x3 = list(csv.DictReader(open(ROOT / "runs/ext/runs_x3.tsv"), delimiter="\t")) if (ROOT / "runs/ext/runs_x3.tsv").exists() else []
+    return [Path(r["out_dir"]).name for r in rows] + [Path(r["out_dir"]).name for r in x3 if (ROOT / r["out_dir"] / "DONE.json").exists()]
 
 
 def run_dir(name):
@@ -71,7 +74,7 @@ def mode_stats(x, ds, np):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("part", choices=["mmd", "std", "fig4", "den", "condw", "null", "summary"])
+    ap.add_argument("part", choices=["mmd", "std", "fig4", "den", "condw", "null", "snaps", "summary"])
     ap.add_argument("--runs", nargs="+", default=None)
     ap.add_argument("--threads", type=int, default=1)
     ap.add_argument("--force", action="store_true")
@@ -232,6 +235,22 @@ def main():
                             "nondominant_mass_exact": float(minority.sum(1).mean()),
                             "nondominant_mass_null": float((pn.sum(1) - pn[np.arange(256), r_ex.argmax(1)]).mean())})
             res["rows"] = out
+
+        elif a.part == "snaps":
+            # DIAGNOSTIC only (not the protocol): EMA snapshots at 10k ... 100k, NFE 5/10/100, 2 repeats, same seeds as mmd
+            rows = []
+            for step in range(10_000, 100_001, 10_000):
+                msnap = load_ema_model(run_dir(name), step=step)
+                for r in range(2):
+                    ref = D.eval_set(ds, 4096, k=r)
+                    for nfe in (5, 10, 100):
+                        g = torch.Generator().manual_seed(sampler_seed(nfe, r))
+                        x = sample(msnap, 4096, nfe, churn=1.0, safety=0.01, generator=g, chunk=4096, clamp_low=True).numpy()
+                        fin = np.isfinite(x).all(1)
+                        row = rbf_mmd2(x[fin], ref, 1.0) if fin.sum() > 1 else {"mmd2_u": float("nan")}
+                        row.update(step=step, repeat=r, nfe=nfe, n_finite=int(fin.sum()))
+                        rows.append(row)
+            res["rows"] = rows
 
         res["seconds"] = round(time.time() - t0, 1)
         f.write_text(json.dumps(res) + "\n")
