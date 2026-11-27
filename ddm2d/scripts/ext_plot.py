@@ -30,7 +30,7 @@ LAM0 = [("gmm_B_b0.1", 0.1), ("gmm_B_b0.5", 0.5), ("gmm_B_b1", 1.0), ("gmm_B_b1.
         ("gmm_B_b3", 3.0), ("gmm_B_b3.5", 3.5)]
 LAM1 = [("gmm_C", 0.1), ("gmm_C_b0.5", 0.5), ("gmm_C_b1", 1.0), ("gmm_C_b1.5", 1.5), ("gmm_C_b1.99", 1.99), ("gmm_C_b2", 2.0)]
 E4_GMM = ["gmm_C", "gmm_C_L1b1", "gmm_C_L1b0.5", "gmm_C_pH0.1", "gmm_C_pH1", "gmm_C_imq", "gmm_C_rbf", "gmm_C_lap", "gmm_B", "gmm_B_L1b1", "gmm_B_pH0.1"]
-E4_9W = ["gmm9w_A", "gmm9w_B", "gmm9w_B_b1", "gmm9w_B_L1b1", "gmm9w_B_pH0.1", "gmm9w_C", "gmm9w_C_L1b1", "gmm9w_C_L1b0.5", "gmm9w_C_pH0.1",
+E4_9W = ["gmm9w_A", "gmm9w_B", "gmm9w_B_b1", "gmm9w_B_L1b1", "gmm9w_B_pH0.1", "gmm9w_C", "gmm9w_C_b1.5", "gmm9w_C_L1b1", "gmm9w_C_L1b0.5", "gmm9w_C_pH0.1",
          "gmm9w_C_pH1", "gmm9w_C_imq", "gmm9w_C_rbf", "gmm9w_C_lap"]
 
 
@@ -50,11 +50,18 @@ def per_run_mmd():
     """(group, nfe) -> list of per-seed mean MMD^2_u"""
     out = defaultdict(list)
     for r in rd("mmd_per_run.csv"):
-        out[(r["group"], int(r["nfe"]))].append(float(r["mmd2_u"]))
+        if int(r["seed"]) in (0, 1):           # matched seeds 0, 1 (seed 2: separate table)
+            out[(r["group"], int(r["nfe"]))].append(float(r["mmd2_u"]))
     return out
 
 
+def have(g):
+    return (EV / "fig4" / f"draws_{g}_s0.npz").exists()
+
+
 def main():
+    global E4_9W
+    E4_9W = [g for g in E4_9W if have(g)]          # gmm9w_C_b1.5 (X3 extra) appears once evaluated
     pm = per_run_mmd()
     nulls = json.loads((EV / "nulls.json").read_text())
     floor = abs(nulls["gmm"]["mmd2_u_mean"]) + 2 * nulls["gmm"]["mmd2_u_sd"] / np.sqrt(10)   # for a mean of 10 repeats
@@ -117,7 +124,7 @@ def main():
     save(fig, "mmd_vs_nfe_beta")
 
     # F3: posterior std vs t per beta (fine grid)
-    sr = [r for r in rd("posterior_std.csv") if r["grid"] == "fine"]
+    sr = [r for r in rd("posterior_std.csv") if r["grid"] == "fine" and int(r["seed"]) in (0, 1)]
     curves = defaultdict(lambda: defaultdict(list))
     exact = {}
     for r in sr:
@@ -190,11 +197,11 @@ def main():
         grid(f"fig4_gmm9w_x{xr}", "gmm9w", E4_9W, xr, f"gmm9w, x0 = mean k={xr} (weight {GMM_SPECS['gmm9w'][2][xr]:.2f}), seed 0")
 
     # F5: final-sample mode weights (E2), relative error per mode, with the multinomial null band
-    raw = rd("mmd_raw.csv")
+    raw = [r for r in rd("mmd_raw.csv") if int(r["seed"]) in (0, 1)]
     fr = defaultdict(list)
     for r in raw:
         fr[(r["group"], int(r["nfe"]))].append([float(v) for v in r["frac"].split()])
-    for ds, gs in [("gmm2w", ["gmm2w_A", "gmm2w_B", "gmm2w_C"]), ("gmm9w", ["gmm9w_A", "gmm9w_B", "gmm9w_C", "gmm9w_B_b1"])]:
+    for ds, gs in [("gmm2w", ["gmm2w_A", "gmm2w_B", "gmm2w_C"]), ("gmm9w", [g for g in ["gmm9w_A", "gmm9w_B", "gmm9w_C", "gmm9w_B_b1", "gmm9w_C_b1.5"] if have(g)])]:
         w = GMM_SPECS[ds][2]
         nm = json.loads((EV / "null" / f"{ds}.json").read_text())["modes"]
         nf = np.array([m["frac"] for m in nm])
@@ -240,7 +247,7 @@ def main():
     save(fig, "mode_weights_gmm9w_e4")
 
     # F6: conditional mode weights at high t: non-dominant mass, model vs exact
-    cr = rd("condw.csv")
+    cr = [r for r in rd("condw.csv") if int(r["seed"]) in (0, 1)]
     nd = defaultdict(list)
     ex = {}
     for r in cr:
@@ -250,7 +257,7 @@ def main():
     T = [0.99, 0.88, 0.7, 0.45]
     for ax, (ds, gs) in zip(axs, [("gmm", ["gmm_C", "gmm_C_b0.5", "gmm_C_b1", "gmm_C_b1.5", "gmm_C_b1.99", "gmm_C_b2"]),
                                   ("gmm2w", ["gmm2w_C"]),
-                                  ("gmm9w", ["gmm9w_C", "gmm9w_C_L1b1", "gmm9w_C_L1b0.5", "gmm9w_C_pH0.1", "gmm9w_C_pH1", "gmm9w_C_imq", "gmm9w_C_rbf", "gmm9w_C_lap"])]):
+                                  ("gmm9w", [g for g in ["gmm9w_C", "gmm9w_C_b1.5"] if have(g)] + ["gmm9w_C_L1b1", "gmm9w_C_L1b0.5", "gmm9w_C_pH0.1", "gmm9w_C_imq", "gmm9w_C_rbf", "gmm9w_C_lap"])]):  # <= 8 series (pH1 ~ pH0.1, in tables.md)
         ax.plot(T, [ex[(ds, t)] for t in T], color=INK, lw=2.5, label="exact responsibilities")
         for g, col in zip(gs, CAT):
             ax.plot(T, [np.mean(nd[(g, t)]) for t in T], "-o", ms=4, color=col, lw=1.4, label=g.split("_", 1)[1])
@@ -262,7 +269,7 @@ def main():
     save(fig, "condw_nondominant")
 
     # F7: denoiser location (E1a)
-    dr = rd("denoiser.csv")
+    dr = [r for r in rd("denoiser.csv") if int(r["seed"]) in (0, 1)]
     dd = defaultdict(list)
     for r in dr:
         dd[(r["group"], float(r["t"]))].append(r)

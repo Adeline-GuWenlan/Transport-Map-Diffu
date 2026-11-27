@@ -9,7 +9,9 @@ torch.set_num_threads(1)
 from ddm2d.train import load_ema_model, sha256_file
 
 rows = list(csv.DictReader(open(ROOT / "runs/ext/runs.tsv"), delimiter="\t"))
-runs = [(r["experiment"], r["out_dir"]) for r in rows] + [("ref", f"runs/paper/gmm_{a}_s{s}") for a in "ABC" for s in (0, 1)]
+x3 = list(csv.DictReader(open(ROOT / "runs/ext/runs_x3.tsv"), delimiter="\t")) if (ROOT / "runs/ext/runs_x3.tsv").exists() else []
+rows = rows + x3                     # X3 extras (job 24786603)
+runs = [(r["experiment"], r["out_dir"]) for r in rows] + [("ref", f"runs/paper/gmm_{a}_s{s}") for a in "ABC" for s in (0, 1, 2)]
 out, bad = [], 0
 for exp, d in runs:
     p = ROOT / d
@@ -30,7 +32,7 @@ for exp, d in runs:
                f"{'OK' if good else 'INCOMPLETE'} |")
 hdr = ["# Completeness of the 2D runs (ddm2dx X3, step 1)", "",
        f"`python scripts/ext_status.py`. {len(runs) - bad} / {len(runs)} runs complete "
-       f"({len(rows)} ext runs from `runs.tsv` + 6 reference runs `runs/paper/gmm_{{A,B,C}}_s{{0,1}}`).", "",
+       f"({len(rows)} ext runs from `runs.tsv` and `runs_x3.tsv` + 9 reference runs `runs/paper/gmm_{{A,B,C}}_s{{0,1,2}}`).", "",
        "Checks: `DONE.json` steps = 100000; sha256 of `ckpt/final.pt` equals `DONE.json`; the EMA weights of `final.pt` load "
        "(`train.load_ema_model`) and are all finite; no `FAILED.txt`.", "",
        "| exp | run | steps | segments | sha256 ok | loads | finite | FAILED.txt | status |", "|---|---|---|---|---|---|---|---|---|"]

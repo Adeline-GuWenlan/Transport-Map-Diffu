@@ -309,7 +309,8 @@ def summary(np):
     write("mmd_per_run.csv", pr)
     grp = {}
     for r in pr:
-        grp.setdefault((r["dataset"], r["group"], r["nfe"]), []).append(r)
+        if r["seed"] in (0, 1):            # main tables use matched seeds 0, 1; seed 2 (X3 extras) is reported separately
+            grp.setdefault((r["dataset"], r["group"], r["nfe"]), []).append(r)
     gr = []
     for (ds, g, nfe), rs in sorted(grp.items()):
         v = [x["mmd2_u"] for x in rs]

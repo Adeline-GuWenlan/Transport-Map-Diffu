@@ -1,3 +1,35 @@
 gmm_C_s0 snaps 193s
 gmm_C_b0.5_s0 snaps 197s
 gmm_C_s2 snaps 204s
+gmm_C_s1 snaps 205s
+gmm_C_s2 mmd 205s
+gmm_B_s2 mmd 207s
+gmm_C_s2 std 4s
+gmm_B_s2 std 7s
+gmm_A_s2 mmd 220s
+/scratch/wg2381/tmap-ddm2d/ddm2d/scripts/ext_eval.py:168: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:252.)
+  xts[i, j] = forward_sample(torch.tensor([x0], dtype=torch.float32), torch.tensor(t), torch.randn((1, 2), generator=g)).numpy()[0]
+/scratch/wg2381/tmap-ddm2d/ddm2d/scripts/ext_eval.py:168: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:252.)
+  xts[i, j] = forward_sample(torch.tensor([x0], dtype=torch.float32), torch.tensor(t), torch.randn((1, 2), generator=g)).numpy()[0]
+gmm_A_s2 std 1s
+/scratch/wg2381/tmap-ddm2d/ddm2d/scripts/ext_eval.py:168: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:252.)
+  xts[i, j] = forward_sample(torch.tensor([x0], dtype=torch.float32), torch.tensor(t), torch.randn((1, 2), generator=g)).numpy()[0]
+gmm_C_s2 fig4 34s
+gmm_B_s2 fig4 35s
+gmm_A_s2 fig4 31s
+gmm_C_s2 den 29s
+gmm_A_s2 den 23s
+gmm_B_s2 den 28s
+gmm_A_s2 condw 1s
+gmm_C_s2 condw 19s
+gmm_B_s2 condw 18s
+gmm_C_b0.5_s1 snaps 165s
+gmm_C_b1_s0 snaps 176s
+gmm_C_b1.5_s0 snaps 172s
+gmm_C_b1_s1 snaps 176s
+gmm_C_b1.5_s1 snaps 171s
+gmm_C_b1.99_s0 snaps 164s
+gmm_C_b1.99_s1 snaps 185s
+gmm_C_b2_s1 snaps 147s
+gmm_C_b2_s0 snaps 182s
+ALLDONE2

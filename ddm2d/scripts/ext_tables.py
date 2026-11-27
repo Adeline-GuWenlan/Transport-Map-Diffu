@@ -19,7 +19,8 @@ def rd(fn):
 pr = rd("mmd_per_run.csv")
 by = defaultdict(list)
 for r in pr:
-    by[(r["group"], int(r["nfe"]))].append(r)
+    if int(r["seed"]) in (0, 1):          # matched seeds; seed 2 in its own table below
+        by[(r["group"], int(r["nfe"]))].append(r)
 
 
 def cell(g, nfe, key="mmd2_u", fmt="{:.1e}"):
@@ -63,6 +64,18 @@ mmd_table("E4: other distances, gmm9w (ρ runs seed 0 only), MMD²_u",
           ["gmm9w_A", "gmm9w_B", "gmm9w_B_b1", "gmm9w_B_L1b1", "gmm9w_B_pH0.1", "gmm9w_C", "gmm9w_C_b1.5", "gmm9w_C_L1b1", "gmm9w_C_L1b0.5", "gmm9w_C_pH0.1",
            "gmm9w_C_pH1", "gmm9w_C_imq", "gmm9w_C_rbf", "gmm9w_C_lap"], nfes=(5, 10, 100))
 
+# seed-2 check (X3 extras + paper seed-2 references)
+s2 = defaultdict(dict)
+for r in pr:
+    s2[r["group"]][(int(r["seed"]), int(r["nfe"]))] = float(r["mmd2_u"])
+g2 = [g for g in s2 if any(k[0] == 2 for k in s2[g])]
+if g2:
+    out.append("\n## Seed 2 (X3 extras and paper seed-2 references), MMD²_u per seed: s0 / s1 / s2\n")
+    out.append("| run group | NFE 5 | NFE 10 | NFE 100 |")
+    out.append("|---|---|---|---|")
+    for g in sorted(g2):
+        out.append(f"| `{g}` | " + " | ".join(" / ".join(f"{s2[g][(sd, n)]:.1e}" if (sd, n) in s2[g] else "–" for sd in (0, 1, 2)) for n in (5, 10, 100)) + " |")
+
 # mode weights (final samples)
 out.append("\n## Final-sample mode weights (E2, E4 on gmm9w): TV ½Σ|p̂_k − π_k|, rare-mode max relative error, off-mode fraction\n")
 out.append("Per-seed means over 10 repeats of 4096 samples; cell = seed mean [min, max]. Null: see the null-floor table.\n")
@@ -80,7 +93,8 @@ for g in ["gmm_A", "gmm_B", "gmm_C", "gmm2w_A", "gmm2w_B", "gmm2w_C", "gmm9w_A",
 raw = rd("mmd_raw.csv")
 fr = defaultdict(list)
 for r in raw:
-    fr[(r["group"], int(r["nfe"]))].append([float(v) for v in r["frac"].split()])
+    if int(r["seed"]) in (0, 1):
+        fr[(r["group"], int(r["nfe"]))].append([float(v) for v in r["frac"].split()])
 for nfe in (10, 100):
     out.append(f"\n## gmm9w per-mode fractions at NFE {nfe} (mean over seeds × repeats)\n")
     out.append("| run group | " + " | ".join(f"k={k} (π={w})" for k, w in enumerate(W9)) + " |")
@@ -101,7 +115,8 @@ for ds, w in [("gmm2w", [0.8, 0.2])]:
 cr = rd("condw.csv")
 cw = defaultdict(list)
 for r in cr:
-    cw[(r["group"], float(r["t"]))].append(r)
+    if int(r["seed"]) in (0, 1):
+        cw[(r["group"], float(r["t"]))].append(r)
 out.append("\n## Conditional mode weights at high t (256 x_t, 4096 draws each)\n")
 out.append("Cells: mean TV between the draws' mode fractions and the exact responsibilities r_k(x_t) (seed mean; n seeds); in brackets the "
            "mass outside the dominant mode, model / exact. Null TV = exact posterior draws through the same assignment.\n")
@@ -127,7 +142,8 @@ out.append("| null (exact draws) | " + " | ".join(
 dr = rd("denoiser.csv")
 dd = defaultdict(list)
 for r in dr:
-    dd[(r["group"], float(r["t"]))].append(r)
+    if int(r["seed"]) in (0, 1):
+        dd[(r["group"], float(r["t"]))].append(r)
 out.append("\n## E1a: where the λ = 0 denoiser sits (paper GMM; mean distance of x̂ over 256 x_t; seed mean)\n")
 out.append("x̂ = mean of 8 ξ draws. Columns: distance to the exact posterior mean / geometric median / coordinate-wise median / nearest component "
            "mean, and the share of x_t for which each is the closest of the four.\n")
@@ -150,6 +166,8 @@ sr = [r for r in rd("posterior_std.csv") if r["grid"] == "paper"]
 st = defaultdict(list)
 ex = {}
 for r in sr:
+    if int(r["seed"]) not in (0, 1):
+        continue
     st[(r["group"], round(float(r["t"]), 3))].append(float(r["std_mean"]))
     ex[(r["dataset"], round(float(r["t"]), 3))] = float(r["exact_std_mean"])
 ts = sorted({k[1] for k in st})
@@ -161,6 +179,25 @@ for ds in ("gmm", "gmm2w", "gmm9w"):
     out.append(f"| **exact ({ds})** | " + " | ".join(f"{ex[(ds, t)]:.3f}" for t in pick) + " |")
 for g in sorted({k[0] for k in st}, key=lambda g: (g.split("_")[0], g)):
     out.append(f"| `{g}` | " + " | ".join(f"{np.mean(st[(g, t)]):.3g}" for t in pick) + " |")
+
+# DIAGNOSTIC: EMA snapshots (not the protocol)
+snaps = sorted((EV / "snaps").glob("*.json")) if (EV / "snaps").exists() else []
+if snaps:
+    out.append("\n## DIAGNOSTIC (not the protocol): MMD²_u of EMA snapshots, mean of 2 repeats, NFE 5 / NFE 100; n_finite < 4096 marked *\n")
+    steps = list(range(10_000, 100_001, 10_000))
+    out.append("| run | " + " | ".join(f"{k // 1000}k" for k in steps) + " |")
+    out.append("|---|" + "---|" * len(steps))
+    for f in snaps:
+        d = json.loads(f.read_text())
+        cells = []
+        for k in steps:
+            c = []
+            for nfe in (5, 100):
+                rs = [r for r in d["rows"] if r["step"] == k and r["nfe"] == nfe]
+                v = np.mean([r["mmd2_u"] for r in rs])
+                c.append(("NaN" if not np.isfinite(v) else f"{v:.0e}") + ("*" if any(r["n_finite"] < 4096 for r in rs) else ""))
+            cells.append(" / ".join(c))
+        out.append(f"| `{d['run']}` | " + " | ".join(cells) + " |")
 
 (EV / "tables.md").write_text("# ddm2dx X3 tables (generated by scripts/ext_tables.py from runs/ext/eval/*.csv)\n\n" + "\n".join(out) + "\n")
 print("wrote", EV / "tables.md")
