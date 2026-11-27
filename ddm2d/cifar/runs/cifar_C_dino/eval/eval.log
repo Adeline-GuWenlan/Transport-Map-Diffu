@@ -1,0 +1,17 @@
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+{"run": "cifar_C_dino", "ckpt": "snap_0010000", "nfe": 10, "fid": 71.36380466117606, "sample_seconds": 66.94670081138611}
+{"run": "cifar_C_dino", "ckpt": "snap_0010000", "nfe": 100, "fid": 108.3586919579136, "sample_seconds": 666.2810890674591}
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+{"run": "cifar_C_dino", "ckpt": "snap_0020000", "nfe": 10, "fid": 63.67782034854855, "sample_seconds": 67.0435140132904}
+{"run": "cifar_C_dino", "ckpt": "snap_0020000", "nfe": 100, "fid": 107.58192333255482, "sample_seconds": 666.619500875473}
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+{"run": "cifar_C_dino", "ckpt": "snap_0030000", "nfe": 2, "fid": 49.34944005535277, "sample_seconds": 13.969034910202026}
+{"run": "cifar_C_dino", "ckpt": "snap_0030000", "nfe": 4, "fid": 42.572573128652834, "sample_seconds": 26.909605026245117}
+{"run": "cifar_C_dino", "ckpt": "snap_0030000", "nfe": 8, "fid": 44.3730965863316, "sample_seconds": 53.989797592163086}
+{"run": "cifar_C_dino", "ckpt": "snap_0030000", "nfe": 10, "fid": 46.749617192318794, "sample_seconds": 67.64725065231323}
+{"run": "cifar_C_dino", "ckpt": "snap_0030000", "nfe": 15, "fid": 49.70956241164299, "sample_seconds": 101.05873537063599}
+{"run": "cifar_C_dino", "ckpt": "snap_0030000", "nfe": 30, "fid": 54.91216371671237, "sample_seconds": 202.19517993927002}
+{"run": "cifar_C_dino", "ckpt": "snap_0030000", "nfe": 100, "fid": 62.43472782724899, "sample_seconds": 674.0916984081268}

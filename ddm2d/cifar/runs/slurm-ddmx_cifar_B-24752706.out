@@ -1,0 +1,17 @@
+[Thu Nov 26 13:38:13 EST 2026] job 24752706 restart 0 on gl050.hpc.nyu.edu; run cifar_B; git e060542
+name, driver_version, memory.total [MiB]
+NVIDIA L40S, 610.43.02, 46068 MiB
+[Thu Nov 26 21:53:22 EST 2026] ddmcifar.train exited with 0
+  warnings.warn(
+{"run": "cifar_B", "ckpt": "snap_0020000", "nfe": 10, "fid": 36.57645586983938, "sample_seconds": 65.69033741950989}
+{"run": "cifar_B", "ckpt": "snap_0020000", "nfe": 100, "fid": 15.829665238059988, "sample_seconds": 653.5025973320007}
+/scratch/wg2381/.conda/envs/tmap/lib/python3.11/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+{"run": "cifar_B", "ckpt": "snap_0030000", "nfe": 2, "fid": 117.98443270307536, "sample_seconds": 13.495728254318237}
+{"run": "cifar_B", "ckpt": "snap_0030000", "nfe": 4, "fid": 63.29146928345233, "sample_seconds": 26.2381808757782}
+{"run": "cifar_B", "ckpt": "snap_0030000", "nfe": 8, "fid": 39.514612007411415, "sample_seconds": 52.37876653671265}
+{"run": "cifar_B", "ckpt": "snap_0030000", "nfe": 10, "fid": 34.304085056855115, "sample_seconds": 65.49980807304382}
+{"run": "cifar_B", "ckpt": "snap_0030000", "nfe": 15, "fid": 27.31085450686618, "sample_seconds": 98.2034080028534}
+{"run": "cifar_B", "ckpt": "snap_0030000", "nfe": 30, "fid": 19.405260421577907, "sample_seconds": 196.08465719223022}
+{"run": "cifar_B", "ckpt": "snap_0030000", "nfe": 100, "fid": 13.985996415293243, "sample_seconds": 655.1189527511597}
+[Thu Nov 26 22:39:29 EST 2026] done
