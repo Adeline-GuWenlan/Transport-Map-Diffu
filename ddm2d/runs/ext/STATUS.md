@@ -1,6 +1,6 @@
 # Completeness of the 2D runs (ddm2dx X3, step 1)
 
-`python scripts/ext_status.py`. 70 / 70 runs complete (64 ext runs from `runs.tsv` + 6 reference runs `runs/paper/gmm_{A,B,C}_s{0,1}`).
+`python scripts/ext_status.py`. 79 / 79 runs complete (70 ext runs from `runs.tsv` and `runs_x3.tsv` + 9 reference runs `runs/paper/gmm_{A,B,C}_s{0,1,2}`).
 
 Checks: `DONE.json` steps = 100000; sha256 of `ckpt/final.pt` equals `DONE.json`; the EMA weights of `final.pt` load (`train.load_ema_model`) and are all finite; no `FAILED.txt`.
 
@@ -70,9 +70,18 @@ Checks: `DONE.json` steps = 100000; sha256 of `ckpt/final.pt` equals `DONE.json`
 | E4 | `runs/ext/gmm9w_C_rbf_s0` | 100000 | 1 | yes | yes | yes | no | OK |
 | E4 | `runs/ext/gmm9w_C_lap_s0` | 100000 | 1 | yes | yes | yes | no | OK |
 | E2x | `runs/ext/gmm9w_B_b1_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E2x | `runs/ext/gmm9w_C_b1.5_s0` | 100000 | 1 | yes | yes | yes | no | OK |
+| E2x | `runs/ext/gmm9w_C_b1.5_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1s2 | `runs/ext/gmm_C_b1.99_s2` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1s2 | `runs/ext/gmm_C_b2_s2` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1s2 | `runs/ext/gmm_C_b1.5_s2` | 100000 | 1 | yes | yes | yes | no | OK |
+| E1s2 | `runs/ext/gmm_B_b1_s2` | 100000 | 1 | yes | yes | yes | no | OK |
 | ref | `runs/paper/gmm_A_s0` | 100000 | 2 | yes | yes | yes | no | OK |
 | ref | `runs/paper/gmm_A_s1` | 100000 | 2 | yes | yes | yes | no | OK |
+| ref | `runs/paper/gmm_A_s2` | 100000 | 1 | yes | yes | yes | no | OK |
 | ref | `runs/paper/gmm_B_s0` | 100000 | 2 | yes | yes | yes | no | OK |
 | ref | `runs/paper/gmm_B_s1` | 100000 | 2 | yes | yes | yes | no | OK |
+| ref | `runs/paper/gmm_B_s2` | 100000 | 2 | yes | yes | yes | no | OK |
 | ref | `runs/paper/gmm_C_s0` | 100000 | 1 | yes | yes | yes | no | OK |
 | ref | `runs/paper/gmm_C_s1` | 100000 | 1 | yes | yes | yes | no | OK |
+| ref | `runs/paper/gmm_C_s2` | 100000 | 1 | yes | yes | yes | no | OK |

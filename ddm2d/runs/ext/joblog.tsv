@@ -1,0 +1,95 @@
+24751250	ddm2dx_tr02	seg1	restart0	cs672.hpc.nyu.edu	2026-11-26T18:21:45Z	start	runs/ext/runlists/list02.txt
+24751248	ddm2dx_tr01	seg1	restart0	cs647.hpc.nyu.edu	2026-11-26T18:21:45Z	start	runs/ext/runlists/list01.txt
+24751251	ddm2dx_tr03	seg1	restart0	cs662.hpc.nyu.edu	2026-11-26T18:30:33Z	start	runs/ext/runlists/list03.txt
+24751258	ddm2dx_tr08	seg1	restart0	cs703.hpc.nyu.edu	2026-11-26T18:30:33Z	start	runs/ext/runlists/list08.txt
+24751256	ddm2dx_tr07	seg1	restart0	cs693.hpc.nyu.edu	2026-11-26T18:30:38Z	start	runs/ext/runlists/list07.txt
+24751254	ddm2dx_tr05	seg1	restart0	cs693.hpc.nyu.edu	2026-11-26T18:30:39Z	start	runs/ext/runlists/list05.txt
+24751255	ddm2dx_tr06	seg1	restart0	cs693.hpc.nyu.edu	2026-11-26T18:30:39Z	start	runs/ext/runlists/list06.txt
+24751252	ddm2dx_tr04	seg1	restart0	cs686.hpc.nyu.edu	2026-11-26T18:30:43Z	start	runs/ext/runlists/list04.txt
+24751248	ddm2dx_tr01	seg1	runs/ext/gmm_B_b0.1_s0	exit0	2026-11-26T22:21:24Z
+24751248	ddm2dx_tr01	seg1	runs/ext/gmm_B_b0.1_s1	exit0	2026-11-26T22:21:24Z
+24751248	ddm2dx_tr01	seg1	runs/ext/gmm_B_b0.5_s0	exit0	2026-11-26T22:21:24Z
+24751248	ddm2dx_tr01	seg1	runs/ext/gmm_B_b0.5_s1	exit0	2026-11-26T22:21:24Z
+24751248	ddm2dx_tr01	seg1	runs/ext/gmm_B_b1_s0	exit0	2026-11-26T22:21:24Z
+24751248	ddm2dx_tr01	seg1	runs/ext/gmm_B_b1_s1	exit0	2026-11-26T22:21:24Z
+24751256	ddm2dx_tr07	seg1	runs/ext/gmm_C_L1b1_s0	exit0	2026-11-26T22:24:11Z
+24751261	ddm2dx_tr11	seg1	runs/ext/gmm9w_C_imq_s0	exit0	2026-11-26T22:29:29Z
+24751260	ddm2dx_tr10	seg1	runs/ext/gmm9w_C_L1b1_s0	exit0	2026-11-26T22:48:59Z
+24751260	ddm2dx_tr10	seg1	runs/ext/gmm9w_C_L1b0.5_s0	exit0	2026-11-26T22:48:59Z
+24751260	ddm2dx_tr10	seg1	runs/ext/gmm9w_B_L1b1_s0	exit0	2026-11-26T22:48:59Z
+24751260	ddm2dx_tr10	seg1	runs/ext/gmm9w_C_pH0.1_s0	exit0	2026-11-26T22:48:59Z
+24751260	ddm2dx_tr10	seg1	runs/ext/gmm9w_C_pH1_s0	exit0	2026-11-26T22:48:59Z
+24751260	ddm2dx_tr10	seg1	runs/ext/gmm9w_B_pH0.1_s0	exit0	2026-11-26T22:48:59Z
+24751259	ddm2dx_tr09	seg1	runs/ext/gmm_C_imq_s0	exit0	2026-11-26T22:51:51Z
+24751259	ddm2dx_tr09	seg1	runs/ext/gmm_C_imq_s1	exit0	2026-11-26T22:51:51Z
+24751250	ddm2dx_tr02	seg1	runs/ext/gmm_B_b1.5_s0	exit0	2026-11-26T22:53:40Z
+24751250	ddm2dx_tr02	seg1	runs/ext/gmm_B_b1.5_s1	exit0	2026-11-26T22:53:40Z
+24751256	ddm2dx_tr07	seg1	runs/ext/gmm_C_L1b1_s1	exit0	2026-11-26T22:54:17Z
+24751256	ddm2dx_tr07	seg1	runs/ext/gmm_C_L1b0.5_s0	exit0	2026-11-26T22:54:17Z
+24751256	ddm2dx_tr07	seg1	runs/ext/gmm_C_L1b0.5_s1	exit0	2026-11-26T22:54:17Z
+24751256	ddm2dx_tr07	seg1	runs/ext/gmm_B_L1b1_s0	exit0	2026-11-26T22:54:17Z
+24751256	ddm2dx_tr07	seg1	runs/ext/gmm_B_L1b1_s1	exit0	2026-11-26T22:54:17Z
+24751258	ddm2dx_tr08	seg1	runs/ext/gmm_C_pH0.1_s0	exit0	2026-11-26T22:59:22Z
+24751261	ddm2dx_tr11	seg1	runs/ext/gmm9w_C_rbf_s0	exit0	2026-11-26T22:59:26Z
+24751261	ddm2dx_tr11	seg1	runs/ext/gmm9w_C_lap_s0	exit0	2026-11-26T22:59:26Z
+24751261	ddm2dx_tr11	seg1	runs/ext/gmm9w_B_b1_s0	exit0	2026-11-26T22:59:26Z
+24751258	ddm2dx_tr08	seg1	runs/ext/gmm_C_pH0.1_s1	exit0	2026-11-26T22:59:50Z
+24751258	ddm2dx_tr08	seg1	runs/ext/gmm_C_pH1_s0	exit0	2026-11-26T22:59:50Z
+24751258	ddm2dx_tr08	seg1	runs/ext/gmm_C_pH1_s1	exit0	2026-11-26T22:59:50Z
+24751258	ddm2dx_tr08	seg1	runs/ext/gmm_B_pH0.1_s0	exit0	2026-11-26T22:59:50Z
+24751258	ddm2dx_tr08	seg1	runs/ext/gmm_B_pH0.1_s1	exit0	2026-11-26T22:59:50Z
+24751252	ddm2dx_tr04	seg1	runs/ext/gmm_C_b1.5_s0	exit0	2026-11-26T23:03:36Z
+24751259	ddm2dx_tr09	seg1	runs/ext/gmm_C_rbf_s0	exit0	2026-11-26T23:06:55Z
+24751259	ddm2dx_tr09	seg1	runs/ext/gmm_C_rbf_s1	exit0	2026-11-26T23:06:55Z
+24751259	ddm2dx_tr09	seg1	runs/ext/gmm_C_lap_s0	exit0	2026-11-26T23:06:55Z
+24751259	ddm2dx_tr09	seg1	runs/ext/gmm_C_lap_s1	exit0	2026-11-26T23:06:55Z
+24751250	ddm2dx_tr02	seg1	runs/ext/gmm_B_b1.99_s0	exit3	2026-11-26T23:09:31Z
+24751250	ddm2dx_tr02	seg1	runs/ext/gmm_B_b1.99_s1	exit3	2026-11-26T23:09:32Z
+24751250	ddm2dx_tr02	seg1	runs/ext/gmm_B_b3_s0	exit3	2026-11-26T23:09:32Z
+24751250	ddm2dx_tr02	seg1	runs/ext/gmm_B_b3_s1	exit3	2026-11-26T23:09:32Z
+24781998	ddm2dx_tr02	seg2	restart0	cs644.hpc.nyu.edu	2026-11-26T23:09:52Z	start	runs/ext/runlists/list02.txt
+24751254	ddm2dx_tr05	seg1	runs/ext/gmm2w_A_s0	exit0	2026-11-26T23:12:57Z
+24751254	ddm2dx_tr05	seg1	runs/ext/gmm2w_A_s1	exit0	2026-11-26T23:12:57Z
+24751254	ddm2dx_tr05	seg1	runs/ext/gmm2w_B_s0	exit0	2026-11-26T23:12:57Z
+24781998	ddm2dx_tr02	seg2	runs/ext/gmm_B_b1.99_s0	exit0	2026-11-26T23:13:27Z
+24751255	ddm2dx_tr06	seg1	runs/ext/gmm9w_A_s0	exit3	2026-11-26T23:18:19Z
+24751255	ddm2dx_tr06	seg1	runs/ext/gmm9w_A_s1	exit0	2026-11-26T23:18:19Z
+24751254	ddm2dx_tr05	seg1	runs/ext/gmm2w_B_s1	exit3	2026-11-26T23:18:19Z
+24751255	ddm2dx_tr06	seg1	runs/ext/gmm9w_B_s0	exit0	2026-11-26T23:18:19Z
+18:19Z
+24751251	ddm2dx_tr03	seg1	runs/ext/gmm_B_b3.5_s0	exit3	2026-11-26T23:18:19Z
+24751255	ddm2dx_tr06	seg1	runs/ext/gmm9w_B_s1	exit0	2026-11-26T23:18:19Z
+24751254	ddm2dx_tr05	seg1	runs/ext/gmm2w_C_s0	exit0	2026-11-26T23:18:19Z
+24751254	ddm2dx_tr05	seg1	runs/ext/gmm2w_C_s1	exit0	2026-11-26T23:18:19Z
+24751255	ddm2dx_tr06	seg1	runs/ext/gmm9w_C_s0	exit3	2026-11-26T23:18:19Z
+24751255	ddm2dx_tr06	seg1	runs/ext/gmm9w_C_s1	exit0	2026-11-26T23:18:19Z
+24751252	ddm2dx_tr04	seg1	runs/ext/gmm_C_b1.99_s1	exit3	2026-11-26T23:18:20Z
+24751252	ddm2dx_tr04	seg1	runs/ext/gmm_C_b2_s0	exit0	2026-11-26T23:18:20Z
+24751252	ddm2dx_tr04	seg1	runs/ext/gmm_C_b2_s1	exit0	2026-11-26T23:18:20Z
+24751251	ddm2dx_tr03	seg1	runs/ext/gmm_B_b3.5_s1	exit3	2026-11-26T23:18:20Z
+24751251	ddm2dx_tr03	seg1	runs/ext/gmm_C_b0.5_s0	exit0	2026-11-26T23:18:20Z
+24751251	ddm2dx_tr03	seg1	runs/ext/gmm_C_b0.5_s1	exit0	2026-11-26T23:18:20Z
+24751251	ddm2dx_tr03	seg1	runs/ext/gmm_C_b1_s0	exit0	2026-11-26T23:18:20Z
+24751251	ddm2dx_tr03	seg1	runs/ext/gmm_C_b1_s1	exit0	2026-11-26T23:18:20Z
+24782481	ddm2dx_tr05	seg2	restart0	cs669.hpc.nyu.edu	2026-11-26T23:18:46Z	start	runs/ext/runlists/list05.txt
+24782480	ddm2dx_tr06	seg2	restart0	cs662.hpc.nyu.edu	2026-11-26T23:18:55Z	start	runs/ext/runlists/list06.txt
+24782485	ddm2dx_tr03	seg2	restart0	cs644.hpc.nyu.edu	2026-11-26T23:19:55Z	start	runs/ext/runlists/list03.txt
+24782498	ddm2dx_tr04	seg2	restart0	cs666.hpc.nyu.edu	2026-11-26T23:19:58Z	start	runs/ext/runlists/list04.txt
+24782498	ddm2dx_tr04	seg2	runs/ext/gmm_C_b1.5_s1	exit0	2026-11-26T23:21:04Z
+24782498	ddm2dx_tr04	seg2	runs/ext/gmm_C_b1.99_s0	exit0	2026-11-26T23:26:19Z
+24781998	ddm2dx_tr02	seg2	runs/ext/gmm_B_b1.99_s1	exit0	2026-11-26T23:28:53Z
+24781998	ddm2dx_tr02	seg2	runs/ext/gmm_B_b3_s0	exit0	2026-11-26T23:28:53Z
+24782481	ddm2dx_tr05	seg2	runs/ext/gmm2w_B_s1	exit0	2026-11-26T23:29:25Z
+24782480	ddm2dx_tr06	seg2	runs/ext/gmm9w_A_s0	exit0	2026-11-26T23:33:21Z
+24782480	ddm2dx_tr06	seg2	runs/ext/gmm9w_C_s0	exit0	2026-11-26T23:34:47Z
+24781998	ddm2dx_tr02	seg2	runs/ext/gmm_B_b3_s1	exit0	2026-11-26T23:40:41Z
+24782498	ddm2dx_tr04	seg2	runs/ext/gmm_C_b1.99_s1	exit0	2026-11-26T23:44:20Z
+24782485	ddm2dx_tr03	seg2	runs/ext/gmm_B_b3.5_s0	exit0	2026-11-27T00:07:54Z
+24782485	ddm2dx_tr03	seg2	runs/ext/gmm_B_b3.5_s1	exit0	2026-11-27T00:07:54Z
+24786603	ddm2dx_tr12	seg1	restart0	cs638.hpc.nyu.edu	2026-11-27T00:39:39Z	start	runs/ext/runlists/x3_list12.txt
+24786603	ddm2dx_tr12	seg1	runs/ext/gmm9w_C_b1.5_s0	exit0	2026-11-27T04:43:28Z
+24786603	ddm2dx_tr12	seg1	runs/ext/gmm9w_C_b1.5_s1	exit0	2026-11-27T05:05:49Z
+24786603	ddm2dx_tr12	seg1	runs/ext/gmm_C_b1.99_s2	exit0	2026-11-27T05:22:48Z
+24786603	ddm2dx_tr12	seg1	runs/ext/gmm_C_b2_s2	exit0	2026-11-27T05:25:08Z
+24786603	ddm2dx_tr12	seg1	runs/ext/gmm_C_b1.5_s2	exit0	2026-11-27T05:25:08Z
+24786603	ddm2dx_tr12	seg1	runs/ext/gmm_B_b1_s2	exit0	2026-11-27T05:25:08Z
